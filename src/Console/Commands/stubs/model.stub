@@ -1,0 +1,34 @@
+<?php
+
+namespace :app_namespaceModels;
+
+use Despark\Models\AdminModel;
+:traits_include
+
+class :model_name extends AdminModel
+{
+    :traits_use
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = ':table_name';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [];
+
+    protected $rules = [];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->identifier = ':identifier';
+    }
+}

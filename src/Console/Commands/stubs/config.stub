@@ -1,0 +1,10 @@
+<?php
+
+return [
+
+    'defaultFormView' => 'admin.formElements.defaultForm',
+    'paginateLimit' => 15,
+    'adminColumns' => [],
+    'adminFormFields' => [],
+    :image_fields
+];

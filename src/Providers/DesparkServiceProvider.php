@@ -15,6 +15,7 @@ class DesparkServiceProvider extends ServiceProvider
     protected $commands = [
         'Despark\Console\Commands\AppInstallCommand',
         'Despark\Console\Commands\AppUpdateCommand',
+        'Despark\Console\Commands\ResourceCommand',
     ];
 
     /**
