@@ -9,19 +9,25 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Despark\Admin\Traits\AdminConfigTrait;
 use Conner\Tagging\Taggable;
 use Despark\Admin\Traits\AdminImage;
 
-class User extends Model implements
+class User extends AdminModel implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword, EntrustUserTrait;
-    use AdminConfigTrait;
     use Taggable;
     use AdminImage;
+
+    public function __construct(array $attributes = [])
+    {
+        $this->identifier = 'user';
+
+        parent::__construct($attributes);
+    }
+
     /**
      * The database table used by the model.
      *
@@ -64,50 +70,4 @@ class User extends Model implements
         'password' => 'min:6|max:20|confirmed',
         'password_confirmation' => 'min:6|max:20',
     ];
-
-    /**
-     * User constructor.
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-
-        $this->adminColumns = [
-            ['name' => 'Name', 'db_field' => 'name'],
-            ['name' => 'Email', 'db_field' => 'email'],
-        ];
-
-        $this->adminFilters = [
-            'text_search' => [
-                'db_fields' => [
-                    'name',
-                    'email',
-                ],
-            ],
-        ];
-
-        if ($this->hasFilters()) {
-            return $this->filtering();
-        }
-    }
-
-    public function adminSetFormFields()
-    {
-        $this->adminFormFields = [
-            'name' => [
-                'type' => 'text',
-                'label' => 'Name',
-            ],
-            'email' => [
-                'type' => 'text',
-                'label' => 'Email',
-            ],
-            'password' => [
-                'type' => 'password',
-                'label' => 'Password',
-            ],
-        ];
-
-        return $this;
-    }
 }

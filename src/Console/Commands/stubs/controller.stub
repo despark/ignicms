@@ -1,0 +1,145 @@
+<?php
+
+namespace :app_namespaceHttp\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use Despark\Models\:model_name;
+use :app_namespaceHttp\Requests\:model_nameRequest;
+
+class :controller_name extends AdminController
+{
+    public function __construct()
+    {
+        $this->identifier = ':identifier';
+
+        parent::__construct();
+
+        $this->sidebarItems[':resource']['isActive'] = true;
+
+        :create_route
+        :edit_route
+        :destroy_route
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $model = new :model_name();
+        $records = $model->get();
+
+        $this->viewData['model'] = $model;
+        $this->viewData['records'] = $records;
+
+        return view('admin.layouts.list', $this->viewData);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        $model = new :model_name();
+
+        $this->viewData['record'] = $model;
+
+        $this->viewData['actionVerb'] = 'Create';
+        $this->viewData['formMethod'] = 'POST';
+        $this->viewData['formAction'] = 'admin.:resource.store';
+
+        return view($this->defaultFormView, $this->viewData);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function store(:model_nameRequest $request)
+    {
+        $input = $request->all();
+
+        $model = new :model_name();
+
+        $record = $model->create($input);
+
+        $this->notify([
+            'type' => 'success',
+            'title' => 'Successful create!',
+            'description' => ':model_name is created successfully!',
+        ]);
+
+        return redirect(route('admin.:resource.edit', ['id' => $record->id]));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $record = :model_name::findOrFail($id);
+
+        $this->viewData['record'] = $record;
+
+        $this->viewData['formMethod'] = 'PUT';
+        $this->viewData['formAction'] = 'admin.:resource.update';
+
+        return view($this->defaultFormView, $this->viewData);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function update(UserUpdateRequest $request, $id)
+    {
+        $input = $request->all();
+
+        $record = :model_name::findOrFail($id);
+
+        $record->update($input);
+
+        $this->notify([
+            'type' => 'success',
+            'title' => 'Successful update!',
+            'description' => ':model_name is updated successfully.',
+        ]);
+
+        return redirect()->back();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        :model_name::findOrFail($id)->delete();
+
+        $this->notify([
+            'type' => 'danger',
+            'title' => 'Successful delete!',
+            'description' => ':model_name is deleted successfully.',
+        ]);
+
+        return redirect()->back();
+    }
+}

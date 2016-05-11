@@ -5,6 +5,7 @@ namespace Despark\Http\Controllers\Admin;
 use Despark\Http\Controllers\Controller;
 use Input;
 use View;
+use Illuminate\Support\Str;
 
 /**
  * Class AdminController.
@@ -32,6 +33,8 @@ class AdminController extends Controller
 
     public $defaultFormView = 'admin.formElements.defaultForm';
 
+    protected $identifier;
+
     /**
      * AdminController constructor.
      */
@@ -41,6 +44,8 @@ class AdminController extends Controller
 
         $this->viewData['pageTitle'] = 'Admin';
         $this->viewData['inputs'] = Input::all();
+
+        $this->viewData['pageTitle'] = Str::title($this->identifier);
 
         // Fill sidebar
         View::composer('admin.layouts.sidebar', function ($view) {

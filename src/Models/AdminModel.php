@@ -3,6 +3,7 @@
 namespace Despark\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Despark\Admin\Traits\AdminConfigTrait;
 
 abstract class AdminModel extends Model
 {
@@ -14,18 +15,18 @@ abstract class AdminModel extends Model
     {
         parent::__construct($attributes);
 
-        $this->adminColumns = config('admin.'.$identifier.'.adminColumns');
+        $this->adminColumns = config('admin.'.$this->identifier.'.adminColumns');
     }
 
     public function adminSetFormFields()
     {
-        $this->adminFormFields = config('admin.'.$identifier.'.adminFormFields');
+        $this->adminFormFields = config('admin.'.$this->identifier.'.adminFormFields');
 
         return $this;
     }
 
     public function getImageFields()
     {
-        return config('admin.'.$identifier.'.imageFields');
+        return config('admin.'.$this->identifier.'.imageFields');
     }
 }
