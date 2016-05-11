@@ -53,36 +53,7 @@ class AdminController extends Controller
      */
     public function setSidebar()
     {
-        $this->sidebarItems = [
-            'users' => [
-                'name' => 'Team',
-                'link' => '#',
-                'isActive' => false,
-                'iconClass' => 'fa-users',
-                'permisionsNeeded' => ['manage_users'],
-                'subMenu' => [
-                    'users_manager' => [
-                        'name' => 'Users Manager',
-                        'link' => route('admin.users.index'),
-                        'isActive' => false,
-                        'permisionsNeeded' => ['manage_users'],
-                    ],
-                    // 'roles'         => [
-                    //     'name'     => 'Roles',
-                    //     'link'     => route('admin.roles.index'),
-                    //     'isActive' => false,
-                    //     'permisionsNeeded' => ['manage_users'],
-                    // ],
-                    // 'permissions'   => [
-                    //     'name'     => 'Permission',
-                    //     'link'     => route('admin.permissions.index'),
-                    //     'isActive' => false,
-                    //     'permisionsNeeded' => ['manage_users'],
-                    // ],
-                ],
-            ],
-
-        ];
+        $this->sidebarItems = config('admin.sidebar');
     }
 
     /**

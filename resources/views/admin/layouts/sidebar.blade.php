@@ -9,7 +9,7 @@
             @foreach($sidebarItems as $sidebarItem)
                 <li class="treeview {{ ($sidebarItem['isActive']) ? 'active' : '' }}">
                     @if ($sidebarItem['permisionsNeeded'] and Auth::user()->can($sidebarItem['permisionsNeeded']))
-                        <a href="{{ $sidebarItem['link'] }}">
+                        <a href="{{ $sidebarItem['link'] !== '#' ? route($sidebarItem['link']) : '#' }}">
                             <i class="fa {{ $sidebarItem['iconClass'] }}"></i>
                                 <span>{{ $sidebarItem['name'] }}</span>
                                 @if(isset($sidebarItem['subMenu']))
@@ -22,7 +22,7 @@
                             @foreach($sidebarItem['subMenu'] as $sidebarSubItems=>$sidebarSubItem )
                                 @if ($sidebarSubItem['permisionsNeeded'] and Auth::user()->can($sidebarSubItem['permisionsNeeded']))
                                     <li class="{{ ($sidebarSubItem['isActive']) ? 'active' : '' }}">
-                                        <a href="{{ $sidebarSubItem['link'] }}">{{ $sidebarSubItem['name'] }}</a>
+                                        <a href="{{ $sidebarSubItem['link'] !== '#' ? route($sidebarSubItem['link']) : '#' }}">{{ $sidebarSubItem['name'] }}</a>
                                     </li>
                                 @endif
                             @endforeach

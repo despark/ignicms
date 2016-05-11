@@ -23,4 +23,9 @@ abstract class AdminModel extends Model
 
         return $this;
     }
+
+    public function getImageFields()
+    {
+        return config('admin.'.$identifier.'.imageFields');
+    }
 }
