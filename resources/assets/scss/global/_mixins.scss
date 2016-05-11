@@ -1,0 +1,203 @@
+// Mixins
+/////////////////////////////////
+@mixin clearfix {
+  zoom: 1;
+  &:after,
+  &:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+}
+
+// REM
+@mixin font-size($sizeValue: 1, $important: false) {
+    $im : '';
+    @if $important == true {
+        $im : ' !important'
+    }
+    font-size: $sizeValue + px + $im;
+    font-size: $sizeValue/16 + rem + $im;
+}
+
+// Text truncate
+@mixin trunc-text() {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Hide text
+@mixin hide-text() {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// Positioning mixins
+/// Private method
+@mixin _position($position, $args) {
+    $offsets: top right bottom left;
+
+    @each $o in $offsets {
+        $i: index($args, $o);
+        @if $i
+        and $i + 1 <= length($args)
+        and type-of( nth($args, $i + 1) ) == number {
+            #{$o}: nth($args, $i + 1);
+        }
+    }
+
+    position: $position;
+}
+
+@mixin absolute($args) {
+    @include _position(absolute, $args);
+}
+
+@mixin relative($args) {
+    @include _position(relative, $args);
+}
+
+@mixin fixed($args) {
+    @include _position(fixed,    $args);
+}
+
+// Align Y
+@mixin vertical-align ($pos: relative) {
+    position: $pos;
+    top: 50%;
+    @include transform(translate3d(0, -50%, 0));
+}
+
+// Align X
+@mixin horizontal-align ($pos: relative) {
+  position: $pos;
+  left: 50%;
+  @include transform(translate3d(-50%, 0, 0));
+}
+
+// Align both X & Y
+@mixin align-center ($pos: relative) {
+  left: 50%;
+  position: $pos;
+  top: 50%;
+  @include transform(translate3d(-50%, -50%, 0));
+}
+
+@mixin clear-align-center($pos: static) {
+  left: auto;
+  position: $pos;
+  top: auto;
+  @include transform(none);
+}
+
+// For use with RGBA colors
+// Usage:
+// .button {
+//   @include alpha-attribute('background-color', rgba(black, 0.5), white);
+// }
+@mixin alpha-attribute($attribute, $color, $background) {
+    $percent: alpha($color) * 100%;
+    $opaque: opacify($color, 1);
+    $solid-color: mix($opaque, $background, $percent);
+    #{$attribute}: $solid-color;
+    #{$attribute}: $color;
+}
+
+
+@mixin shift-pad($n-columns: 1) {
+    @include shift-pad-in-context($n-columns);
+}
+
+@mixin shift-pad-in-context($shift: $columns of $container-columns) {
+    $n-columns: nth($shift, 1);
+    $parent-columns: container-shift($shift);
+
+    $direction: get-direction($layout-direction, $default-layout-direction);
+    $opposite-direction: get-opposite-direction($direction);
+
+    padding-#{$opposite-direction}: $n-columns * flex-grid(1, $parent-columns) + $n-columns * flex-gutter($parent-columns);
+
+    // Reset nesting context
+    $parent-columns: $grid-columns;
+}
+
+// ------------------------------------------------------------
+// Omega Reset Mixin by Josh Fry (http://joshfry.me/)
+// ------------------------------------------------------------
+@mixin omega-reset($nth, $cols) {
+    &:nth-child(#{$nth}) { margin-right: flex-gutter($cols, $gutter); }
+    &:nth-child(#{$nth}+1) { clear: none }
+}
+
+@mixin gradient($target, $angle, $color-stops...) {
+  $_angle-with-vendor-prefix: "";
+  $_angle: "";
+  @if $angle == "to top" or $angle == "bottom" {
+    $_angle-with-vendor-prefix: bottom;
+    $_angle: to top;
+  } @else if $angle == "to right" or $angle == "left" {
+    $_angle-with-vendor-prefix: left;
+    $_angle: to right;
+  } @else if $angle == "to bottom" or $angle == "top" {
+    $_angle-with-vendor-prefix: top;
+    $_angle: to bottom;
+  } @else if $angle == "to left" or $angle == "right" {
+    $_angle-with-vendor-prefix: right;
+    $_angle: to left;
+  } @else if $angle == "to top right" or $angle == "bottom left" {
+    $_angle-with-vendor-prefix: bottom left;
+    $_angle: to top right;
+  } @else if $angle == "to bottom right" or $angle == "top left" {
+    $_angle-with-vendor-prefix: top left;
+    $_angle: to bottom right;
+  } @else if $angle == "to bottom left" or $angle == "top right" {
+    $_angle-with-vendor-prefix: top right;
+    $_angle: to bottom left;
+  } @else if $angle == "to top left" or $angle == "bottom right" {
+    $_angle-with-vendor-prefix: bottom right;
+    $_angle: to top left;
+  } @else {
+    $_angle-with-vendor-prefix: $angle % 360;
+    $_angle: (90 - $angle) % 360;
+  }
+  @if $target == "background" {
+    background: -webkit-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: -moz-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: -o-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: -ms-linear-gradient($_angle-with-vendor-prefix, $color-stops);
+    background: linear-gradient($_angle, $color-stops);
+  } @else if $target == "border" {
+    border-image: -webkit-linear-gradient($_angle-with-vendor-prefix, $color-stops) 20 stretch;
+    border-image: -moz-linear-gradient($_angle-with-vendor-prefix, $color-stops) 20 stretch;
+    border-image: -o-linear-gradient($_angle-with-vendor-prefix, $color-stops) 20 stretch;
+    border-image: -ms-linear-gradient($_angle-with-vendor-prefix, $color-stops) 20 stretch;
+    border-image: linear-gradient($_angle, $color-stops) 20 stretch;
+  }
+}
+
+@mixin fontDef($letterSpacing, $lineHeight, $fontSize) {
+    letter-spacing: $letterSpacing + px;
+    line-height: $lineHeight + px;
+    @include font-size($fontSize);
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  &:before {
+    display: block;
+    content: "";
+    width: 100%;
+    padding-top: ($height / $width) * 100%;
+  }
+  > .content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}

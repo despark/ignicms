@@ -1,0 +1,299 @@
+/*== Back to top Animation ==*/
+%button-animation {
+    @-webkit-keyframes animateButton {
+        0% {
+            @include transform(translateY(100%));
+        }
+        100% {
+            @include transform(translateY(0));
+        }
+    }
+    @keyframes animateButton {
+        0% {
+            @include transform(translateY(100%));
+        }
+        100% {
+            @include transform(translateY(0));
+        }
+    }
+    -webkit-animation-name: animateButton;
+    -webkit-animation-duration: 300ms;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-name: animateButton;
+    animation-duration: 200ms;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+// Common button styles
+.btn-up {
+    cursor: pointer;
+    overflow: hidden;
+    @extend [class^="basic"];
+    border: 1px solid $col-black-alpha;
+    color: $col-black-alpha;
+    background: #ffffff;
+    min-width: 72px;
+    text-align: center;
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    z-index: 10000;
+    @include transform(translateY(-200%));
+    span {
+        display: inline-block;
+    }
+    &.animated {
+        @include transform(translateY(0));
+        opacity: 1;
+    }
+    &.is-absolute {
+        position: absolute;
+    }
+    @include fontDef(-0.56, 70, 18);
+    &:hover {
+        color: $col-blue-gamma;
+        border-color: $col-blue-gamma;
+        span {
+            @extend %button-animation;
+        }
+    }
+}
+
+button.btn-txt.arr-next {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+.btn-txt,
+.btn-txt-x {
+    cursor: pointer;
+    @include transition(all 200ms);
+    @include fontDef(-0.3, 21, 18);
+    span {
+        @extend [class^="basic"];
+        @extend [class~="basic-bold"];
+        color: inherit;
+        display: inline-block;
+    }
+    &.arr-next,
+    &.arr-prev,
+    &.arr-down {
+        &:after,
+        &:before {
+            @extend [class^="icon-"];
+            display: inline-block;
+            @include transition(all 200ms);
+            @include font-size(12);
+        }
+    }
+    &.arr-next {
+        &:after {
+            content: "\e901";
+            margin-left: 18px;
+        }
+        &:hover {
+            &:after {
+                @include transform(translateX(5px));
+            }
+        }
+    }
+    &.arr-prev {
+        &:before {
+            content: "\e900";
+            margin-right: 18px;
+            vertical-align: middle;
+            margin-top: -3px;
+        }
+        &:hover {
+            &:before {
+                @include transform(translateX(-5px));
+            }
+        }
+    }
+    &.arr-next:hover,
+    &.arr-prev:hover {
+        color: $col-blue-gamma;
+    }
+    &.arr-down {
+        &:after {
+            content: "\e607";
+            margin-left: 12px;
+            @include font-size(10);
+        }
+    }
+}
+.btn-txt-x {
+    padding-right: 90px;
+    position: relative;
+    text-align: left;
+    @include fontDef(0, 38, 22);
+    &:after {
+        right: 32px;
+        @include vertical-align(absolute);
+    }
+    @media screen and (min-width: $bp-large-mobile) {
+
+    }
+}
+
+.btn-form {
+    @extend %white-panel;
+    @include transition(all 0.3s);
+    cursor: pointer;
+    &:hover {
+        @extend %blue-panel;
+    }
+    &.is-blue {
+        @extend %blue-panel;
+        color: white;
+        &:hover {
+           background-color: darken($col-blue-alpha, 4%);
+        }
+    }
+}
+
+
+// Slider buttons
+.btn-slide {
+    &:before {
+        @include font-size(32);
+        font-weight: normal;
+    }
+}
+.slider-nav {
+    @include font-size(0);
+    .btn-slide-square {
+        @extend %no-select;
+        border: 2px solid white;
+        cursor: pointer;
+        display: inline-block;
+        height: 60px;
+        text-align: center;
+        width: 60px;
+        &:before {
+            color: white;
+            line-height: 60px;
+            @include font-size(13);
+        }
+        &:first-child {
+            border-right: 0;
+        }
+        &:hover {
+            background-color: white;
+            opacity: 1;
+            &:before {
+                color: $col-black-alpha;
+            }
+        }
+    }
+}
+
+
+
+// Social toolbar
+.share-toolbar {
+    $width: 60px;
+    $blue: $col-blue-gamma;
+    $lightGreen: $col-green-alpha;
+    $darkGreen: $col-green-beta;
+
+    color: white;
+    display: inline-block;
+    width: $width;
+    li {
+        cursor: pointer;
+        background-color: $blue;
+        display: block;
+        padding-bottom: 100%;
+        position: relative;
+        width: 100%;
+        &:before {
+            z-index: 10;
+            display: block;
+            height: 100%;
+            left: 0;
+            line-height: $width;
+            position: absolute;
+            text-align: center;
+            top: 0;
+            width: 100%;
+            @include font-size(20);
+        }
+        &:after {
+            background-color: black;
+            bottom: 0;
+            content: "";
+            display: block;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+            @include transition(opacity 0.5s);
+        }
+        &:hover {
+            &:after {
+                opacity: 0.4;
+            }
+        }
+    }
+    &.is-light-green {
+        li {
+            background-color: $lightGreen;
+            &:hover {
+                background-color: darken($lightGreen, 10%);
+            }
+        }
+    }
+    &.is-dark-green {
+        li {
+            background-color: $darkGreen;
+            &:hover {
+                background-color: darken($darkGreen, 10%);
+            }
+        }
+    }
+    a {
+        display: block;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 20;
+        @include hide-text;
+    }
+}
+// Links
+a {
+    @include transition(opacity, 0.3s);
+    &:hover {
+        opacity: $link-opacity;
+    }
+}
+[class*="text-container"] {
+    a:not(.job-link) {
+        text-decoration: underline;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+.job-list:nth-child(4) {
+    margin-top: 50px;
+}
+.job-item:hover {
+        border-color: $col-blue-gamma;
+    .job-title {
+        color: $col-blue-gamma;
+        span {
+            @include transition(all 200ms);
+            right: -10px;
+        }
+    }
+}
+

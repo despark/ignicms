@@ -1,0 +1,279 @@
+/* BOF Fonts section */
+// Font families
+
+$font-family-basic: 'Montserrat', sans-serif;
+$font-family-secondary: 'Droid Serif', serif;
+$font-family-icons: 'icomoon';
+
+
+// Font weights
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+// Montserrat sans serif
+[class^="basic"] {
+    font-family: $font-family-basic;
+    font-weight: $font-weight-regular;
+}
+[class~="basic-bold"] {
+    font-weight: $font-weight-bold;
+}
+
+// Droid serif
+[class^="secondary"] {
+    font-family: $font-family-secondary;
+    font-weight: $font-weight-regular;
+}
+[class="secondary-bold"] {
+    font-weight: $font-weight-bold;
+}
+.is-italic {
+    font-style: italic;
+}
+
+
+// RESERVED FOR DESPARK'S LOGO
+h1 {}
+// EOF RESERVED
+h2,
+h3,
+h4,
+h5,
+h6,
+.title-section-lg {
+    font-family: $font-family-basic;
+    font-weight: $font-weight-bold;
+    color: $col-black-alpha;
+    text-align: left;
+}
+
+// Titles
+%fnt-def-xs {
+    @include fontDef(0, 24, 14);
+}
+%fnt-def-s {
+    @include fontDef(0, 30, 18);
+}
+%fnt-def-m {
+    @include fontDef(-0.5, 30, 24);
+}
+%fnt-def-l {
+    @include fontDef(-0.64, 55, 46);
+}
+
+// H2 ------------- Page title
+h2,
+// .title-page - 48 - 24
+.title-page,
+.title-page a {
+    color: $col-blue-alpha;
+    @extend %fnt-def-m;
+    @media screen and (min-width: $bp-in-between) {
+        @include fontDef(-1, 56, 48);
+    }
+}
+// .title-page-x - 72 - 24
+.title-page-x,
+.title-page-x a {
+    @extend %fnt-def-m;
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-1, 60, 48);
+    }
+    @media screen and (min-width: $bp-in-between) {
+        @include fontDef(-1, 84, 72);
+    }
+}
+
+// H3 ------------- Sections
+// .title-section-x - 72 - 46
+h3,
+.title-section-x {
+    @extend %fnt-def-l;
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-1, 86, 72);
+    }
+}
+.title-section-x {
+    &.is-red {
+        color: $col-red-alpha;
+    }
+}
+.title-section-x {
+    &.is-green {
+        color: $col-green-alpha;
+    }
+}
+// .title-section - 48 - 38
+.title-section {
+    @include fontDef(-0.64, 55, 38);
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-1, 60, 48);
+    }
+}
+.title-section-lg {
+    @include fontDef(-1, 55, 38);
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-1, 66, 60);
+    }
+}
+// .title-contacts - 64 - 46
+.title-contacts {
+    @extend %fnt-def-l;
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-1.07, 66, 64);
+    }
+}
+
+// H4 ------------- Articles
+// h4,.title-article-s - 18 - 14
+h4,
+.title-article-s {
+    @extend %fnt-def-xs;
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(1.5, 26, 14);
+    }
+}
+.title-article-md {
+    color: $col-blue-gamma;
+    @include fontDef(0, 26, 18);
+}
+.title-article-s { color: $col-blue-gamma; }
+// .title-article - 28 - 28
+.title-article {
+    @include fontDef(0, 32, 28);
+}
+// .title-awards - 36 - 30
+.title-article-x {
+    font-family: $font-family-secondary;
+    @include fontDef(-0.6, 30, 30);
+    @media screen and (min-width: $bp-medium) {
+        @include fontDef(-0.6, 42, 36);
+    }
+}
+.event-title {
+    @include fontDef(-0.5, 66, 30);
+}
+.event-subtitle {
+    @include fontDef(0, 30, 16);
+}
+
+// H5 ------------- Sub Sections
+// .title-subsection - 24 - 24
+h5,
+.title-subsection {
+    @include fontDef(-0.75, 29, 24);
+}
+// .title-subsection-s - 20 - 20
+.title-subsection-s {
+    @include fontDef(0, 27, 20);
+}
+
+// H6 ------------
+h6,
+.title-x {
+    @extend [class^="secondary"];
+    @include fontDef(0, 22, 16);
+}
+.title-x-v2 {
+    @extend [class^="basic"];
+    @include fontDef(0, 25, 16);
+}
+.title-xs {
+    @extend [class^="basic"];
+    @extend [class~="basic-bold"];
+    @include fontDef(1.5, 17, 14);
+}
+.title-xs-ls {
+    @extend [class^="basic"];
+    @extend [class~="basic-bold"];
+    @include fontDef(-0.23, 17, 14);
+}
+.title-xxs {
+    @extend [class^="basic"];
+    @extend [class~="basic-bold"];
+    @include fontDef(1, 14, 12);
+}
+
+
+// Paragraphs
+//.para-intro - 24 - 18
+blockquote {
+    @include fontDef(0, 26, 16);
+}
+q,
+blockquote,
+.para-intro {
+    @extend [class^="basic"];
+    color: $col-black-alpha;
+    padding-left: 40px;
+    position: relative;
+    &:before {
+        background-color: $col-black-alpha;
+        content: "";
+        display: block;
+        height: 2px;
+        left: 0;
+        position: absolute;
+        top: 15px;
+        width: 30px;
+    }
+    &.is-green
+    &.is-cs-color {
+        color: $col-green-beta;
+        &:before {
+            background-color: $col-green-beta;
+        }
+    }
+    &.is-cs-color-blue {
+        color: $col-blue-gamma;
+        &:before {
+            background-color: $col-blue-gamma;
+        }
+    }
+    @media screen and (min-width: $bp-medium) {
+        padding-left: 50px;
+        @include fontDef(0, 36, 24);
+        &:before {
+            width: 40px;
+        }
+    }
+}
+//p, .para-basic - 18 - 18
+p,
+.para-basic {
+    @extend [class^="secondary"];
+    @extend %fnt-def-s;
+    color: $col-black-alpha;
+}
+p,
+.para-basic,
+.para-small {
+    color: $col-gray-epsilon;
+}
+//.para-small - 14 - 14
+.para-small {
+    @extend [class^="secondary"];
+    @extend %fnt-def-xs;
+}
+
+// First Letter Paragraph
+.first-letter:first-letter {
+    @extend [class^="secondary"];
+    @extend [class="secondary-bold"];
+    float: left;
+    padding: 0 20px 0 0;
+    @include fontDef(0, 96, 102);
+    color: $col-black-alpha;
+}
+// Rotated text
+.is-rotated {
+    left: 0;
+    padding: 10px 0;
+    position: absolute;
+    text-align: right;
+    top: 0;
+    @include transform(rotate(-90deg) translate3d(-100%, -100%, 0));
+    @include transform-origin(0 0);
+}
+
+/* EOF Fonts section */

@@ -1,0 +1,38 @@
+{
+    "name": "Despark",
+    "version": "0.1.2",
+    "description": "Despark website 2015",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:despark/despark-website-2015.git"
+    },
+    "license": "",
+    "devDependencies": {
+        "gulp": "^3.9.0",
+        "gulp-batch": "^1.0.5",
+        "gulp-changed": "^1.1.1",
+        "gulp-concat": "^2.6.0",
+        "gulp-env": "^0.2.0",
+        "gulp-filesize": "0.0.6",
+        "gulp-imagemin": "latest",
+        "gulp-jshint": "latest",
+        "gulp-notify": "^2.2.0",
+        "gulp-rimraf": "latest",
+        "gulp-less": "^3.1.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-sass": "latest",
+        "gulp-sourcemaps": "^1.5.0",
+        "gulp-uglify": "^1.4.1",
+        "gulp-util": "^3.0.4",
+        "gulp-watch": "^4.3.2",
+        "jshint-stylish": "^2.0.1",
+        "lodash": "^3.3.1",
+        "require-dir": "^0.1.0"
+    },
+    "dependencies": {
+        "gulp-git": "^1.2.4",
+        "gulp-if": "^1.2.5",
+        "node-bourbon": "^1.2.3",
+        "node-neat": "^1.4.x"
+    }
+}

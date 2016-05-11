@@ -1,0 +1,75 @@
+// IMAGES
+//////////////////////////////////
+$url-images: "../images/";
+// Font directory
+//////////////////////////////////
+$url-fonts: "../fonts/";
+
+// Colors
+/////////////////////////////////
+// GRAYS
+$col-gray-alpha: rgba(34, 34, 34, 1.0);  // #222222
+$col-gray-beta: rgba(199, 199, 199, 1.0);// #C7C7C7
+$col-gray-gamma: rgba(170, 170, 170, 1.0);// #AAAAAA
+$col-gray-gamma-o: rgba(170, 170, 170, 0.3);// #AAAAAA
+$col-gray-delta: rgba(153, 153, 153, 1.0);// #999999
+$col-gray-epsilon: rgba(74, 74, 74, 1.0); // 4A4A4A
+$col-gray-zeta: rgba(221, 221, 221, 1.0); // #DDDDDD
+// BLACKS
+$col-black-alpha: rgba(17, 17, 17, 1.0); // #111111
+// BLUES
+$col-blue-alpha: rgba(0, 102, 255, 1.0); // #0066FF
+$col-blue-beta: rgba(0, 20, 143, 1.0); // #00148F
+$col-blue-gamma: rgba(1, 102, 255, 1.0); // #0166FF
+$col-blue-delta: rgba(0, 21, 142, 0.9); // #00158E
+$col-blue-epsilon: rgba(93, 109, 204, 1.0); // #5D6DCC
+$col-blue-zeta: rgba(0, 21, 142, 1); // #00158E
+// GREENS
+$col-green-alpha: rgba(61, 173, 158, 1.0); // #3DAD9E
+$col-green-beta: rgba(39, 174, 96, 1.0); // #27AE60
+// ORANGES
+$col-orange-alpha: rgba(255, 176, 23, 1.0); //#FFB017
+$col-orange-beta: rgba(255, 74, 10, 1.0); // #FF4A0A
+// REDS
+$col-red-alpha: rgba(255, 27, 81, 1.0); // #FF1B51
+
+//WITH OPACITY
+$col-opacity-black-alpha: rgba(17, 17, 17, .2); // #111111
+$col-opacity-black-beta: rgba(17, 17, 17, .5); // #111111
+$col-opacity-white-alpha: rgba(255, 255, 255, .3); // #111111
+$col-opacity-white-beta: rgba(255, 255, 255, .5); // #111111
+
+// Gradient color
+//////////////////////////////////
+$col-grad-red-alpha: $col-red-alpha;
+$col-grad-blue-alpha: $col-blue-gamma;
+$col-grad-blue-beta: rgba(0, 20, 142, 1.0); // #00148E
+$col-grad-green-alpha: rgba(26, 188, 156, 1.0); // #1ABC9C
+
+// MQ break points
+//////////////////////////////////
+$bp-tiny: 321px;
+$bp-small: 481px;
+$bp-large-mobile: 641px;
+$bp-medium: 769px;
+$bp-in-between: 961px;
+$bp-normal: 1025px;
+$bp-large: 1281px;
+$bp-x-large: 1441px;
+$bp-hd: 1920px;
+$bp-subnav: 1150px;
+
+$bp-iPhone4: 372px;
+$bp-iPhone5: 460px;
+$bp-iPhone6: 519px;
+$bp-iPhone6Plus: 628px;
+
+// Max widths
+//////////////////////////////////
+$page-max-width: $bp-x-large - 1;
+$wrap-max-width: $bp-in-between - 1;
+$footer-max-width: 1170px;
+
+// Link hover opacity
+//////////////////////////////////
+$link-opacity: 0.8;

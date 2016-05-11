@@ -1,0 +1,33 @@
+{
+    "name": "laravel-project-starter",
+    "version": "0.0.1",
+    "homepage": "https://github.com/despark/laravel-project-starter",
+    "authors": [
+        "Alexander Stoimenov <astoimenov@despark.com>"
+    ],
+    "description": "Frontend Project Starter",
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "vendor/bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "jquery": "~2.1.4",
+        "fastclick": "~1.0.6",
+        "vminpoly": "*",
+        "AdminLTE": "admin-lte#^2.3.3",
+        "font-awesome": "fontawesome#^4.6.2",
+        "datatables": ">= 1.9.4",
+        "jquery-ui": "^1.11.4",
+        "select2": "^4.0.2",
+        "mjolnic-bootstrap-colorpicker": "bootstrap-colorpicker#^2.3.3",
+        "bootstrap-datepicker": "^1.6.1"
+    },
+    "devDependencies": {
+        "owl.carousel": "~2.0.0-beta.3"
+    }
+}
