@@ -15,7 +15,6 @@ class :controller_name extends AdminController
         parent::__construct();
 
         $this->sidebarItems[':resource']['isActive'] = true;
-
         :create_route
         :edit_route
         :destroy_route

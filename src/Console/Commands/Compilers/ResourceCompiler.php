@@ -28,6 +28,17 @@ class ResourceCompiler
         ':image_fields' => '',
     ];
 
+    protected $controllerReplacements = [
+        ':identifier' => '',
+        ':model_name' => '',
+        ':controller_name' => '',
+        ':app_namespace' => '',
+        ':resource' => '',
+        ':create_route' => '',
+        ':edit_route' => '',
+        ':destroy_route' => '',
+    ];
+
     /**
      * @param Command $command
      * @param string  $modelClass
@@ -49,7 +60,7 @@ class ResourceCompiler
 
         $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
         $this->modelReplacements[':table_name'] = str_plural($this->identifier);
-        $this->modelReplacements[':model_name'] = ucfirst(camel_case($this->identifier));
+        $this->modelReplacements[':model_name'] = $this->command->model_name($this->identifier);
         $this->modelReplacements[':identifier'] = $this->identifier;
 
         $template = strtr($template, $this->modelReplacements);
@@ -79,6 +90,40 @@ class ResourceCompiler
         }
 
         $template = strtr($template, $this->configReplacements);
+
+        return $template;
+    }
+
+    public function renderController($template)
+    {
+        $this->controllerReplacements[':app_namespace'] = $this->getAppNamespace();
+        $this->controllerReplacements[':resource'] = str_plural($this->identifier);
+        $this->controllerReplacements[':model_name'] = $this->command->model_name($this->identifier);
+        $this->controllerReplacements[':controller_name'] = $this->command->controller_name($this->identifier);
+        $this->controllerReplacements[':identifier'] = $this->identifier;
+        if ($this->options['create']) {
+            $this->controllerReplacements[':create_route'] = '$this->viewData'."['createRoute'] = 'admin.".str_plural($this->identifier).".create';";
+        }
+
+        if ($this->options['edit']) {
+            $this->controllerReplacements[':edit_route'] = '$this->viewData'."['editRoute'] = 'admin.".str_plural($this->identifier).".edit';";
+        }
+
+        if ($this->options['destroy']) {
+            $this->controllerReplacements[':destroy_route'] = '$this->viewData'."['destroyRoute'] = 'admin.".str_plural($this->identifier).".destroy';";
+        }
+
+        $template = strtr($template, $this->controllerReplacements);
+
+        return $template;
+    }
+
+    public function renderMigration($template)
+    {
+        $this->controllerReplacements[':migration_class'] = 'Create'.str_plural(studly_case($this->identifier)).'Table';
+        $this->controllerReplacements[':table_name'] = str_plural($this->identifier);
+
+        $template = strtr($template, $this->controllerReplacements);
 
         return $template;
     }

@@ -28,8 +28,8 @@ class ResourceCommand extends Command
     protected $resourceOptions = [
         'image_uploads' => false,
         'migration' => false,
-        'edit' => false,
         'create' => false,
+        'edit' => false,
         'destroy' => false,
     ];
 
@@ -57,7 +57,7 @@ class ResourceCommand extends Command
         $modelTemplate = $this->getTemplate('model');
         $modelTemplate = $compiler->renderModel($modelTemplate);
         $modelPath = base_path('app/Models');
-        $modelFilename = ucfirst(camel_case($this->identifier)).'.php';
+        $modelFilename = $this->model_name().'.php';
         $this->saveResult($modelTemplate, $modelPath, $modelFilename);
 
         $configTemplate = $this->getTemplate('config');
@@ -65,6 +65,20 @@ class ResourceCommand extends Command
         $configPath = base_path('config/admin');
         $configFilename = $this->identifier.'.php';
         $this->saveResult($configTemplate, $configPath, $configFilename);
+
+        $controllerTemplate = $this->getTemplate('controller');
+        $controllerTemplate = $compiler->renderController($controllerTemplate);
+        $controllerPath = app_path('Http/Controllers/Admin');
+        $controllerFilename = $this->controller_name().'.php';
+        $this->saveResult($controllerTemplate, $controllerPath, $controllerFilename);
+
+        if ($this->resourceOptions['migration']) {
+            $migrationTemplate = $this->getTemplate('create_migration');
+            $migrationTemplate = $compiler->renderMigration($migrationTemplate);
+            $migrationPath = base_path('database/migrations');
+            $migrationFilename = $this->migration_filename();
+            $this->saveResult($migrationTemplate, $migrationPath, $migrationFilename);
+        }
     }
 
     protected static function normalize($str)
@@ -79,42 +93,36 @@ class ResourceCommand extends Command
 
     protected function askImageUploads()
     {
-        do {
-            $answer = $this->confirm('Do you need image uploads?');
+        $answer = $this->confirm('Do you need image uploads?');
 
-            $this->resourceOptions['image_uploads'] = $answer;
-        } while (!$answer);
+        $this->resourceOptions['image_uploads'] = $answer;
     }
 
     protected function askMigration()
     {
-        do {
-            $answer = $this->confirm('Do you need migration? [yes/no]');
+        $answer = $this->confirm('Do you need migration?');
 
-            $this->resourceOptions['migration'] = $answer;
-        } while (!$answer);
+        $this->resourceOptions['migration'] = $answer;
     }
 
     protected function askActions()
     {
-        do {
-            $answer = $this->ask('Which actions do you need? [create, edit, destroy]');
-            $answer = str_replace(' ', '', $answer);
+        $answer = $this->ask('Which actions do you need? [create, edit, destroy]', 'none');
+        $answer = str_replace(' ', '', $answer);
 
-            $actions = explode(',', $answer);
-            $actions = array_map('strtolower', $actions);
-            if (in_array('create', $actions)) {
-                $this->resourceOptions['create'] = true;
-            }
+        $actions = explode(',', $answer);
+        $actions = array_map('strtolower', $actions);
+        if (in_array('create', $actions)) {
+            $this->resourceOptions['create'] = true;
+        }
 
-            if (in_array('edit', $actions)) {
-                $this->resourceOptions['edit'] = true;
-            }
+        if (in_array('edit', $actions)) {
+            $this->resourceOptions['edit'] = true;
+        }
 
-            if (in_array('destroy', $actions)) {
-                $this->resourceOptions['destroy'] = true;
-            }
-        } while (!$answer);
+        if (in_array('destroy', $actions)) {
+            $this->resourceOptions['destroy'] = true;
+        }
     }
 
     protected function getTemplate($type)
@@ -134,6 +142,21 @@ class ResourceCommand extends Command
 
         File::put($file, $template);
         $this->info('File "'.$filename.'" was created.');
+    }
+
+    public function model_name()
+    {
+        return studly_case($this->identifier);
+    }
+
+    public function controller_name()
+    {
+        return str_plural(studly_case($this->identifier)).'Controller';
+    }
+
+    public function migration_filename()
+    {
+        return date('Y_m_d_His').'_create_'.str_plural($this->identifier).'_table.php';
     }
 
     /**
