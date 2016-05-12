@@ -122,7 +122,7 @@ class ResourceCompiler
         }
 
         if ($this->options['destroy']) {
-            $this->controllerReplacements[':destroy_route'] = '$this->viewData'."['destroyRoute'] = 'admin.".str_plural($this->identifier).".destroy';";
+            $this->controllerReplacements[':destroy_route'] = '$this->viewData'."['deleteRoute'] = 'admin.".str_plural($this->identifier).".destroy';";
         }
 
         $template = strtr($template, $this->controllerReplacements);

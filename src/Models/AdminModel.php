@@ -27,6 +27,6 @@ abstract class AdminModel extends Model
 
     public function getImageFields()
     {
-        return config('admin.'.$this->identifier.'.imageFields');
+        return config('admin.'.$this->identifier.'.image_fields');
     }
 }
