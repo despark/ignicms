@@ -45,7 +45,7 @@ class AdminController extends Controller
         $this->viewData['pageTitle'] = 'Admin';
         $this->viewData['inputs'] = Input::all();
 
-        $this->viewData['pageTitle'] = Str::title($this->identifier);
+        $this->viewData['pageTitle'] = Str::studly($this->identifier);
 
         // Fill sidebar
         View::composer('admin.layouts.sidebar', function ($view) {

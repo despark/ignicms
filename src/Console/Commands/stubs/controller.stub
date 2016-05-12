@@ -3,8 +3,9 @@
 namespace :app_namespaceHttp\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Models\:model_name;
-use :app_namespaceHttp\Requests\:model_nameRequest;
+use Despark\Http\Controllers\Admin\AdminController;
+use :app_namespaceModels\:model_name;
+use :app_namespaceHttp\Requests\:request_name;
 
 class :controller_name extends AdminController
 {
@@ -61,7 +62,7 @@ class :controller_name extends AdminController
      *
      * @return Response
      */
-    public function store(:model_nameRequest $request)
+    public function store(:request_name $request)
     {
         $input = $request->all();
 
@@ -105,7 +106,7 @@ class :controller_name extends AdminController
      *
      * @return Response
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(:request_name $request, $id)
     {
         $input = $request->all();
 

@@ -66,6 +66,12 @@ class ResourceCommand extends Command
         $configFilename = $this->identifier.'.php';
         $this->saveResult($configTemplate, $configPath, $configFilename);
 
+        $requestTemplate = $this->getTemplate('request');
+        $requestTemplate = $compiler->renderRequest($requestTemplate);
+        $requestPath = app_path('Http/Requests/Admin');
+        $requestFilename = $this->request_name().'.php';
+        $this->saveResult($requestTemplate, $requestPath, $requestFilename);
+
         $controllerTemplate = $this->getTemplate('controller');
         $controllerTemplate = $compiler->renderController($controllerTemplate);
         $controllerPath = app_path('Http/Controllers/Admin');
@@ -134,7 +140,7 @@ class ResourceCommand extends Command
     {
         $file = $path.'/'.$filename;
         if (File::exists($file)) {
-            $result = $this->confirm('File "'.$filename.'" already exist in your admin bootstrap directory. Overwrite?', false);
+            $result = $this->confirm('File "'.$filename.'" already exist. Overwrite?', false);
             if (!$result) {
                 return;
             }
@@ -147,6 +153,11 @@ class ResourceCommand extends Command
     public function model_name()
     {
         return studly_case($this->identifier);
+    }
+
+    public function request_name()
+    {
+        return str_plural(studly_case($this->identifier)).'Request';
     }
 
     public function controller_name()

@@ -68,6 +68,17 @@ class ResourceCompiler
         return $template;
     }
 
+    public function renderRequest($template)
+    {
+        $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
+        $this->modelReplacements[':request_name'] = $this->command->request_name($this->identifier);
+        $this->modelReplacements[':model_name'] = $this->command->model_name($this->identifier);
+
+        $template = strtr($template, $this->modelReplacements);
+
+        return $template;
+    }
+
     public function renderConfig($template)
     {
         if ($this->options['image_uploads']) {
@@ -99,6 +110,7 @@ class ResourceCompiler
         $this->controllerReplacements[':app_namespace'] = $this->getAppNamespace();
         $this->controllerReplacements[':resource'] = str_plural($this->identifier);
         $this->controllerReplacements[':model_name'] = $this->command->model_name($this->identifier);
+        $this->controllerReplacements[':request_name'] = $this->command->request_name($this->identifier);
         $this->controllerReplacements[':controller_name'] = $this->command->controller_name($this->identifier);
         $this->controllerReplacements[':identifier'] = $this->identifier;
         if ($this->options['create']) {

@@ -1,0 +1,32 @@
+<?php
+
+namespace :app_namespaceHttp\Requests;
+
+use Despark\Http\Requests\AdminFormRequest;
+use :app_namespaceModels\:model_name;
+
+class :request_name extends AdminFormRequest
+{
+    public function __construct()
+    {
+        $this->model = new :model_name();
+    }
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return $this->changeAttrName();
+    }
+}
