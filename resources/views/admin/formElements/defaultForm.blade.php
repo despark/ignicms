@@ -60,7 +60,6 @@
             ],
             content_css: "/css/styles.css",
             menubar: false,
-            width: 800,
             toolbar: "code undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image jbimages | media",
             image_advtab: true,
             relative_urls: false,
@@ -71,6 +70,7 @@
             external_plugins: {
                 "filemanager": "{{ asset('/plugins/filemanager/plugin.min.js') }}"
             },
+            media_live_embeds: true,
             style_formats: [
                 {title: 'Section paragraph (p)', block: 'p', classes: 'para-basic'},
                 {title: 'Section header (h3)', block: 'h3', classes: 'title-section'},

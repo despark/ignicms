@@ -48,7 +48,7 @@ class ResourceCommand extends Command
      */
     public function fire()
     {
-        $this->identifier = self::normalize($this->argument('identifier')); // event_category
+        $this->identifier = self::normalize($this->argument('identifier'));
 
         $this->askImageUploads();
         $this->askMigration();
