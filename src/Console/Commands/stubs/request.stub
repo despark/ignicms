@@ -1,6 +1,6 @@
 <?php
 
-namespace :app_namespaceHttp\Requests;
+namespace :app_namespaceHttp\Requests\Admin;
 
 use Despark\Http\Requests\AdminFormRequest;
 use :app_namespaceModels\:model_name;

@@ -51,7 +51,7 @@ class ResourceCompiler
         $this->options = $options;
     }
 
-    public function renderModel($template)
+    public function render_model($template)
     {
         if ($this->options['image_uploads']) {
             $this->modelReplacements[':traits_include'] = 'use Despark\Admin\Traits\UploadableTrait;';
@@ -68,18 +68,7 @@ class ResourceCompiler
         return $template;
     }
 
-    public function renderRequest($template)
-    {
-        $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
-        $this->modelReplacements[':request_name'] = $this->command->request_name($this->identifier);
-        $this->modelReplacements[':model_name'] = $this->command->model_name($this->identifier);
-
-        $template = strtr($template, $this->modelReplacements);
-
-        return $template;
-    }
-
-    public function renderConfig($template)
+    public function render_config($template)
     {
         if ($this->options['image_uploads']) {
             $this->configReplacements[':image_fields'] = "'image_fields' => [
@@ -105,7 +94,18 @@ class ResourceCompiler
         return $template;
     }
 
-    public function renderController($template)
+    public function render_request($template)
+    {
+        $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
+        $this->modelReplacements[':request_name'] = $this->command->request_name($this->identifier);
+        $this->modelReplacements[':model_name'] = $this->command->model_name($this->identifier);
+
+        $template = strtr($template, $this->modelReplacements);
+
+        return $template;
+    }
+
+    public function render_controller($template)
     {
         $this->controllerReplacements[':app_namespace'] = $this->getAppNamespace();
         $this->controllerReplacements[':resource'] = str_plural($this->identifier);
@@ -130,7 +130,7 @@ class ResourceCompiler
         return $template;
     }
 
-    public function renderMigration($template)
+    public function render_migration($template)
     {
         $this->controllerReplacements[':migration_class'] = 'Create'.str_plural(studly_case($this->identifier)).'Table';
         $this->controllerReplacements[':table_name'] = str_plural($this->identifier);

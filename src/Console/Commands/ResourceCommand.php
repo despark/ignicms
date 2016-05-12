@@ -25,6 +25,8 @@ class ResourceCommand extends Command
 
     protected $identifier;
 
+    protected $compiler;
+
     protected $resourceOptions = [
         'image_uploads' => false,
         'migration' => false,
@@ -52,39 +54,25 @@ class ResourceCommand extends Command
         $this->askMigration();
         $this->askActions();
 
-        $compiler = new ResourceCompiler($this, $this->identifier, $this->resourceOptions);
+        $this->compiler = new ResourceCompiler($this, $this->identifier, $this->resourceOptions);
 
-        $modelTemplate = $this->getTemplate('model');
-        $modelTemplate = $compiler->renderModel($modelTemplate);
-        $modelPath = base_path('app/Models');
-        $modelFilename = $this->model_name().'.php';
-        $this->saveResult($modelTemplate, $modelPath, $modelFilename);
-
-        $configTemplate = $this->getTemplate('config');
-        $configTemplate = $compiler->renderConfig($configTemplate);
-        $configPath = base_path('config/admin');
-        $configFilename = $this->identifier.'.php';
-        $this->saveResult($configTemplate, $configPath, $configFilename);
-
-        $requestTemplate = $this->getTemplate('request');
-        $requestTemplate = $compiler->renderRequest($requestTemplate);
-        $requestPath = app_path('Http/Requests/Admin');
-        $requestFilename = $this->request_name().'.php';
-        $this->saveResult($requestTemplate, $requestPath, $requestFilename);
-
-        $controllerTemplate = $this->getTemplate('controller');
-        $controllerTemplate = $compiler->renderController($controllerTemplate);
-        $controllerPath = app_path('Http/Controllers/Admin');
-        $controllerFilename = $this->controller_name().'.php';
-        $this->saveResult($controllerTemplate, $controllerPath, $controllerFilename);
+        $this->createResource('config');
+        $this->createResource('model');
+        $this->createResource('request');
+        $this->createResource('controller');
 
         if ($this->resourceOptions['migration']) {
-            $migrationTemplate = $this->getTemplate('create_migration');
-            $migrationTemplate = $compiler->renderMigration($migrationTemplate);
-            $migrationPath = base_path('database/migrations');
-            $migrationFilename = $this->migration_filename();
-            $this->saveResult($migrationTemplate, $migrationPath, $migrationFilename);
+            $this->createResource('migration');
         }
+    }
+
+    protected function createResource($type)
+    {
+        $template = $this->getTemplate($type);
+        $template = $this->compiler->{'render_'.$type}($template);
+        $path = config('admin.bootstrap.paths.'.$type);
+        $filename = $this->{$type.'_name'}().'.php';
+        $this->saveResult($template, $path, $filename);
     }
 
     protected static function normalize($str)
@@ -155,6 +143,11 @@ class ResourceCommand extends Command
         return studly_case($this->identifier);
     }
 
+    public function config_name()
+    {
+        return $this->identifier;
+    }
+
     public function request_name()
     {
         return str_plural(studly_case($this->identifier)).'Request';
@@ -165,9 +158,9 @@ class ResourceCommand extends Command
         return str_plural(studly_case($this->identifier)).'Controller';
     }
 
-    public function migration_filename()
+    public function migration_name()
     {
-        return date('Y_m_d_His').'_create_'.str_plural($this->identifier).'_table.php';
+        return date('Y_m_d_His').'_create_'.str_plural($this->identifier).'_table';
     }
 
     /**

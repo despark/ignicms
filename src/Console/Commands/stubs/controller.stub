@@ -5,7 +5,7 @@ namespace :app_namespaceHttp\Controllers\Admin;
 use Illuminate\Http\Request;
 use Despark\Http\Controllers\Admin\AdminController;
 use :app_namespaceModels\:model_name;
-use :app_namespaceHttp\Requests\:request_name;
+use :app_namespaceHttp\Requests\Admin\:request_name;
 
 class :controller_name extends AdminController
 {
