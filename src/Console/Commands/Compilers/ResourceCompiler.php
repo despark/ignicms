@@ -54,8 +54,8 @@ class ResourceCompiler
     public function renderModel($template)
     {
         if ($this->options['image_uploads']) {
-            $this->modelReplacements[':traits_include'] = 'use Despark\Admin\Traits\AdminImage;';
-            $this->modelReplacements[':traits_use'] = 'use AdminImage;';
+            $this->modelReplacements[':traits_include'] = 'use Despark\Admin\Traits\UploadableTrait;';
+            $this->modelReplacements[':traits_use'] = 'use UploadableTrait;';
         }
 
         $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
