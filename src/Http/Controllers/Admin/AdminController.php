@@ -29,9 +29,9 @@ class AdminController extends Controller
     /**
      * @var int
      */
-    public $paginateLimit = 15;
+    public $paginateLimit;
 
-    public $defaultFormView = 'admin.formElements.defaultForm';
+    public $defaultFormView;
 
     protected $identifier;
 
@@ -41,6 +41,9 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->setSidebar();
+
+        $this->paginateLimit = config('admin.bootstrap.paginateLimit');
+        $this->defaultFormView = config('admin.bootstrap.defaultFormView');
 
         $this->viewData['pageTitle'] = 'Admin';
         $this->viewData['inputs'] = Input::all();

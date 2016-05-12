@@ -212,6 +212,7 @@
 
         var table = $('#data-table').DataTable({
             "paging": isSortable !== false,
+            "pageLength": {{ config('admin.bootstrap.paginateLimit') }},
             "lengthChange": false,
             "searching": true,
             "ordering": isSortable !== false,

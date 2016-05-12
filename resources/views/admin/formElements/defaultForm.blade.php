@@ -55,7 +55,7 @@
             selector: ".wysiwyg",
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
-                "searchreplace visualblocks code fullscreen",
+                "searchreplace visualblocks code fullscreen responsivefilemanager",
                 "insertdatetime media table contextmenu paste imagetools jbimages"
             ],
             content_css: "/css/styles.css",
@@ -66,6 +66,11 @@
             relative_urls: false,
             height: 500,
             imagetools_cors_hosts: ['despark.app', 'despark.com', '2015.despark.com'],
+            external_filemanager_path: "/plugins/filemanager/",
+            filemanager_title: "Responsive Filemanager",
+            external_plugins: {
+                "filemanager": "{{ asset('/plugins/filemanager/plugin.min.js') }}"
+            },
             style_formats: [
                 {title: 'Section paragraph (p)', block: 'p', classes: 'para-basic'},
                 {title: 'Section header (h3)', block: 'h3', classes: 'title-section'},

@@ -4,6 +4,7 @@ namespace Despark\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
+use File;
 
 class DesparkServiceProvider extends ServiceProvider
 {
@@ -89,9 +90,14 @@ class DesparkServiceProvider extends ServiceProvider
             __DIR__.'/../../bower.json' => base_path('bower.json'),
             __DIR__.'/../../gulpfile.js' => base_path('gulpfile.js'),
             __DIR__.'/../../package.json' => base_path('package.json'),
-            __DIR__.'/../../public/' => base_path('/public'),
-            __DIR__.'/../../src/Http/Controllers/Admin/AdminController.php' => base_path('/app/Http/Controllers/Admin/AdminController.php'),
         ]);
+
+        $configPaths = config('admin.bootstrap.paths');
+        foreach ($configPaths as $key => $path) {
+            if (!is_dir($path)) {
+                File::makeDirectory($path, 775, true);
+            }
+        }
     }
 
     /**
