@@ -12,12 +12,11 @@
                 <div class="box-header">
                     <h3 class="box-title">{{ $pageTitle }}</h3>
                 </div>
-                <!-- /.box-header -->
 
                 <div class="box-body">
                     <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         @if(isset($createRoute))
-                            <a href="{{ route($createRoute) }}" class="btn btn-success pull-left">+ Add {{ str_singular($pageTitle) }}</a>
+                            <a href="{{ route($createRoute) }}" class="btn btn-success pull-left">+ {{ trans('admin.add') }} {{ str_singular($pageTitle) }}</a>
                         @endif
                         <div class="row">
                             <div class="col-sm-12">
@@ -28,7 +27,7 @@
                                         @foreach($model->adminTableColumns() as $col)
                                             <th class="{{ array_get($col, 'type') }}">{{ $col['name'] }}</th>
                                         @endforeach
-                                        <th class="no-sort">Actions</th>
+                                        <th class="no-sort">{{ trans('admin.actions') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody class="sortable" data-entityname="{{ strtolower($pageTitle) }}">
@@ -43,24 +42,16 @@
                                                     @if(isset($editRoute))
                                                         <a href="{{ route($editRoute, ['id' => $record->id]) }}"
                                                            class="btn btn-primary">
-                                                            Edit
-                                                        </a>
-                                                    @endif
-
-                                                    @if(isset($showRoute))
-                                                        <a href="{{ route($showRoute, ['id' => $record->id]) }}"
-                                                           class="btn btn-primary">
-                                                            Show
+                                                            {{ trans('admin.edit') }}
                                                         </a>
                                                     @endif
 
                                                     @if(isset($deleteRoute))
                                                     <a href="#"
-                                                        {{-- data-toggle="modal" data-target="#delete-modal" --}}
                                                         class="js-open-delete-modal btn btn-danger"
                                                         data-record="{{ json_encode($record->toArray()) }}"
                                                         data-delete-url="{{ route($deleteRoute, ['id' => $record->id]) }}">
-                                                        Delete
+                                                        {{ trans('admin.delete') }}
                                                     </a>
                                                     @endif
                                                 </td>
@@ -69,7 +60,7 @@
                                             <tr>
                                                 @foreach($model->adminTableColumns() as $key => $col)
                                                     @if($key == 0)
-                                                        <td>No Data</td>
+                                                        <td>{{ trans('admin.noData') }}</td>
                                                     @else
                                                         <td>-</td>
                                                     @endif
@@ -79,12 +70,12 @@
                                         @endforelse
                                     </tbody>
                                     <tfoot>
-                                    <tr>
-                                        @foreach($model->adminTableColumns() as $col)
-                                            <th>{{ $col['name'] }}</th>
-                                        @endforeach
-                                        <th>Actions</th>
-                                    </tr>
+                                        <tr>
+                                            @foreach($model->adminTableColumns() as $col)
+                                                <th>{{ $col['name'] }}</th>
+                                            @endforeach
+                                            <th>{{ trans('admin.actions') }}</th>
+                                        </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -92,36 +83,37 @@
                     </div>
                 </div>
             </div>
-            <!-- /.box -->
         </div>
-        <!-- /.col -->
-    </div><!-- /.row -->
+    </div>
 
-    <!-- Modal -->
+    @if(isset($deleteRoute))
     <div class="modal modal-danger fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="deleteModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-target="#delete-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Delete confirm</h4>
+                    <button type="button" class="close" data-target="#delete-modal" data-dismiss="modal" aria-label="{{ trans('admin.close') }}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ trans('admin.deleteTitle') }}</h4>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this item?</p>
+                <p>
+                    {{ trans('admin.deleteConfirm') }}
+                </p>
             </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline pull-left" data-target="#delete-modal" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-outline pull-left" data-target="#delete-modal" data-dismiss="modal">{{ trans('admin.close') }}</button>
                     <form method="POST" action="" class="delete-form">
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
                         <input type="hidden" name="_method" value="DELETE" />
 
                         <button type="submit" type="button" class="delete-btn btn btn-outline">
-                            Delete
+                            {{ trans('admin.delete') }}
                         </button>
                     </form>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+    @endif
 @stop
 
 @section('additionalScripts')
@@ -133,24 +125,20 @@
         });
 
         // Sortable
-        /**
-         * @param {*} requestData
-         */
         var changePosition = function(requestData){
-
             $.ajax({
-                'url': '/sort',
-                'type': 'POST',
-                'data': requestData,
-                'success': function(data) {
+                url: '/sort',
+                type: 'POST',
+                data: requestData,
+                success: function(data) {
                     if (data.success) {
-                        // App.notify.success('Saved!');
+                        console.log('Sort: success!');
                     } else {
-                        // App.notify.validationError(data.errors);
+                        console.log(data.errors);
                     }
                 },
-                'error': function(){
-                    // App.notify.danger('Something wrong!');
+                error: function(e) {
+                    console.log('Something went wrong! Error(' + e.status + '): ' + e.statusText);
                 }
             });
         };
@@ -161,7 +149,6 @@
                 handle: '.sortable-handle',
                 axis: 'y',
                 update: function(a, b){
-
                     var entityName = $(this).data('entityname');
                     var $sorted = b.item;
 
@@ -185,16 +172,12 @@
                             positionEntityId: $next.data('itemid')
                         });
                     } else {
-                        App.notify.danger('Something wrong!');
+                        console.log(a);
                     }
                 },
                 cursor: "move"
             });
         }
-
-        $('.sortable td').each(function(){
-            $(this).css('width', $(this).width() +'px');
-        });
 
         // Delete entity
         $('.js-open-delete-modal').on('click', function (e) {

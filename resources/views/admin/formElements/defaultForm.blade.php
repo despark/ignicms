@@ -10,7 +10,7 @@
         <div class="col-md-10">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or 'Edit'  }}</h3>
+                    <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or trans('admin.edit')  }}</h3>
                 </div>
                 {!!  Form::open([
                     'url'=>route($formAction, ['id' => $record->id]),
@@ -22,7 +22,7 @@
                 <div class="box-body">
                     {{ $record->buildForm() }}
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('admin.save') }}</button>
                         {!! $record->adminPreviewButton() !!}
 
                     </div>
