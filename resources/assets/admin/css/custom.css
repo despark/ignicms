@@ -33,3 +33,6 @@ label.css-label {
     -ms-user-select      : none;
     user-select          : none;
 }
+div.mce-edit-area {
+    padding: 10px;
+}

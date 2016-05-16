@@ -10,7 +10,7 @@
         <div class="col-md-10">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or trans('admin.edit')  }}</h3>
+                    <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or 'Edit'  }}</h3>
                 </div>
                 {!!  Form::open([
                     'url'=>route($formAction, ['id' => $record->id]),
@@ -22,7 +22,7 @@
                 <div class="box-body">
                     {{ $record->buildForm() }}
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">{{ trans('admin.save') }}</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                         {!! $record->adminPreviewButton() !!}
 
                     </div>
@@ -53,6 +53,7 @@
 
         tinymce.init({
             selector: ".wysiwyg",
+            skin: "despark-cms",
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen responsivefilemanager",
@@ -87,7 +88,6 @@
                     {title: 'figure', block: 'figure', wrapper: true},
                 ]}
             ],
-            visualblocks_default_state: true,
             end_container_on_empty_block: true
         });
     </script>
