@@ -9,7 +9,7 @@ abstract class AdminModel extends Model
 {
     use AdminConfigTrait;
 
-    protected $identifier;
+    public $identifier;
 
     public function __construct(array $attributes = [])
     {

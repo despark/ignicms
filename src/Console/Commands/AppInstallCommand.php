@@ -54,7 +54,7 @@ class AppInstallCommand extends Command
         $this->call('db:seed', [
             '--class' => 'DesparkDatabaseSeeder',
         ]);
-        $this->call('db:seed');
+        // $this->call('db:seed');
 
         exec('npm install');
         exec('bower install');

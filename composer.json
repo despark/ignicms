@@ -13,7 +13,7 @@
         "laravelcollective/html": "~5.0",
         "intervention/image": "^2.3",
         "cviebrock/eloquent-sluggable": "^3.0",
-        "despark/html-template-curator": "2.*",
+        "despark/html-template-curator": "3.*",
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "skovmand/mailchimp-laravel": "1.*",
         "roumen/sitemap": "^2.5",
@@ -36,9 +36,7 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "classmap": []
     },
     "scripts": {
         "post-install-cmd": [
