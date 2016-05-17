@@ -31,8 +31,14 @@ class DesparkServiceProvider extends ServiceProvider
             require __DIR__.'/../Http/routes.php';
         });
 
+        $this->publishes([
+            __DIR__.'/../Http/resourcesRoutes.php' => app_path('Http/resourcesRoutes.php'),
+        ]);
+
         $router->group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
-            require __DIR__.'/../Http/resourcesRoutes.php';
+            if (File::exists(app_path('Http/resourcesRoutes.php'))) {
+                require app_path('Http/resourcesRoutes.php');
+            }
         });
 
         // Register Assets
