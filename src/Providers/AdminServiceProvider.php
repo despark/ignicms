@@ -8,7 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use File;
 use Despark\Admin\Admin;
 
-class DesparkServiceProvider extends ServiceProvider
+class AdminServiceProvider extends ServiceProvider
 {
     /**
      * The Artisan commands provided by starter kit.
@@ -16,9 +16,9 @@ class DesparkServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        'Despark\Console\Commands\AppInstallCommand',
-        'Despark\Console\Commands\AppUpdateCommand',
-        'Despark\Console\Commands\ResourceCommand',
+        'Despark\Console\Commands\AdminInstallCommand',
+        'Despark\Console\Commands\AdminUpdateCommand',
+        'Despark\Console\Commands\AdminResourceCommand',
     ];
 
     /**
@@ -82,11 +82,15 @@ class DesparkServiceProvider extends ServiceProvider
         ]);
 
         $configPaths = config('admin.bootstrap.paths');
-        foreach ($configPaths as $key => $path) {
-            if (!is_dir($path)) {
-                File::makeDirectory($path, 775, true);
+        if ($configPaths) {
+            foreach ($configPaths as $key => $path) {
+                if (!is_dir($path)) {
+                    File::makeDirectory($path, 755, true, true);
+                }
             }
         }
+
+        exec('composer dumpautoload');
     }
 
     /**

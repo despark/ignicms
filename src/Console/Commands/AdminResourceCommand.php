@@ -7,7 +7,7 @@ use Despark\Console\Commands\Compilers\ResourceCompiler;
 use Symfony\Component\Console\Input\InputArgument;
 use File;
 
-class ResourceCommand extends Command
+class AdminResourceCommand extends Command
 {
     /**
      * The console command name.

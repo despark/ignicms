@@ -34,7 +34,7 @@
                                         @forelse ($records as $record)
                                             <tr data-itemId="{{{ $record->id }}}">
                                                 @foreach($model->adminTableColumns() as $col)
-                                                    <td data-order="{{ $record->$col['db_field'] }}">
+                                                    <td data-order="{{ $record->{$col['db_field']} }}">
                                                         {!! $model->renderTableRow($record, $col) !!}
                                                     </td>
                                                 @endforeach

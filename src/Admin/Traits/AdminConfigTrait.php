@@ -101,22 +101,22 @@ trait AdminConfigTrait
     {
         switch (array_get($col, 'type', 'text')) {
             case 'yes_no':
-                return $record->yes_no($record->$col['db_field']);
+                return $record->yes_no($record->{$col['db_field']});
                 break;
             case 'format_default_date':
-                return $record->formatDefaultData($record->$col['db_field']);
+                return $record->formatDefaultData($record->{$col['db_field']});
                 break;
             case 'entityType':
-                return $record->entityType($record->$col['db_field']);
+                return $record->entityType($record->{$col['db_field']});
                 break;
             case 'relation':
-                return $record->yes_no($record->$col['db_field']);
+                return $record->yes_no($record->{$col['db_field']});
                 break;
             case 'sort':
                 return '<div class="fa fa-sort sortable-handle"></div>';
                 break;
             default :
-                return $record->$col['db_field'];
+                return $record->{$col['db_field']};
                 break;
         }
     }

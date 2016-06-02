@@ -4,14 +4,14 @@ namespace Despark\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class AppInstallCommand extends Command
+class AdminInstallCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'app:install';
+    protected $name = 'admin:install';
 
     /**
      * The console command description.
@@ -35,16 +35,24 @@ class AppInstallCommand extends Command
      */
     public function fire()
     {
+        if (env('CACHE_DRIVER') !== 'array') {
+            $path = base_path('.env');
+            if (file_exists($path)) {
+                file_put_contents($path, str_replace(
+                    'CACHE_DRIVER='.env('CACHE_DRIVER'),
+                    'CACHE_DRIVER=array',
+                    file_get_contents($path)
+                ));
+            }
+        }
+
         // Generate the Application Encryption key
         $this->call('key:generate');
-
-        // Create the migrations table
-        $this->call('migrate:install');
 
         // Publish the packages.
         $this->call('vendor:publish', [
             '--force' => true,
-            '--provider' => 'Despark\Providers\DesparkServiceProvider',
+            '--provider' => 'Despark\Providers\AdminServiceProvider',
         ]);
 
         // Run the Migrations
@@ -54,10 +62,12 @@ class AppInstallCommand extends Command
         $this->call('db:seed', [
             '--class' => 'DesparkDatabaseSeeder',
         ]);
-        // $this->call('db:seed');
 
-        exec('npm install');
+        $this->info('npm install..');
+        exec('npm install --silent');
+        $this->info('bower install..');
         exec('bower install');
+        $this->info('gulp dev..');
         exec('gulp dev');
     }
 }

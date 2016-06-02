@@ -4,14 +4,14 @@ namespace Despark\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class AppUpdateCommand extends Command
+class AdminUpdateCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'app:update';
+    protected $name = 'admin:update';
 
     /**
      * The console command description.
