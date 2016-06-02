@@ -15,10 +15,6 @@ return [
             'type' => 'text',
             'label' => 'Email',
         ],
-        'image' => [
-            'type' => 'image',
-            'label' => 'Image',
-        ],
         'password' => [
             'type' => 'password',
             'label' => 'Password',
