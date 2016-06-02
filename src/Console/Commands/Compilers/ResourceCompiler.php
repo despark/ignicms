@@ -64,7 +64,7 @@ class ResourceCompiler
         $this->modelReplacements[':identifier'] = $this->identifier;
 
         $route = "Route::resource('".str_plural($this->identifier)."', '".$this->getAppNamespace().
-            'Http\Controllers\\'.$this->modelReplacements[':controller']."');".PHP_EOL;
+            'Http\Controllers\\'.$this->command->controller_name($this->identifier)."');".PHP_EOL;
         file_put_contents(app_path('Http/resourcesRoutes.php'), $route, FILE_APPEND);
 
         $template = strtr($template, $this->modelReplacements);
