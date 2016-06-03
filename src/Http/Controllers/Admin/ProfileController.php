@@ -8,11 +8,13 @@ class ProfileController extends AdminController
 {
     public function getEdit()
     {
-        $this->viewData['pageTitle'] = 'Edit profile';
-
         $this->viewData['record'] = \Auth::user();
 
-        return view('admin.profile.edit', $this->viewData);
+        $this->viewData['pageTitle'] = 'Edit profile';
+        $this->viewData['formMethod'] = 'PUT';
+        $this->viewData['formAction'] = 'admin.users.update';
+
+        return view($this->defaultFormView, $this->viewData);
     }
 
     public function postUpdate(UserEditProfileRequest $request)
