@@ -27,7 +27,7 @@
                                         @foreach($model->adminTableColumns() as $col)
                                             <th class="{{ array_get($col, 'type') }}">{{ $col['name'] }}</th>
                                         @endforeach
-                                        <th class="no-sort">{{ trans('admin.actions') }}</th>
+                                        <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody class="sortable" data-entityname="{{ strtolower($pageTitle) }}">
@@ -38,7 +38,7 @@
                                                         {!! $model->renderTableRow($record, $col) !!}
                                                     </td>
                                                 @endforeach
-                                                <td>
+                                                <td class="actions-cell">
                                                     @if(isset($editRoute))
                                                         <a href="{{ route($editRoute, ['id' => $record->id]) }}"
                                                            class="btn btn-primary">
@@ -194,13 +194,13 @@
         var isSortable = $('th.sort').length === 0;
 
         var table = $('#data-table').DataTable({
-            "paging": isSortable !== false,
-            "pageLength": {{ config('admin.bootstrap.paginateLimit') }},
-            "lengthChange": false,
-            "searching": true,
-            "ordering": isSortable !== false,
-            "info": false,
-            "autoWidth": false,
+            paging: isSortable !== false,
+            pageLength: {{ config('admin.bootstrap.paginateLimit') }},
+            lengthChange: false,
+            searching: true,
+            ordering: isSortable !== false,
+            info: false,
+            autoWidth: true,
             columnDefs: [
                 {
                     targets: "no-sort",
@@ -208,7 +208,10 @@
                     searchable: false
                 }
             ],
-            "aaSorting": []
+            aaSorting: [],
+            oLanguage: {
+                sSearch: "<span class='search-label uppercase'>Search</span>"
+            }
         });
     </script>
 @stop

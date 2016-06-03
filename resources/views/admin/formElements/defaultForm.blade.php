@@ -6,31 +6,21 @@
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-md-10">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or 'Edit'  }}</h3>
-                </div>
-                {!!  Form::open([
-                    'url'=>route($formAction, ['id' => $record->id]),
-                    'method' => (isset($formMethod)) ? $formMethod : 'POST',
-                    'role' => 'form',
-                    'enctype'=> 'multipart/form-data', ]
-                ) !!}
+    <div class="default-form">
+        <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or 'Edit'  }}</h3>
+        {!!  Form::open([
+            'url'=>route($formAction, ['id' => $record->id]),
+            'method' => (isset($formMethod)) ? $formMethod : 'POST',
+            'role' => 'form',
+            'enctype'=> 'multipart/form-data', ]
+        ) !!}
 
-                <div class="box-body">
-                    {{ $record->buildForm() }}
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        {!! $record->adminPreviewButton() !!}
+            {{ $record->buildForm() }}
 
-                    </div>
-                </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            {!! $record->adminPreviewButton() !!}
 
-                {!! Form::close() !!}
-            </div>
-        </div>
+        {!! Form::close() !!}
     </div>
 @stop
 
