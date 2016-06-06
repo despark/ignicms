@@ -1,4 +1,9 @@
 .default-form {
+    .box-title {
+        color: $text-color-light;
+        font-size: 34px;
+        margin-bottom: 35px;
+    }
     .mce-edit-area {
         padding: 10px;
     }
@@ -6,5 +11,21 @@
     label {
         font-weight: normal;
         @extend .uppercase;
+    }
+    label {
+        color: $text-color-dark;
+        letter-spacing: 0.9px;
+    }
+    input {
+        color: $text-color-light;
+        letter-spacing: 0.9px;
+    }
+    .btn {
+        margin-top: 35px;
+    }
+    .help-text {
+        color: #adb7c7;
+        font-size: 14px;
+        letter-spacing: 0.9px;
     }
 }

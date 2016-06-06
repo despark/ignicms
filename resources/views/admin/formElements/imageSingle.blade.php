@@ -14,7 +14,7 @@
         'placeholder' => $options['label'],
     ] ) !!}
 
-    <div>{{ $options['help'] or '' }}</div>
+    <div class="help-text">{{ $options['help'] or '' }}</div>
 
     <div class="text-red">
         {{ join($errors->get($fieldName), '<br />') }}

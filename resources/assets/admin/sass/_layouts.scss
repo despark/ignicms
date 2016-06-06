@@ -1,13 +1,16 @@
 .skin-blue {
     .main-header {
+        .logo {
+            font-family: 'SourceSansPro-bold';
+        }
         .logo,
         .navbar .sidebar-toggle:hover,
         li.user-header {
-            background-color: $accent-primary-color;
+            background-color: $accent-secondary-color;
         }
         .logo:hover,
         .navbar {
-            background-color: $accent-secondary-color;
+            background-color: $accent-primary-color;
         }
     }
 }
@@ -15,6 +18,10 @@
     border: none;
     box-shadow: none;
     margin-bottom: 0;
+    .box-title {
+        color: $text-color-light;
+        font-size: 34px;
+    }
 }
 .navbar-nav {
     & > .user-menu {
@@ -30,5 +37,46 @@
     padding: 15px;
     .content {
         background-color: #fff;
+    }
+}
+#introduction {
+    margin: 80px auto;
+    max-width: 700px;
+    text-align: center;
+    .titles-section {
+        margin: 0 auto;
+        max-width: 520px;
+        h1 {
+            margin-bottom: 50px;
+        }
+        h2 {
+            font-size: 34px;
+        }
+    }
+    p {
+        color: $text-color-light;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 40px;
+        text-align: justify;
+        &.subtitle {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .p-title {
+            color: $text-color-dark;
+            text-transform: uppercase;
+        }
+    }
+}
+.main-footer {
+    img {
+        margin: 8px;
+    }
+    h4 {
+        color: $text-color-light;
+        font-size: 12px;
+        letter-spacing: 1px;
     }
 }

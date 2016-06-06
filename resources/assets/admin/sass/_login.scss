@@ -1,9 +1,15 @@
 .login-page,
 .register-page {
     background-color: #e5e6ea;
-}
-.admin-logo {
-    min-width: 265px;
+    .login-logo {
+        .admin-logo {
+            margin-bottom: 14px;
+        }
+        h4 {
+            font-family: 'SourceSansPro-light';
+            letter-spacing: 1.6px;
+        }
+    }
 }
 .login-box-body,
 .register-box-body {
@@ -12,6 +18,9 @@
         border: none;
         border-radius: 40px;
     }
+}
+.btn {
+    font-size: 13px;
 }
 input[type=checkbox] {
     &.css-checkbox {
@@ -44,8 +53,9 @@ input[type=checkbox] {
 }
 label {
     &.css-label {
-        line-height: 32px;
         cursor: pointer;
+        font-weight: normal;
+        line-height: 32px;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;

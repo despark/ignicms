@@ -5,12 +5,14 @@
         z-index: 1;
     }
     .dataTables_filter {
+        margin-bottom: 10px;
         label {
             border: 1px solid #e9e9e9;
             border-radius: 45px;
         }
         .search-label {
             color: #9d9d9d;
+            letter-spacing: 0.9px;
             padding: 15px;
         }
         input {
@@ -29,6 +31,12 @@
         & thead th {
             font-weight: normal;
             text-transform: uppercase;
+        }
+        & tbody tr {
+            color: $text-color-light;
+            font-size: 12px;
+            letter-spacing: 1px;
+            line-height: 18px;
         }
         & .actions-cell a {
             text-transform: uppercase;
@@ -54,13 +62,24 @@
         background-color: #f2f2f2;
     }
     .dataTables_paginate {
+        margin-top: 10px;
         .pagination {
             & > li {
+                &.previous,
+                &.next {
+                    & > a,
+                    & > span {
+                        font-size: 12px;
+                        letter-spacing: 0.8px;
+                    }
+                }
                 & > a,
                 & > span {
                     border: none;
                     border-radius: 32px;
+                    color: $text-color-light;
                     margin: 0 3px;
+                    text-transform: uppercase;
                 }
             }
             .paginate_button.disabled {
@@ -72,7 +91,9 @@
                     &,
                     &:focus,
                     &:hover {
-                        background-color: #5db0dc;
+                        background-color: $btn-primary-color;
+                        color: #fff;
+                        font-size: 16px;
                     }
                 }
             }

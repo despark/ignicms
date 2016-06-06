@@ -1,6 +1,26 @@
-$accent-primary-color: #0141ad;
-$accent-secondary-color: #2158b2;
+$accent-primary-color: #2158b2;
+$accent-secondary-color: darken($accent-primary-color, 5%);
 $btn-primary-color: #5db0dc;
 $btn-success-color: #62ba90;
 $btn-danger-color: #f6819e;
+$text-color-dark: #232838;
+$text-color-light: #7f8b9f;
 $table-border: 1px solid #e8e8e8;
+@font-face {
+    font-family: 'SourceSansPro-light';
+    src: url('../../fonts/SourceSansPro-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SourceSansPro-regular';
+    src: url('../../fonts/SourceSansPro-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SourceSansPro-bold';
+    src: url('../../fonts/SourceSansPro-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

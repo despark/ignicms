@@ -1,3 +1,18 @@
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'SourceSansPro-regular';
+}
 .uppercase {
     text-transform: uppercase;
 }
@@ -15,7 +30,7 @@ input.form-control {
         border-radius: 40px;
         height: 40px;
         min-width: 70px;
-        padding: 10px 15px;
+        padding: 10px 16px;
     }
     &:hover {
         opacity: 0.8;
@@ -23,16 +38,28 @@ input.form-control {
     &:not(.btn-outline) {
         border: none;
     }
-    .btn-primary,
-    .btn-primary:hover {
+}
+.btn-primary {
+    &,
+    &:active,
+    &:focus,
+    &:hover {
         background-color: $btn-primary-color;
     }
-    .btn-success,
-    .btn-success:hover {
+}
+.btn-success {
+    &,
+    &:active,
+    &:focus,
+    &:hover {
         background-color: $btn-success-color;
     }
-    .btn-danger,
-    .btn-danger:hover {
+}
+.btn-danger {
+    &,
+    &:active,
+    &:focus,
+    &:hover {
         background-color: $btn-danger-color;
     }
 }
