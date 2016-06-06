@@ -1,0 +1,60 @@
+.login-page,
+.register-page {
+    background-color: #e5e6ea;
+}
+.admin-logo {
+    min-width: 265px;
+}
+.login-box-body,
+.register-box-body {
+    background: none;
+    input.form-control {
+        border: none;
+        border-radius: 40px;
+    }
+}
+input[type=checkbox] {
+    &.css-checkbox {
+        position: absolute;
+        z-index: -1000;
+        left: -1000px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
+        & + label.css-label::before {
+            padding-left: 32px;
+            height: 32px;
+            display: inline-block;
+            line-height: 32px;
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            font-weight: normal;
+            vertical-align: bottom;
+            margin-right: 10px;
+            margin-top: 25px;
+        }
+        &:checked + label.css-label::before {
+            background-position: -32px 0;
+        }
+    }
+}
+label {
+    &.css-label {
+        line-height: 32px;
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        &::before {
+            content: " ";
+            background-image: url("../images/checkbox.png");
+        }
+    }
+}

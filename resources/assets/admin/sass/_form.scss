@@ -1,0 +1,10 @@
+.default-form {
+    .mce-edit-area {
+        padding: 10px;
+    }
+    .btn,
+    label {
+        font-weight: normal;
+        @extend .uppercase;
+    }
+}

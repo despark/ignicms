@@ -1,0 +1,34 @@
+.skin-blue {
+    .main-header {
+        .logo,
+        .navbar .sidebar-toggle:hover,
+        li.user-header {
+            background-color: $accent-primary-color;
+        }
+        .logo:hover,
+        .navbar {
+            background-color: $accent-secondary-color;
+        }
+    }
+}
+.box {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+.navbar-nav {
+    & > .user-menu {
+        & > .dropdown-menu {
+            padding: 0;
+            & > li.user-header {
+                height: auto;
+            }
+        }
+    }
+}
+.content-wrapper {
+    padding: 15px;
+    .content {
+        background-color: #fff;
+    }
+}
