@@ -19,4 +19,7 @@ gulp.task('watch', ['build'], function () {
     gulp.watch(config.jsons.src, batch(function (events, done) {
         gulp.start('jsons', done);
     }));
+    gulp.watch(config.admin.sass, batch(function (events, done) {
+        gulp.start('admin', done);
+    }));
 });

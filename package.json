@@ -33,6 +33,7 @@
     "dependencies": {
         "gulp-git": "^1.2.4",
         "gulp-if": "^1.2.5",
+        "merge-stream": "^1.0.0",
         "node-bourbon": "^1.2.3",
         "node-neat": "^1.4.x"
     }
