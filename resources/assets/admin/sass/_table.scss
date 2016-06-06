@@ -13,7 +13,7 @@
         .search-label {
             color: #9d9d9d;
             letter-spacing: 0.9px;
-            padding: 15px;
+            padding: 12px 22px;
         }
         input {
             background-color: #f2f2f2;
@@ -34,7 +34,7 @@
         }
         & tbody tr {
             color: $text-color-light;
-            font-size: 12px;
+            font-size: 14px;
             letter-spacing: 1px;
             line-height: 18px;
         }
@@ -71,6 +71,7 @@
                     & > span {
                         font-size: 12px;
                         letter-spacing: 0.8px;
+                        padding: 9px 15px;
                     }
                 }
                 & > a,
