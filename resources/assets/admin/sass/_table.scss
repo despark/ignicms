@@ -37,6 +37,9 @@
             font-size: 14px;
             letter-spacing: 1px;
             line-height: 18px;
+            td {
+                vertical-align: middle;
+            }
         }
         & .actions-cell {
             text-align: center;
