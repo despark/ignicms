@@ -11,10 +11,10 @@
                     @if ((isset($sidebarItem['permisionsNeeded']) and Auth::user()->can($sidebarItem['permisionsNeeded'])) or isset($sidebarItem['subMenu']))
                         <a href="{{ $sidebarItem['link'] !== '#' ? route($sidebarItem['link']) : '#' }}">
                             <i class="fa {{ $sidebarItem['iconClass'] }}"></i>
-                                <span>{{ $sidebarItem['name'] }}</span>
-                                @if(isset($sidebarItem['subMenu']))
-                                <i class="fa fa-angle-left pull-right"></i>
-                                @endif
+                            <span>{{ $sidebarItem['name'] }}</span>
+                            @if(isset($sidebarItem['subMenu']))
+                            <i class="fa fa-angle-left pull-right"></i>
+                            @endif
                         </a>
                     @endif
                     @if(isset($sidebarItem['subMenu']))
