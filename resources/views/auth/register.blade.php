@@ -7,8 +7,9 @@
 @section('content')
 
     <div class="register-box">
-        <div class="register-logo">
-            <a href="{{ url('/home') }}"><b>Despark</b><br />Website Administration</a>
+        <div class="login-logo">
+            <img src="{{ asset('images/logo.png') }}" class="admin-logo" alt="Logo" />
+            <h4 class="uppercase">Website Administration</h4>
         </div>
 
         @if (count($errors) > 0)
@@ -25,7 +26,7 @@
         <div class="register-box-body">
             <p class="login-box-msg">Register a new membership</p>
 
-            <form action="{{ url('/auth/register') }}" method="post">
+            <form action="{{ url('/auth/register') }}" method="post" autocomplete="off">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                 <div class="form-group has-feedback">
@@ -49,8 +50,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    <div class="col-xs-12">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat uppercase">Register</button>
                     </div><!-- /.col -->
                 </div>
             </form>
