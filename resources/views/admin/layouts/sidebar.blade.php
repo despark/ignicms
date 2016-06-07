@@ -8,7 +8,7 @@
         <ul class="sidebar-menu">
             @foreach($sidebarItems as $sidebarItem)
                 <li class="treeview {{ ($sidebarItem['isActive']) ? 'active' : '' }}">
-                    @if ($sidebarItem['permisionsNeeded'] and Auth::user()->can($sidebarItem['permisionsNeeded']))
+                    @if ((isset($sidebarItem['permisionsNeeded']) and Auth::user()->can($sidebarItem['permisionsNeeded'])) or isset($sidebarItem['subMenu']))
                         <a href="{{ $sidebarItem['link'] !== '#' ? route($sidebarItem['link']) : '#' }}">
                             <i class="fa {{ $sidebarItem['iconClass'] }}"></i>
                                 <span>{{ $sidebarItem['name'] }}</span>
