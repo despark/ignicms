@@ -16,4 +16,11 @@ return [
             ],
         ],
     ],
+    'seo_pages' => [
+        'name' => 'SEO Pages',
+        'link' => 'admin.seo_pages.index',
+        'isActive' => false,
+        'iconClass' => 'fa-tags',
+        'permisionsNeeded' => ['manage_users'],
+    ],
 ];
