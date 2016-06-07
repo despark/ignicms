@@ -1,6 +1,6 @@
 <?php
 
-namespace :app_namespaceModels;
+namespace :app_namespaceModels\Admin;
 
 use Despark\Models\AdminModel;
 :traits_include
