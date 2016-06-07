@@ -18,6 +18,7 @@ class AdminServiceProvider extends ServiceProvider
     protected $commands = [
         'Despark\Console\Commands\AdminInstallCommand',
         'Despark\Console\Commands\AdminUpdateCommand',
+        'Despark\Console\Commands\AdminUpdateProdCommand',
         'Despark\Console\Commands\AdminResourceCommand',
     ];
 
