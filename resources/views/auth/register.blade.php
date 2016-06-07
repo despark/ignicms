@@ -12,37 +12,38 @@
             <h4 class="uppercase">Website Administration</h4>
         </div>
 
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="register-box-body">
             <p class="login-box-msg">Register a new membership</p>
 
             <form action="{{ url('/auth/register') }}" method="post" autocomplete="off">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <div class="form-group has-feedback">
+                <div class="form-group">
                     <input type="text" class="form-control" placeholder="Full name" name="name" value="{{ old('name') }}"/>
+                    @if ($errors->has('name'))
+                    <span class="error-message">{{ $errors->first('name') }}</span>
+                    @endif
                 </div>
 
-                <div class="form-group has-feedback">
+                <div class="form-group">
                     <input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}"/>
+                    @if ($errors->has('email'))
+                    <span class="error-message">{{ $errors->first('email') }}</span>
+                    @endif
                 </div>
 
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" name="password"/>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="password" value="{{ old('password') }}"/>
+                    @if ($errors->has('password'))
+                    <span class="error-message">{{ $errors->first('password') }}</span>
+                    @endif
                 </div>
 
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Retype password" name="password_confirmation"/>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Retype password" name="password_confirmation" value="{{ old('password_confirmation') }}"/>
+                    @if ($errors->has('password_confirmation'))
+                    <span class="error-message">{{ $errors->first('password_confirmation') }}</span>
+                    @endif
                 </div>
 
                 <div class="row">
@@ -52,7 +53,9 @@
                 </div>
             </form>
 
-            <a href="{{ url('/auth/login') }}" class="text-center">I already have a membership</a>
+            <div class="login-link">
+                <a href="{{ url('/auth/login') }}" class="text-center">I already have a membership</a>
+            </div>
         </div><!-- /.form-box -->
     </div><!-- /.register-box -->
 
