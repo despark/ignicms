@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'projectName' => 'Despark',
     'defaultFormView' => 'admin.formElements.defaultForm',
     'paginateLimit' => 15,
     'paths' => [

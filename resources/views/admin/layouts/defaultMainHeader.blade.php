@@ -4,9 +4,9 @@
     <!-- Logo -->
     <a href="{{ url('/admin') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>D</b></span>
+        <span class="logo-mini">{{ config('admin.bootstrap.projectName')[0] }}</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Despark</b> Administration</span>
+        <span class="logo-lg">{{ config('admin.bootstrap.projectName') }} Administration</span>
     </a>
 
     <!-- Header Navbar -->
