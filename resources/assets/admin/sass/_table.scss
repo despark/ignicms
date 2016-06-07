@@ -38,8 +38,11 @@
             letter-spacing: 1px;
             line-height: 18px;
         }
-        & .actions-cell a {
-            text-transform: uppercase;
+        & .actions-cell {
+            text-align: center;
+            a {
+                text-transform: uppercase;
+            }
         }
     }
     .table-bordered {
@@ -56,7 +59,7 @@
         }
     }
     .actions-col {
-        width: 320px;
+        width: 210px;
     }
     .table-striped > tbody > tr:nth-of-type(even) {
         background-color: #f2f2f2;
@@ -65,8 +68,8 @@
         margin-top: 10px;
         .pagination {
             & > li {
-                &.previous,
-                &.next {
+                &.next,
+                &.previous {
                     & > a,
                     & > span {
                         font-size: 12px;
@@ -99,5 +102,13 @@
                 }
             }
         }
+    }
+}
+@media screen and (max-width: 767px) {
+    div.dataTables_wrapper div.dataTables_filter,
+    div.dataTables_wrapper div.dataTables_info,
+    div.dataTables_wrapper div.dataTables_length,
+    div.dataTables_wrapper div.dataTables_paginate {
+        text-align: right !important;
     }
 }
