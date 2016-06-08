@@ -1,17 +1,16 @@
-## Despark CMS
+# Despark CMS #
 
 Despark CMS is an administrative interface builder for Laravel 5.1
 
-## Installation
+## Installation ##
 
  1. Require this package in your composer.json and run `composer update`:
 
-  ```
+  ```json
   "require": {
-    "php": ">=5.5.9",
-    "laravel/framework": "5.2.*",
-    ...
-    "despark/cms": "*"
+      "php": ">=5.5.9",
+      "laravel/framework": "5.2.*",
+      "despark/cms": "*"
   },
   ```
 
@@ -35,7 +34,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
       ...
   ```
 
- 3. Run this command in the terminal (it'll set all necessary resources to use the CMS):
+ 3. Run this command in the terminal (it'll set all necessary resources to use the CMS. _To complete this step you should have **composer**, **npm** & **bower**, installed globally_):
 
     ```
         php artisan admin:install
@@ -43,7 +42,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
 
  4. All done! Now go to the `<your_site_url>/admin` and use default credentials `admin@despark.com` / `Despark1234`
 
-## Additional commands
+## Additional commands ##
 
 - Use the command `php artisan admin:resource` to create all necessary files for manipulating resources. You should specify the resource name.
 
@@ -56,6 +55,6 @@ Despark CMS is an administrative interface builder for Laravel 5.1
 
 - You can run `php artisan admin:prod` on your production server, after deploy. It will install all dependencies according to your composer.lock file, run new migrations and optimize the autoload.
 
-## Copyright and License
+## Copyright and License ##
 
 Despark CMS was written by Despark for the Laravel framework and is released under the MIT License. See the LICENSE file for details.
