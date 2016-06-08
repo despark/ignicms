@@ -55,6 +55,8 @@ class AdminInstallCommand extends Command
             '--provider' => 'Despark\Providers\AdminServiceProvider',
         ]);
 
+        exec('composer dumpautoload');
+
         // Run the Migrations
         $this->call('migrate');
 
@@ -64,7 +66,7 @@ class AdminInstallCommand extends Command
         ]);
 
         $this->info('npm install..');
-        exec('npm install --silent');
+        exec('npm install');
         $this->info('bower install..');
         exec('bower install');
         $this->info('gulp dev..');
