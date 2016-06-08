@@ -1,11 +1,11 @@
 {
-    "name": "laravel-project-starter",
+    "name": "DesparkCMS",
     "version": "0.0.1",
+    "description": "Despark CMS",
     "homepage": "https://github.com/despark/laravel-project-starter",
     "authors": [
         "Alexander Stoimenov <astoimenov@despark.com>"
     ],
-    "description": "Frontend Project Starter",
     "license": "MIT",
     "ignore": [
         "**/.*",
