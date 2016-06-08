@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Requests;
+namespace Despark\Cms\Http\Requests;
 
-use Despark\Admin\Traits\AdminValidateTrait;
+use Despark\Cms\Admin\Traits\AdminValidateTrait;
 
 /**
  * Class ProjectRequest.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Http\Requests;
+namespace Despark\Cms\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

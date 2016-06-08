@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Console\Commands;
+namespace Despark\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -52,7 +52,7 @@ class AdminInstallCommand extends Command
         // Publish the packages.
         $this->call('vendor:publish', [
             '--force' => true,
-            '--provider' => 'Despark\Providers\AdminServiceProvider',
+            '--provider' => 'Despark\Cms\Providers\AdminServiceProvider',
         ]);
 
         exec('composer dumpautoload');

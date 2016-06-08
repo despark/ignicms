@@ -18,7 +18,7 @@ return [
     | the role if it is in a different namespace.
     |
     */
-    'role' => 'Despark\Models\Role',
+    'role' => 'Despark\Cms\Models\Role',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     | Update the permission if it is in a different namespace.
     |
     */
-    'permission' => 'Despark\Models\Permission',
+    'permission' => 'Despark\Cms\Models\Permission',
 
     /*
     |--------------------------------------------------------------------------

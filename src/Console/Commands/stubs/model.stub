@@ -2,7 +2,7 @@
 
 namespace :app_namespaceModels\Admin;
 
-use Despark\Models\AdminModel;
+use Despark\Cms\Models\AdminModel;
 :traits_include
 
 class :model_name extends AdminModel

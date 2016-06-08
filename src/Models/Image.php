@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Models;
+namespace Despark\Cms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

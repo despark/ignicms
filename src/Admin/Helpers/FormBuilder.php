@@ -1,5 +1,5 @@
 <?php
-namespace Despark\Admin\Helpers;
+namespace Despark\Cms\Admin\Helpers;
 
 
 /**

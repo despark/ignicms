@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Requests;
+namespace Despark\Cms\Http\Requests;
 
-use Despark\Models\Role;
+use Despark\Cms\Models\Role;
 
 class RoleRequest extends AdminFormRequest
 {

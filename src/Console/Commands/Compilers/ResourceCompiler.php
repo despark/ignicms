@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Console\Commands\Compilers;
+namespace Despark\Cms\Console\Commands\Compilers;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
@@ -54,7 +54,7 @@ class ResourceCompiler
     public function render_model($template)
     {
         if ($this->options['image_uploads']) {
-            $this->modelReplacements[':traits_include'] = 'use Despark\Admin\Traits\UploadableTrait;';
+            $this->modelReplacements[':traits_include'] = 'use Despark\Cms\Admin\Traits\UploadableTrait;';
             $this->modelReplacements[':traits_use'] = 'use UploadableTrait;';
         }
 

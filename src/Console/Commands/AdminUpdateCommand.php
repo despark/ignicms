@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Console\Commands;
+namespace Despark\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
 

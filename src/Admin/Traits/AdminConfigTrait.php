@@ -1,10 +1,10 @@
 <?php
 
-namespace Despark\Admin\Traits;
+namespace Despark\Cms\Admin\Traits;
 
-use Despark\Models\Entry;
+use Despark\Cms\Models\Entry;
 use Illuminate\Support\Facades\Input;
-use Despark\Admin\Helpers\FormBuilder;
+use Despark\Cms\Admin\Helpers\FormBuilder;
 
 /**
  * Class AdminConfigTrait.

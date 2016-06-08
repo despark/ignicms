@@ -33,7 +33,7 @@
             "src/helpers.php"
         ],
         "psr-4": {
-            "Despark\\": "src/"
+            "Despark\\Cms\\": "src/"
         }
     },
     "autoload-dev": {

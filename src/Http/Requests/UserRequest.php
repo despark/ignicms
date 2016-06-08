@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Requests;
+namespace Despark\Cms\Http\Requests;
 
-use Despark\Models\User;
+use Despark\Cms\Models\User;
 
 class UserRequest extends AdminFormRequest
 {

@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(Despark\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(Despark\Cms\Models\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,

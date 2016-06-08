@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Admin\Traits;
+namespace Despark\Cms\Admin\Traits;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Input;

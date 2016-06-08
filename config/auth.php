@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => Despark\Models\User::class,
+    'model' => Despark\Cms\Models\User::class,
 
     /*
     |--------------------------------------------------------------------------

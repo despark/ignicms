@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Http\Controllers;
+namespace Despark\Cms\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

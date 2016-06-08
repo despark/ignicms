@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Http;
+namespace Despark\Cms\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -13,11 +13,11 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \Despark\Http\Middleware\EncryptCookies::class,
+        \Despark\Cms\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Despark\Http\Middleware\VerifyCsrfToken::class,
+        \Despark\Cms\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
@@ -26,8 +26,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \Despark\Http\Middleware\Authenticate::class,
+        'auth' => \Despark\Cms\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \Despark\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest' => \Despark\Cms\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Despark\Models;
+namespace Despark\Cms\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Despark\Admin\Traits\AdminConfigTrait;
+use Despark\Cms\Admin\Traits\AdminConfigTrait;
 
 abstract class AdminModel extends Model
 {

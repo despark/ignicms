@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Admin\Traits;
+namespace Despark\Cms\Admin\Traits;
 
 trait AdminValidateTrait
 {

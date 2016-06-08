@@ -1,10 +1,10 @@
 <?php
 
-namespace Despark\Http\Controllers\Auth;
+namespace Despark\Cms\Http\Controllers\Auth;
 
-use Despark\Models\User;
+use Despark\Cms\Models\User;
 use Validator;
-use Despark\Http\Controllers\Controller;
+use Despark\Cms\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 

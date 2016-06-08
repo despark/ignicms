@@ -1,9 +1,9 @@
 <?php
 
-namespace Despark\Http\Requests\Admin;
+namespace Despark\Cms\Http\Requests\Admin;
 
-use Despark\Http\Requests\AdminFormRequest;
-use Despark\Models\Admin\SeoPage;
+use Despark\Cms\Http\Requests\AdminFormRequest;
+use Despark\Cms\Models\Admin\SeoPage;
 
 class SeoPagesRequest extends AdminFormRequest
 {

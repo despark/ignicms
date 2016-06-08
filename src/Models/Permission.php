@@ -1,9 +1,9 @@
 <?php
 
-namespace Despark\Models;
+namespace Despark\Cms\Models;
 
 use Zizaco\Entrust\EntrustPermission;
-use Despark\Admin\Traits\AdminConfigTrait;
+use Despark\Cms\Admin\Traits\AdminConfigTrait;
 
 /**
  * Class Permission.
@@ -24,15 +24,15 @@ class Permission extends EntrustPermission
     ];
 
     protected $rules = [
-        'name'         => 'required|unique:roles,name|regex:/^\w+$/',
+        'name' => 'required|unique:roles,name|regex:/^\w+$/',
         'display_name' => 'required',
-        'description'  => 'required',
+        'description' => 'required',
     ];
 
     protected $rulesUpdate = [
-        'name'         => 'required|regex:/^\w+$/',
+        'name' => 'required|regex:/^\w+$/',
         'display_name' => 'required',
-        'description'  => 'required',
+        'description' => 'required',
     ];
 
     /**
@@ -66,16 +66,16 @@ class Permission extends EntrustPermission
     public function adminSetFormFields()
     {
         $this->adminFormFields = [
-            'name'          => [
-                'type'  => 'text',
+            'name' => [
+                'type' => 'text',
                 'label' => 'Name',
             ],
-            'display_name'  => [
-                'type'  => 'text',
+            'display_name' => [
+                'type' => 'text',
                 'label' => 'Display name',
             ],
-            'description'   => [
-                'type'  => 'textarea',
+            'description' => [
+                'type' => 'textarea',
                 'label' => 'Description',
             ],
         ];

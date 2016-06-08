@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Controllers\Auth;
+namespace Despark\Cms\Http\Controllers\Auth;
 
-use Despark\Http\Controllers\Controller;
+use Despark\Cms\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class PasswordController extends Controller
@@ -22,8 +22,6 @@ class PasswordController extends Controller
 
     /**
      * Create a new password controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {

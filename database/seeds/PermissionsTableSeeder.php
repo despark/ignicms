@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Despark\Models\Permission;
+use Despark\Cms\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {

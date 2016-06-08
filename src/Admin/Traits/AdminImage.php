@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Admin\Traits;
+namespace Despark\Cms\Admin\Traits;
 
 use File;
 use Intervention\Image\Facades\Image;
@@ -33,7 +33,7 @@ trait AdminImage
 
     public function images()
     {
-        return $this->morphMany('Despark\Models\Image', 'imageable');
+        return $this->morphMany('Despark\Cms\Models\Image', 'imageable');
     }
 
     public function addImages($options)

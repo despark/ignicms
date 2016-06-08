@@ -1,10 +1,10 @@
 <?php
 
-namespace Despark\Http\Controllers\Admin;
+namespace Despark\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Models\Permission;
-use Despark\Http\Requests\PermissionRequest;
+use Despark\Cms\Models\Permission;
+use Despark\Cms\Http\Requests\PermissionRequest;
 
 class PermissionsController extends AdminController
 {

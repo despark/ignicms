@@ -2,7 +2,7 @@
 
 namespace :app_namespaceHttp\Requests\Admin;
 
-use Despark\Http\Requests\AdminFormRequest;
+use Despark\Cms\Http\Requests\AdminFormRequest;
 use :app_namespaceModels\Admin\:model_name;
 
 class :request_name extends AdminFormRequest

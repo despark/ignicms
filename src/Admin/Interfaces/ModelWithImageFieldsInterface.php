@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Admin\Interfaces;
+namespace Despark\Cms\Admin\Interfaces;
 
 interface ModelWithImageFieldsInterface
 {

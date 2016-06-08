@@ -1,9 +1,9 @@
 <?php
 
-namespace Despark\Models;
+namespace Despark\Cms\Models;
 
 use Zizaco\Entrust\EntrustRole;
-use Despark\Admin\Traits\AdminConfigTrait;
+use Despark\Cms\Admin\Traits\AdminConfigTrait;
 
 /**
  * Class Role.
@@ -27,17 +27,17 @@ class Role extends EntrustRole
      * @var array
      */
     protected $rules = [
-        'name'         => 'required|unique:roles,name|regex:/^\w+$/',
+        'name' => 'required|unique:roles,name|regex:/^\w+$/',
         'display_name' => 'required',
-        'description'  => 'required',
-        'permissions'  => 'required',
+        'description' => 'required',
+        'permissions' => 'required',
     ];
 
     protected $rulesUpdate = [
-        'name'         => 'required|regex:/^\w+$/',
+        'name' => 'required|regex:/^\w+$/',
         'display_name' => 'required',
-        'description'  => 'required',
-        'permissions'  => 'required',
+        'description' => 'required',
+        'permissions' => 'required',
     ];
 
     /**
@@ -71,26 +71,26 @@ class Role extends EntrustRole
     public function adminSetFormFields()
     {
         $this->adminFormFields = [
-            'name'          => [
-                'type'  => 'text',
+            'name' => [
+                'type' => 'text',
                 'label' => 'Name',
             ],
-            'display_name'  => [
-                'type'  => 'text',
+            'display_name' => [
+                'type' => 'text',
                 'label' => 'Display name',
             ],
-            'description'   => [
-                'type'  => 'textarea',
+            'description' => [
+                'type' => 'textarea',
                 'label' => 'Description',
             ],
             'permissions[]' => [
-                'type'              => 'manytomanySelect',
-                'label'             => 'Permissions',
-                'relationMethod'    => 'perms',
-                'select_options'    => Permission::all()->lists('display_name', 'id'),
+                'type' => 'manytomanySelect',
+                'label' => 'Permissions',
+                'relationMethod' => 'perms',
+                'select_options' => Permission::all()->lists('display_name', 'id'),
                 'relationTextField' => 'display_name',
-                'validateName'      => 'permissions',
-                'selectedKey'      =>  'id',
+                'validateName' => 'permissions',
+                'selectedKey' => 'id',
             ],
         ];
 

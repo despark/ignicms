@@ -1,10 +1,10 @@
 <?php
 
-namespace Despark\Http\Controllers\Admin;
+namespace Despark\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Models\Admin\SeoPage;
-use Despark\Http\Requests\Admin\SeoPagesRequest;
+use Despark\Cms\Models\Admin\SeoPage;
+use Despark\Cms\Http\Requests\Admin\SeoPagesRequest;
 
 class SeoPagesController extends AdminController
 {

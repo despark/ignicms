@@ -1,11 +1,6 @@
 <?php
 
-namespace Despark\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-use Despark\Http\Requests;
-use Despark\Http\Controllers\Controller;
+namespace Despark\Cms\Http\Controllers;
 
 class HomeController extends Controller
 {

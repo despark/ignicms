@@ -1,9 +1,9 @@
 <?php
 
-namespace Despark\Console\Commands;
+namespace Despark\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
-use Despark\Console\Commands\Compilers\ResourceCompiler;
+use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
 use Symfony\Component\Console\Input\InputArgument;
 use File;
 

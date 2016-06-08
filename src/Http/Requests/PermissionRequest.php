@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Requests;
+namespace Despark\Cms\Http\Requests;
 
-use Despark\Models\Permission;
+use Despark\Cms\Models\Permission;
 
 class PermissionRequest extends AdminFormRequest
 {

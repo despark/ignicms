@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Http\Controllers\Admin;
+namespace Despark\Cms\Http\Controllers\Admin;
 
-use Despark\Http\Controllers\Controller;
+use Despark\Cms\Http\Controllers\Controller;
 use Input;
 use View;
 use Illuminate\Support\Str;

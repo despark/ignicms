@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Despark\Models\Role;
+use Despark\Cms\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {

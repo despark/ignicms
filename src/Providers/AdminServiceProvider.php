@@ -1,12 +1,12 @@
 <?php
 
-namespace Despark\Providers;
+namespace Despark\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use File;
-use Despark\Admin\Admin;
+use Despark\Cms\Admin\Admin;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -16,10 +16,10 @@ class AdminServiceProvider extends ServiceProvider
      * @var array
      */
     protected $commands = [
-        'Despark\Console\Commands\AdminInstallCommand',
-        'Despark\Console\Commands\AdminUpdateCommand',
-        'Despark\Console\Commands\AdminUpdateProdCommand',
-        'Despark\Console\Commands\AdminResourceCommand',
+        'Despark\Cms\Console\Commands\AdminInstallCommand',
+        'Despark\Cms\Console\Commands\AdminUpdateCommand',
+        'Despark\Cms\Console\Commands\AdminUpdateProdCommand',
+        'Despark\Cms\Console\Commands\AdminResourceCommand',
     ];
 
     /**
@@ -28,7 +28,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot(Router $router)
     {
         // Routes
-        $router->group(['namespace' => 'Despark\Http\Controllers'], function ($router) {
+        $router->group(['namespace' => 'Despark\Cms\Http\Controllers'], function ($router) {
             require __DIR__.'/../Http/routes.php';
         });
 

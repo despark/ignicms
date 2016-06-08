@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Models;
+namespace Despark\Cms\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Conner\Tagging\Taggable;
-use Despark\Admin\Traits\AdminImage;
+use Despark\Cms\Admin\Traits\AdminImage;
 
 class User extends AdminModel implements
     AuthenticatableContract,
