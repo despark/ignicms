@@ -1,27 +1,61 @@
-## Laravel PHP Framework
+## Despark CMS
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Despark CMS is an administrative interface builder for Laravel 5.1
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+## Installation
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+ 1. Require this package in your composer.json and run `composer update`:
 
-## Official Documentation
+  ```
+  "require": {
+    "php": ">=5.5.9",
+    "laravel/framework": "5.2.*",
+    ...
+    "despark/cms": "*"
+  },
+  ```
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+  Or `composer require despark/cms`
 
-## Contributing
+ 2. After composer update, insert service provider `Despark\Providers\AdminServiceProvider::class,`
+ before `Application Service Providers...` to the `config/app.php`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+  **Example**
+  ```php
+      ...
+      /*
+       * Despark CMS Service Provider
+       */
+        Despark\Providers\AdminServiceProvider::class,
 
-## Security Vulnerabilities
+      /*
+       * Application Service Providers...
+       */
+      App\Providers\AppServiceProvider::class,
+      ...
+  ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+ 3. Run this command in the terminal (it'll set all necessary resources to use the CMS):
 
-### License
+    ```
+        php artisan admin:install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+ 4. All done! Now go to the `<your_site_url>/admin` and use default credentials `admin@despark.com` / `Despark1234`
+
+## Additional commands
+
+- Use the command `php artisan admin:resource` to create all necessary files for manipulating resources. You should specify the resource name.
+
+    **Example**
+    ```
+        php artisan admin:resource "Blog post"
+    ```
+
+- The command `php artisan admin:update` will update composer dependencies, it'll clear the autoload and it'll run any new migrations.
+
+- You can run `php artisan admin:prod` on your production server, after deploy. It will install all dependencies according to your composer.lock file, run new migrations and optimize the autoload.
+
+## Copyright and License
+
+Despark CMS was written by Despark for the Laravel framework and is released under the MIT License. See the LICENSE file for details.
