@@ -66,28 +66,46 @@ class AdminInstallCommand extends Command
         ]);
 
         $this->info('npm install..');
-        exec('npm install --silent');
-        $this->progressBar(9);
-
-        $this->info('bower install..');
-        exec('bower install');
-        $this->progressBar(3);
-
-        $this->info('gulp dev..');
-        exec('gulp dev');
-        $this->progressBar(1);
-    }
-
-    private function progressBar($time)
-    {
         $this->output->progressStart(10);
 
+        exec('npm install --silent');
+
         for ($i = 0; $i < 10; ++$i) {
-            sleep($time);
+            sleep(9);
 
             $this->output->progressAdvance();
         }
 
         $this->output->progressFinish();
+
+        $this->info('bower install..');
+        $this->output->progressStart(10);
+
+        exec('bower install');
+
+        for ($i = 0; $i < 10; ++$i) {
+            sleep(3);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+
+        $this->info('gulp dev..');
+        $this->output->progressStart(10);
+
+        exec('gulp dev');
+
+        for ($i = 0; $i < 10; ++$i) {
+            sleep(1);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
+    }
+
+    private function progressBar($time)
+    {
     }
 }
