@@ -55,10 +55,10 @@ class AdminInstallCommand extends Command
             '--provider' => 'Despark\Cms\Providers\AdminServiceProvider',
         ]);
 
-        exec('composer dumpautoload');
-
         // Run the Migrations
         $this->call('migrate');
+
+        exec('composer dumpautoload');
 
         // Seed the tables with dummy data
         $this->call('db:seed', [
@@ -66,10 +66,28 @@ class AdminInstallCommand extends Command
         ]);
 
         $this->info('npm install..');
-        exec('npm install');
+        exec('npm install --silent');
+        $this->progressBar(9);
+
         $this->info('bower install..');
         exec('bower install');
+        $this->progressBar(3);
+
         $this->info('gulp dev..');
         exec('gulp dev');
+        $this->progressBar(1);
+    }
+
+    private function progressBar($time)
+    {
+        $this->output->progressStart(10);
+
+        for ($i = 0; $i < 10; ++$i) {
+            sleep($time);
+
+            $this->output->progressAdvance();
+        }
+
+        $this->output->progressFinish();
     }
 }
