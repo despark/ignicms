@@ -65,47 +65,24 @@ class AdminInstallCommand extends Command
             '--class' => 'DesparkDatabaseSeeder',
         ]);
 
-        $this->info('npm install..');
-        $this->output->progressStart(10);
+        $feCommands = [
+            'npm install --silent',
+            'bower install',
+            'gulp dev',
+        ];
 
-        exec('npm install --silent');
+        $this->info('Install front-end (npm and bower) dependencies and runing gulp.');
+        $bar = $this->output->createProgressBar(count($feCommands));
+        $bar->start();
 
-        for ($i = 0; $i < 10; ++$i) {
-            sleep(9);
+        foreach ($feCommands as $command) {
+            exec($command);
 
-            $this->output->progressAdvance();
+            $bar->advance();
         }
 
-        $this->output->progressFinish();
-
-        $this->info('bower install..');
-        $this->output->progressStart(10);
-
-        exec('bower install');
-
-        for ($i = 0; $i < 10; ++$i) {
-            sleep(3);
-
-            $this->output->progressAdvance();
-        }
-
-        $this->output->progressFinish();
-
-        $this->info('gulp dev..');
-        $this->output->progressStart(10);
-
-        exec('gulp dev');
-
-        for ($i = 0; $i < 10; ++$i) {
-            sleep(1);
-
-            $this->output->progressAdvance();
-        }
-
-        $this->output->progressFinish();
-    }
-
-    private function progressBar($time)
-    {
+        $bar->finish();
+        $this->info('');
+        $this->info('Everything has been set up! Now you can start developing.');
     }
 }
