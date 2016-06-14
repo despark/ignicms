@@ -49,7 +49,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
   **Example**
 
   ```
-    php artisan admin:resource "Blog post"
+    php artisan admin:resource "Blog Post"
   ```
 
 - The command `php artisan admin:update` will update composer dependencies, it'll clear the autoload and it'll run any new migrations.

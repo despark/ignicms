@@ -59,6 +59,8 @@ class AdminInstallCommand extends Command
         $this->call('migrate');
 
         exec('composer dumpautoload');
+        $this->call('clear-compiled');
+        $this->call('optimize');
 
         // Seed the tables with dummy data
         $this->call('db:seed', [
