@@ -44,7 +44,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
 
 ## Additional commands
 
-- Use the command `php artisan admin:resource` to create all necessary files for manipulating resources. You should specify the resource name.
+- Use the command `php artisan admin:resource` to create all necessary files for manipulating resources. You should specify the resource name (in title case).
 
   **Example**
 
