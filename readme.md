@@ -2,6 +2,13 @@
 
 Despark CMS is an administrative interface builder for Laravel 5.1
 
+## Prerequisites
+
+ - nodejs >= 4.0
+ - npm
+ - bower
+ - composer
+
 ## Installation
 
 1. Require this package in your composer.json and run `composer update`:
@@ -40,7 +47,13 @@ Despark CMS is an administrative interface builder for Laravel 5.1
     php artisan admin:install
   ```
 
-4. All done! Now go to the `<your_site_url>/admin` and use default credentials `admin@despark.com` / `Despark1234`
+4. Run the database seeder to populate the database with default user, permissions and roles:
+
+  ```
+    php artisan db:seed --class=DesparkDatabaseSeeder
+  ```
+
+5. All done! Now go to the `<your_site_url>/admin` and use default credentials `admin@despark.com` / `Despark1234`
 
 ## Additional commands
 
