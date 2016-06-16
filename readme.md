@@ -7,6 +7,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
  - nodejs >= 4.0
  - npm
  - bower
+ - gulp
  - composer
 
 ## Installation
