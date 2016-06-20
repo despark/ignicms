@@ -1,8 +1,7 @@
 {
     "name": "depsarkcms",
-    "version": "0.0.1",
-    "description": "Despark CMS",
-    "homepage": "https://github.com/despark/laravel-project-starter",
+    "version": "1.0.0",
+    "description": "Administrative interface builder for Laravel 5.1",
     "authors": [
         "Alexander Stoimenov <astoimenov@despark.com>"
     ],

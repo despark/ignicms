@@ -1,7 +1,7 @@
 {
-    "name": "desparkcms",
-    "version": "0.0.1",
-    "description": "Despark CMS",
+    "name": "ignicms",
+    "version": "1.0.0",
+    "description": "Administrative interface builder for Laravel 5.1",
     "repository": {
         "type": "git",
         "url": "git@github.com:despark/cms.git"

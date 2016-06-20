@@ -1,6 +1,6 @@
 {
-    "name": "despark/cms",
-    "description": "Despark's Laravel 5.1 project starter.",
+    "name": "despark/ignicms",
+    "description": "Administrative interface builder for Laravel 5.1",
     "keywords": [
         "framework",
         "laravel",
@@ -67,5 +67,5 @@
         "preferred-install": "dist"
     },
     "minimum-stability": "stable",
-    "version": "0.0.1"
+    "version": "1.0.0"
 }
