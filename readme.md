@@ -18,7 +18,7 @@ Despark CMS is an administrative interface builder for Laravel 5.1
   "require": {
      "php": ">=5.5.9",
      "laravel/framework": "5.1.*",
-     "despark/cms": "*"
+     "despark/cms": "^1.0.0"
   },
   ```
 
