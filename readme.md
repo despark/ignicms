@@ -22,7 +22,7 @@
   },
   ```
 
-  Or `composer require despark/cms`
+  Or `composer require despark/ignicms`
 
 2. After composer update, insert service provider `Despark\Providers\AdminServiceProvider::class,` before the _application service providers_ to the `config/app.php`
 
