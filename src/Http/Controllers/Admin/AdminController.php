@@ -24,7 +24,7 @@ class AdminController extends Controller
      *
      * @array
      */
-    public $sidebarItems = array();
+    public $sidebarItems = [];
 
     /**
      * @var int

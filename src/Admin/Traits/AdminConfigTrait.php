@@ -2,7 +2,6 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Despark\Cms\Models\Entry;
 use Illuminate\Support\Facades\Input;
 use Despark\Cms\Admin\Helpers\FormBuilder;
 
@@ -70,26 +69,6 @@ trait AdminConfigTrait
     }
 
     /**
-     * @param $data
-     *
-     * @return string
-     */
-    public function entityType($data)
-    {
-        switch ($data) {
-            case Entry::ESTIMATE :
-                return 'Project Estimate';
-                break;
-            case Entry::JOB_OFFER :
-                return 'Job Offer';
-                break;
-            case Entry::SAY_HI :
-                return 'Say "Hi"';
-                break;
-        }
-    }
-
-    /**
      * return model fields in proper way.
      *
      * @param $record
@@ -105,9 +84,6 @@ trait AdminConfigTrait
                 break;
             case 'format_default_date':
                 return $record->formatDefaultData($record->{$col['db_field']});
-                break;
-            case 'entityType':
-                return $record->entityType($record->{$col['db_field']});
                 break;
             case 'relation':
                 return $record->yes_no($record->{$col['db_field']});

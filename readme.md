@@ -1,6 +1,6 @@
-# Despark CMS
+# Despark's igniCMS
 
-Despark CMS is an administrative interface builder for Laravel 5.1
+**igniCMS** is an administrative interface builder for Laravel 5.1
 
 ## Prerequisites
 
