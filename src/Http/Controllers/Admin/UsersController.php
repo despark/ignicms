@@ -86,13 +86,7 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
-            $record->roles()->sync([]);
-            $record->attachRoles($request->get('roles'));
-        } else {
-            $editorRoleId = \DB::table('roles')
-                ->where('name', 'editor')
-                ->value('id');
-            $record->attachRole($editorRoleId);
+            $record->assignRole($request->get('roles'));
         }
 
         $record->addImages($input);
@@ -150,13 +144,7 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
-            $record->roles()->sync([]);
-            $record->attachRoles($request->get('roles'));
-        } else {
-            $editorRoleId = \DB::table('roles')
-                ->where('name', 'editor')
-                ->value('id');
-            $record->attachRole($editorRoleId);
+            $record->assignRole($request->get('roles'));
         }
 
         $record->update($input);
