@@ -87,7 +87,7 @@ class Role extends EntrustRole
                 'type' => 'manytomanySelect',
                 'label' => 'Permissions',
                 'relationMethod' => 'perms',
-                'select_options' => Permission::all()->lists('display_name', 'id'),
+                'select_options' => Permission::all()->pluck('display_name', 'id'),
                 'relationTextField' => 'display_name',
                 'validateName' => 'permissions',
                 'selectedKey' => 'id',

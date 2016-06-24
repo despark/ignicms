@@ -10,8 +10,6 @@ class DesparkDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Model::unguard();
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         DB::table('permission_role')->truncate();
@@ -26,6 +24,5 @@ class DesparkDatabaseSeeder extends Seeder
         $this->call(RoleUserTableSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Model::reguard();
     }
 }

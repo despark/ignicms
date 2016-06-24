@@ -19,7 +19,7 @@ class CreateSeoPagesTable extends Migration
             $table->string('meta_description', 200);
             $table->string('meta_image');
 
-            $table->timestamps();
+            $table->timestamps()->useCurrent();
         });
     }
 
