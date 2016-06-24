@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Despark\Cms\Models\Role;
+use Spatie\Permission\Models\Role;
 
 class RolesTableSeeder extends Seeder
 {
@@ -14,13 +14,9 @@ class RolesTableSeeder extends Seeder
         $roles = [
             [
                 'name' => 'admin',
-                'display_name' => 'Admin',
-                'description' => 'Administrator of the website. Can modify all content.',
             ],
             [
                 'name' => 'editor',
-                'display_name' => 'Editor',
-                'description' => 'Administrator of the website. Can modify all content.',
             ],
         ];
 

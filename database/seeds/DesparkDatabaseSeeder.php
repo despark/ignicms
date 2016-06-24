@@ -12,8 +12,9 @@ class DesparkDatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('permission_role')->truncate();
-        DB::table('role_user')->truncate();
+        DB::table('role_has_permissions')->truncate();
+        DB::table('user_has_roles')->truncate();
+        DB::table('user_has_permissions')->truncate();
         DB::table('roles')->truncate();
         DB::table('permissions')->truncate();
         DB::table('users')->truncate();

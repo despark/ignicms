@@ -102,7 +102,6 @@ class AdminServiceProvider extends ServiceProvider
         /*
          * Register the service provider for the dependency.
          */
-        $this->app->register('Zizaco\Entrust\EntrustServiceProvider');
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
@@ -111,12 +110,12 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register('Roumen\Sitemap\SitemapServiceProvider');
         $this->app->register('Rutorika\Sortable\SortableServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
+        $this->app->register('Spatie\Permission\PermissionServiceProvider');
 
         /*
          * Create aliases for the dependency.
          */
         $loader = AliasLoader::getInstance();
-        $loader->alias('Entrust', 'Zizaco\Entrust\EntrustFacade');
         $loader->alias('Form', 'Collective\Html\FormFacade');
         $loader->alias('Html', 'Collective\Html\HtmlFacade');
         $loader->alias('Image', 'Intervention\Image\Facades\Image');

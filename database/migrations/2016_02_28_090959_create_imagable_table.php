@@ -18,7 +18,7 @@ class CreateImagableTable extends Migration
             $table->string('imageable_type', 45);
             $table->string('file', 100);
             $table->integer('orientation');
-            $table->timestamps()->useCurrent();
+            $table->timestamps();
         });
     }
 

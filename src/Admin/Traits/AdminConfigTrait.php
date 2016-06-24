@@ -4,6 +4,7 @@ namespace Despark\Cms\Admin\Traits;
 
 use Illuminate\Support\Facades\Input;
 use Despark\Cms\Admin\Helpers\FormBuilder;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class AdminConfigTrait.
@@ -85,9 +86,6 @@ trait AdminConfigTrait
             case 'format_default_date':
                 return $record->formatDefaultData($record->{$col['db_field']});
                 break;
-            case 'relation':
-                return $record->yes_no($record->{$col['db_field']});
-                break;
             case 'sort':
                 return '<div class="fa fa-sort sortable-handle"></div>';
                 break;
@@ -113,9 +111,9 @@ trait AdminConfigTrait
     public function searchText()
     {
         $query = $this->newQuery();
-        if (Input::get('admin_text_search')) {
+        if (Request::get('admin_text_search')) {
             foreach ($this->adminFilters['text_search']['db_fields'] as $field) {
-                $query->orWhere($field, 'LIKE', '%'.Input::get('admin_text_search').'%');
+                $query->orWhere($field, 'LIKE', '%'.Request::get('admin_text_search').'%');
             }
         }
 

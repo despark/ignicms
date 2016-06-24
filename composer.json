@@ -14,7 +14,6 @@
         "laravel/framework": "5.2.*",
         "rtconner/laravel-tagging": "~2.0",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "zizaco/entrust": "^1.4",
         "laravelcollective/html": "~5.0",
         "intervention/image": "^2.3",
         "cviebrock/eloquent-sluggable": "^3.0",
@@ -22,7 +21,8 @@
         "skovmand/mailchimp-laravel": "1.*",
         "roumen/sitemap": "^2.5",
         "rutorika/sortable": "^2.3",
-        "jenssegers/agent": "^2.3"
+        "jenssegers/agent": "^2.3",
+        "spatie/laravel-permission": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

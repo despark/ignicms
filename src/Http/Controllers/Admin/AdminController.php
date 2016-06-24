@@ -6,6 +6,7 @@ use Despark\Cms\Http\Controllers\Controller;
 use Input;
 use View;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Request;
 
 /**
  * Class AdminController.
@@ -46,7 +47,7 @@ class AdminController extends Controller
         $this->defaultFormView = config('admin.bootstrap.defaultFormView');
 
         $this->viewData['pageTitle'] = 'Admin';
-        $this->viewData['inputs'] = Input::all();
+        $this->viewData['inputs'] = Request::all();
 
         $this->viewData['pageTitle'] = Str::studly($this->identifier);
 
