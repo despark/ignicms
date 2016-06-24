@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Despark\Cms\Models\User;
 use Despark\Cms\Http\Requests\UserRequest;
 use Despark\Cms\Http\Requests\UserUpdateRequest;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends AdminController
 {
@@ -86,6 +87,11 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
+            $roles = Role::all();
+            foreach ($roles as $role) {
+                $record->removeRole($role->name);
+            }
+
             $record->assignRole($request->get('roles'));
         }
 
@@ -144,6 +150,11 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
+            $roles = Role::all();
+            foreach ($roles as $role) {
+                $record->removeRole($role->name);
+            }
+
             $record->assignRole($request->get('roles'));
         }
 
