@@ -111,6 +111,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register('Rutorika\Sortable\SortableServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Spatie\Permission\PermissionServiceProvider');
+        $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
 
         /*
          * Create aliases for the dependency.
