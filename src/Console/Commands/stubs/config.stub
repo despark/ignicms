@@ -5,4 +5,5 @@ return [
     'adminColumns' => [],
     'adminFormFields' => [],
     :image_fields
+    :file_fields
 ];

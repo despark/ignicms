@@ -3,11 +3,13 @@
 namespace :app_namespaceModels\Admin;
 
 use Despark\Cms\Models\AdminModel;
-:traits_include
+:image_traits_include
+:file_traits_include
 
 class :model_name extends AdminModel
 {
-    :traits_use
+    :image_traits_use
+    :file_traits_use
 
     protected $table = ':table_name';
 
