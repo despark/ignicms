@@ -4,8 +4,8 @@
 
     @if($record->{$fieldName})
         <div class="form-group">
-            <a href="{{ asset($record->{$fieldName}) }}">Download/View file</a> 
-            <a href="#" style="color: crimson;">Delete file</a>
+            <a href="{{ asset($record->{$fieldName}) }}">Download/View file</a>
+            <a href="{{ url('admin/'.str_plural($record->identifier).'/'.$record->id.'/delete/'.$fieldName) }}" style="color: crimson;">Delete file</a>
         </div>
     @endif
 
