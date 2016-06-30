@@ -7,7 +7,7 @@ use Intervention\Image\Facades\Image;
 use File;
 use Illuminate\Support\Facades\Request;
 
-trait UploadableTrait
+trait UploadImagesTrait
 {
     public $uploadDir = 'uploads';
 
