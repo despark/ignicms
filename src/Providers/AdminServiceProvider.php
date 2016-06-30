@@ -43,8 +43,8 @@ class AdminServiceProvider extends ServiceProvider
         });
 
         // Register Assets
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'despark');
-        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'despark');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'views');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'lang');
 
         // Register the application commands
         $this->commands($this->commands);
@@ -66,13 +66,13 @@ class AdminServiceProvider extends ServiceProvider
         ], 'config');
         $this->publishes([
             __DIR__.'/../../resources/' => base_path('/resources'),
-        ]);
+        ], 'resources');
         $this->publishes([
             __DIR__.'/../../gulp/' => base_path('/gulp'),
-        ]);
+        ], 'gulp');
         $this->publishes([
             __DIR__.'/../../public/' => public_path(),
-        ]);
+        ], 'public');
 
         $this->publishes([
             __DIR__.'/../../.env.example' => base_path('.env.example'),
