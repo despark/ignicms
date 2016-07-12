@@ -14,7 +14,7 @@
         "gulp-concat": "^2.6.0",
         "gulp-env": "^0.2.0",
         "gulp-filesize": "0.0.6",
-        "gulp-imagemin": "~3.0.1",
+        "gulp-imagemin": "^2.0",
         "gulp-jshint": "^2.0.1",
         "gulp-notify": "^2.2.0",
         "gulp-rimraf": "^0.2.0",
