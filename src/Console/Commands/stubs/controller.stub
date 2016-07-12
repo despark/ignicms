@@ -69,6 +69,7 @@ class :controller_name extends AdminController
         $model = new :model_name();
 
         $record = $model->create($input);
+        :save_file
 
         $this->notify([
             'type' => 'success',
@@ -113,6 +114,7 @@ class :controller_name extends AdminController
         $record = :model_name::findOrFail($id);
 
         $record->update($input);
+        :save_file
 
         $this->notify([
             'type' => 'success',

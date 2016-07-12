@@ -8,29 +8,29 @@ use Illuminate\Support\Facades\Request;
 
 trait UploadFilesTrait
 {
-    public $uploadDir = 'uploads';
+    public $uploadFileDir = 'uploads';
 
-    public function save(array $options = [])
+    public function saveFiles(array $options = [])
     {
         $fileFields = $this->getFileFields();
 
-        $currentUploadDir = $this->getCurrentUploadDir();
+        $currentUploadDir = $this->getFileCurrentUploadDir();
 
         foreach ($fileFields as $fieldName => $options) {
-            if (array_get($this->attributes, $fieldName) instanceof UploadedFile) {
-                $file = Request::file($fieldName);
+            $file = Request::file($fieldName);
+            if ($file instanceof UploadedFile) {
                 $filename = $file->getClientOriginalName();
 
-                $file->move($this->getSavePath($options['dirName']), $filename);
+                $file->move($this->getFileSavePath($options['dirName']), $filename);
 
-                $this->attributes[$fieldName] = $this->getSavePath($options['dirName']).$filename;
+                $this->attributes[$fieldName] = $this->getFileSavePath($options['dirName']).$filename;
             }
         }
 
         return parent::save($options);
     }
 
-    public function getCurrentUploadDir()
+    public function getFileCurrentUploadDir()
     {
         $modelDir = explode('Models', get_class($this));
         $modelDir = str_replace('\\', '_', $modelDir[1]);
@@ -42,8 +42,8 @@ trait UploadFilesTrait
         return $modelDir;
     }
 
-    public function getSavePath($dirName)
+    public function getFileSavePath($dirName)
     {
-        return $this->getCurrentUploadDir().DIRECTORY_SEPARATOR.$dirName.DIRECTORY_SEPARATOR;
+        return $this->getFileCurrentUploadDir().DIRECTORY_SEPARATOR.$dirName.DIRECTORY_SEPARATOR;
     }
 }
