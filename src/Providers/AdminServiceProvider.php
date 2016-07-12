@@ -42,8 +42,6 @@ class AdminServiceProvider extends ServiceProvider
             }
         });
 
-        File::put(app_path('Http/Kernel.php'), file_get_contents(__DIR__.'/../Http/Kernel.stub'));
-
         // Register Assets
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'views');
         $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'lang');
