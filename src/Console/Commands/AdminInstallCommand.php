@@ -47,7 +47,7 @@ class AdminInstallCommand extends Command
             }
         }
 
-        File::put(app_path('Http/Kernel.php'), file_get_contents(__DIR__.'/../Http/Kernel.stub'));
+        File::put(app_path('Http/Kernel.php'), file_get_contents(__DIR__.'/../../Http/Kernel.stub'));
 
         // Generate the Application Encryption key
         $this->call('key:generate');
