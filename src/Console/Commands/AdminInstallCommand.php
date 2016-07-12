@@ -3,6 +3,7 @@
 namespace Despark\Cms\Console\Commands;
 
 use Illuminate\Console\Command;
+use File;
 
 class AdminInstallCommand extends Command
 {
