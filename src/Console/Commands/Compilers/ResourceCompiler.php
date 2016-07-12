@@ -151,7 +151,7 @@ class ResourceCompiler
         }
 
         if ($this->options['file_uploads']) {
-            $this->modelReplacements[':save_files'] = '$record->saveFiles($input);';
+            $this->modelReplacements[':save_file'] = '$record->saveFiles($input);';
         }
 
         $template = strtr($template, $this->controllerReplacements);
