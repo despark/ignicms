@@ -16,6 +16,16 @@ abstract class AdminModel extends Model
         parent::__construct($attributes);
 
         $this->adminColumns = config('admin.'.$this->identifier.'.adminColumns');
+
+        $this->saving(function ($model) {
+            if ($model->getImageFields()) {
+                $this->saveImages();
+            }
+
+            if ($model->getFileFields()) {
+                $model->saveFiles();
+            }
+        });
     }
 
     public function adminSetFormFields()
@@ -28,5 +38,10 @@ abstract class AdminModel extends Model
     public function getImageFields()
     {
         return config('admin.'.$this->identifier.'.image_fields');
+    }
+
+    public function getFileFields()
+    {
+        return config('admin.'.$this->identifier.'.file_fields');
     }
 }

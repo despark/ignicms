@@ -19,6 +19,14 @@ return [
             'type' => 'password',
             'label' => 'Password',
         ],
+        'roles' => [
+            'type' => 'select',
+            'label' => 'Role',
+            'select_options' => [
+                'admin' => 'Admin',
+                'editor' => 'Editor',
+            ],
+        ],
     ],
 
 ];

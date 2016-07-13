@@ -13,43 +13,41 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', ['as' => 'work', 'uses' => 'HomeController@index']);
+Route::group(['middleware' => ['web']], function ()
+{
+    Route::get('/', ['as' => 'work', 'uses' => 'HomeController@index']);
 
-// Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+    // Authentication routes...
+    Route::get('auth/login', 'Auth\AuthController@getLogin');
+    Route::post('auth/login', 'Auth\AuthController@postLogin');
+    Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-// Registration routes...
-// Route::get('auth/register', 'Auth\AuthController@getRegister');
-// Route::post('auth/register', 'Auth\AuthController@postRegister');
+    // Registration routes...
+    // Route::get('auth/register', 'Auth\AuthController@getRegister');
+    // Route::post('auth/register', 'Auth\AuthController@postRegister');
 
-// Password reset link request routes...
-Route::get('password/email', 'Auth\PasswordController@getEmail');
-Route::post('password/email', 'Auth\PasswordController@postEmail');
+    // Password reset link request routes...
+    Route::get('password/email', 'Auth\PasswordController@getEmail');
+    Route::post('password/email', 'Auth\PasswordController@postEmail');
 
-// Password reset routes...
-Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+    // Password reset routes...
+    Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+    Route::post('password/reset', 'Auth\PasswordController@postReset');
 
-// Admin
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    // Admin
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
 
-    Route::get('/', ['as' => 'adminHome', 'uses' => 'Admin\AdminController@adminHome']);
-    Route::get('/403', ['as' => 'adminForbidden', 'uses' => 'Admin\AdminController@forbidden']);
+        Route::get('/', ['as' => 'adminHome', 'uses' => 'Admin\AdminController@adminHome']);
+        Route::get('/403', ['as' => 'adminForbidden', 'uses' => 'Admin\AdminController@forbidden']);
 
-    Route::resource('users', 'Admin\UsersController');
-    Route::resource('seo_pages', 'Admin\SeoPagesController');
-    Route::resource('roles', 'Admin\RolesController');
-    Route::resource('permissions', 'Admin\PermissionsController');
+        Route::resource('users', 'Admin\UsersController');
+        Route::resource('seo_pages', 'Admin\SeoPagesController');
+        Route::resource('roles', 'Admin\RolesController');
+        Route::resource('permissions', 'Admin\PermissionsController');
 
-    Route::controller('profile', 'Admin\ProfileController', [
-        'getEdit' => 'admin.profile.edit',
-        'postUpdate' => 'admin.profile.update',
-    ]);
+        Route::controller('profile', 'Admin\ProfileController', [
+            'getEdit' => 'admin.profile.edit',
+            'postUpdate' => 'admin.profile.update',
+        ]);
+    });
 });
-
-// Manage users, roles and permissions
-Entrust::routeNeedsPermission('admin/users*', 'manage_users', redirect(route('adminForbidden')));
-Entrust::routeNeedsPermission('admin/roles*', 'manage_users', redirect(route('adminForbidden')));
-Entrust::routeNeedsPermission('admin/permissions*', 'manage_users', redirect(route('adminForbidden')));

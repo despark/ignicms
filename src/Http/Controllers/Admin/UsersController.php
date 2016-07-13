@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Despark\Cms\Models\User;
 use Despark\Cms\Http\Requests\UserRequest;
 use Despark\Cms\Http\Requests\UserUpdateRequest;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends AdminController
 {
@@ -86,13 +87,12 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
-            $record->roles()->sync([]);
-            $record->attachRoles($request->get('roles'));
-        } else {
-            $editorRoleId = \DB::table('roles')
-                ->where('name', 'editor')
-                ->value('id');
-            $record->attachRole($editorRoleId);
+            $roles = Role::all();
+            foreach ($roles as $role) {
+                $record->removeRole($role->name);
+            }
+
+            $record->assignRole($request->get('roles'));
         }
 
         $record->addImages($input);
@@ -150,13 +150,12 @@ class UsersController extends AdminController
         }
 
         if ($request->has('roles')) {
-            $record->roles()->sync([]);
-            $record->attachRoles($request->get('roles'));
-        } else {
-            $editorRoleId = \DB::table('roles')
-                ->where('name', 'editor')
-                ->value('id');
-            $record->attachRole($editorRoleId);
+            $roles = Role::all();
+            foreach ($roles as $role) {
+                $record->removeRole($role->name);
+            }
+
+            $record->assignRole($request->get('roles'));
         }
 
         $record->update($input);

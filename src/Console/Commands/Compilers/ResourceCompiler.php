@@ -19,13 +19,16 @@ class ResourceCompiler
         ':identifier' => '',
         ':model_name' => '',
         ':app_namespace' => '',
-        ':traits_include' => '',
-        ':traits_use' => '',
+        ':image_traits_include' => '',
+        ':image_traits_use' => '',
+        ':file_traits_include' => '',
+        ':file_traits_use' => '',
         ':table_name' => '',
     ];
 
     protected $configReplacements = [
         ':image_fields' => '',
+        ':file_fields' => '',
     ];
 
     protected $controllerReplacements = [
@@ -54,8 +57,13 @@ class ResourceCompiler
     public function render_model($template)
     {
         if ($this->options['image_uploads']) {
-            $this->modelReplacements[':traits_include'] = 'use Despark\Cms\Admin\Traits\UploadableTrait;';
-            $this->modelReplacements[':traits_use'] = 'use UploadableTrait;';
+            $this->modelReplacements[':image_traits_include'] = 'use Despark\Cms\Admin\Traits\UploadImagesTrait;';
+            $this->modelReplacements[':image_traits_use'] = 'use UploadImagesTrait;';
+        }
+
+        if ($this->options['file_uploads']) {
+            $this->modelReplacements[':file_traits_include'] = 'use Despark\Cms\Admin\Traits\UploadFilesTrait;';
+            $this->modelReplacements[':file_traits_use'] = 'use UploadFilesTrait;';
         }
 
         $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
@@ -65,6 +73,11 @@ class ResourceCompiler
 
         $route = "Route::resource('".str_plural($this->identifier)."', '".$this->getAppNamespace().
             'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."');".PHP_EOL;
+        if ($this->options['file_uploads']) {
+            $route .= "Route::get('".str_plural($this->identifier)."/delete/{fileFieldName}', '".$this->getAppNamespace().
+                'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
+        }
+
         file_put_contents(app_path('Http/resourcesRoutes.php'), $route, FILE_APPEND);
 
         $template = strtr($template, $this->modelReplacements);
@@ -89,6 +102,14 @@ class ResourceCompiler
                     'type' => 'crop',
                 ],
             ],
+        ],
+    ],";
+        }
+
+        if ($this->options['file_uploads']) {
+            $this->configReplacements[':file_fields'] = "'file_fields' => [
+        'file'  => [
+            'dirName' => '',
         ],
     ],";
         }

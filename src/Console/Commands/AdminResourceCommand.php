@@ -29,6 +29,7 @@ class AdminResourceCommand extends Command
 
     protected $resourceOptions = [
         'image_uploads' => false,
+        'file_uploads' => false,
         'migration' => false,
         'create' => false,
         'edit' => false,
@@ -51,6 +52,7 @@ class AdminResourceCommand extends Command
         $this->identifier = self::normalize($this->argument('identifier'));
 
         $this->askImageUploads();
+        $this->askFileUploads();
         $this->askMigration();
         $this->askActions();
 
@@ -92,6 +94,13 @@ class AdminResourceCommand extends Command
         $this->resourceOptions['image_uploads'] = $answer;
     }
 
+    protected function askFileUploads()
+    {
+        $answer = $this->confirm('Do you need file uploads?');
+
+        $this->resourceOptions['file_uploads'] = $answer;
+    }
+
     protected function askMigration()
     {
         $answer = $this->confirm('Do you need migration?');
@@ -121,12 +130,12 @@ class AdminResourceCommand extends Command
 
     protected function getTemplate($type)
     {
-        return file_get_contents(__DIR__.'/stubs/'.$type.'.stub');
+        return file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.$type.'.stub');
     }
 
     protected function saveResult($template, $path, $filename)
     {
-        $file = $path.'/'.$filename;
+        $file = $path.DIRECTORY_SEPARATOR.$filename;
         if (File::exists($file)) {
             $result = $this->confirm('File "'.$filename.'" already exist. Overwrite?', false);
             if (!$result) {

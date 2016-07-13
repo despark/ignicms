@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Despark\Cms\Models\User;
 
 class RoleUserTableSeeder extends Seeder
 {
@@ -9,20 +10,8 @@ class RoleUserTableSeeder extends Seeder
      */
     public function run()
     {
-        $adminId = DB::table('users')
-            ->where('email', 'admin@despark.com')
-            ->value('id');
+        $adminUser = User::where('email', 'LIKE', 'admin%')->first();
 
-        $adminRoleId = DB::table('roles')
-            ->where('name', 'admin')
-            ->value('id');
-
-        if ($adminId and $adminRoleId) {
-            DB::table('role_user')
-                ->insert([
-                    'user_id' => $adminId,
-                    'role_id' => $adminRoleId,
-                ]);
-        }
+        $adminUser->assignRole('admin');
     }
 }

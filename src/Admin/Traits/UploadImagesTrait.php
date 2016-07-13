@@ -3,20 +3,15 @@
 namespace Despark\Cms\Admin\Traits;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use File;
+use Illuminate\Support\Facades\Request;
 
-/**
- * Class AdminImage.
- *
- * @author  Yavor Mihaylov
- */
-trait UploadableTrait
+trait UploadImagesTrait
 {
     public $uploadDir = 'uploads';
 
-    public function save(array $options = [])
+    public function saveImages(array $options = [])
     {
         $imageFields = $this->getImageFields();
 
@@ -24,7 +19,7 @@ trait UploadableTrait
 
         foreach ($imageFields as $imageFieldName => $options) {
             if (array_get($this->attributes, $imageFieldName) instanceof UploadedFile) {
-                $file = Input::file($imageFieldName);
+                $file = Request::file($imageFieldName);
                 $filename = $file->getClientOriginalName();
 
                 $file->move($this->getThumbnailPath('original'), $filename);
@@ -60,8 +55,6 @@ trait UploadableTrait
                 $this->attributes[$imageFieldName] = $this->original[$imageFieldName];
             }
         }
-
-        return parent::save($options);
     }
 
     public function getCurrentUploadDir()

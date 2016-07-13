@@ -3,13 +3,13 @@
 namespace Despark\Cms\Models\Admin;
 
 use Despark\Cms\Models\AdminModel;
-use Despark\Cms\Admin\Traits\UploadableTrait;
+use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
 
 class SeoPage extends AdminModel implements SluggableInterface
 {
-    use UploadableTrait;
+    use UploadImagesTrait;
     use SluggableTrait;
 
     protected $sluggable = [

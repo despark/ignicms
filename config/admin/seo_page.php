@@ -51,4 +51,9 @@ return [
             ],
         ],
     ],
+    'file_fields' => [
+        'pdf' => [
+            'dirName' => 'pdfs',
+        ]
+    ],
 ];

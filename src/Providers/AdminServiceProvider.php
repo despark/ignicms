@@ -43,8 +43,8 @@ class AdminServiceProvider extends ServiceProvider
         });
 
         // Register Assets
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'despark');
-        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'despark');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'views');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'lang');
 
         // Register the application commands
         $this->commands($this->commands);
@@ -66,13 +66,13 @@ class AdminServiceProvider extends ServiceProvider
         ], 'config');
         $this->publishes([
             __DIR__.'/../../resources/' => base_path('/resources'),
-        ]);
+        ], 'resources');
         $this->publishes([
             __DIR__.'/../../gulp/' => base_path('/gulp'),
-        ]);
+        ], 'gulp');
         $this->publishes([
             __DIR__.'/../../public/' => public_path(),
-        ]);
+        ], 'public');
 
         $this->publishes([
             __DIR__.'/../../.env.example' => base_path('.env.example'),
@@ -102,22 +102,21 @@ class AdminServiceProvider extends ServiceProvider
         /*
          * Register the service provider for the dependency.
          */
-        $this->app->register('Zizaco\Entrust\EntrustServiceProvider');
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
-        $this->app->register('Despark\HtmlTemplateCurator\HtmlTemplateCuratorServiceProvider');
         $this->app->register('Cviebrock\EloquentSluggable\SluggableServiceProvider');
         $this->app->register('Skovmand\Mailchimp\MailchimpServiceProvider');
         $this->app->register('Roumen\Sitemap\SitemapServiceProvider');
         $this->app->register('Rutorika\Sortable\SortableServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
+        $this->app->register('Spatie\Permission\PermissionServiceProvider');
+        $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
 
         /*
          * Create aliases for the dependency.
          */
         $loader = AliasLoader::getInstance();
-        $loader->alias('Entrust', 'Zizaco\Entrust\EntrustFacade');
         $loader->alias('Form', 'Collective\Html\FormFacade');
         $loader->alias('Html', 'Collective\Html\HtmlFacade');
         $loader->alias('Image', 'Intervention\Image\Facades\Image');

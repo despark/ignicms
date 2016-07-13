@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Despark\Cms\Models\Permission;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -14,13 +14,9 @@ class PermissionsTableSeeder extends Seeder
         $permissions = [
             [
                 'name' => 'manage_users',
-                'display_name' => 'Manage users',
-                'description' => 'Edit/update/add/delete users (team members)',
             ],
             [
                 'name' => 'manage_pages',
-                'display_name' => 'Manage pages',
-                'description' => 'Edit/update/add/delete pages',
             ],
         ];
 
