@@ -150,10 +150,6 @@ class ResourceCompiler
             $this->controllerReplacements[':destroy_route'] = '$this->viewData'."['deleteRoute'] = 'admin.".str_plural($this->identifier).".destroy';";
         }
 
-        if ($this->options['file_uploads']) {
-            $this->modelReplacements[':save_file'] = '$record->saveFiles($input);';
-        }
-
         $template = strtr($template, $this->controllerReplacements);
 
         return $template;

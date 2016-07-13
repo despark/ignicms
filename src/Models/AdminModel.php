@@ -16,6 +16,16 @@ abstract class AdminModel extends Model
         parent::__construct($attributes);
 
         $this->adminColumns = config('admin.'.$this->identifier.'.adminColumns');
+
+        $this->saving(function ($model) {
+            if ($model->getImageFields()) {
+                $this->saveImages();
+            }
+
+            if ($model->getFileFields()) {
+                $model->saveFiles();
+            }
+        });
     }
 
     public function adminSetFormFields()

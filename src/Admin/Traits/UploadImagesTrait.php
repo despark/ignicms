@@ -11,7 +11,7 @@ trait UploadImagesTrait
 {
     public $uploadDir = 'uploads';
 
-    public function save(array $options = [])
+    public function saveImages(array $options = [])
     {
         $imageFields = $this->getImageFields();
 
@@ -55,8 +55,6 @@ trait UploadImagesTrait
                 $this->attributes[$imageFieldName] = $this->original[$imageFieldName];
             }
         }
-
-        return parent::save($options);
     }
 
     public function getCurrentUploadDir()
