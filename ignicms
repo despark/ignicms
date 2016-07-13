@@ -1,0 +1,43 @@
+#!/usr/bin/env php
+<?php
+
+if (defined('STDIN')) {
+    if (isset($argv[1])) {
+        if (function_exists($argv[1])) {
+            call_user_func($argv[1]);
+        } else {
+            echo "\033[01;31m Function ".$argv[1]." doesn't exist\033[0m".PHP_EOL;
+        }
+    } else {
+        echo "\033[01;31m Not enough arguments\033[0m".PHP_EOL;
+    }
+}
+
+function setup()
+{
+    exec('composer install');
+    exec('php artisan migrate');
+    exec('php artisan db:seed --class=DesparkDatabaseSeeder');
+}
+
+function update()
+{
+    exec('composer update --no-scripts');
+
+    exec('php artisan clear-compiled');
+    exec('php artisan optimize');
+    exec('php artisan migrate --force');
+
+    exec('composer dumpautoload');
+}
+
+function production()
+{
+    exec('composer install --no-dev --no-scripts');
+
+    exec('php artisan clear-compiled');
+    exec('php artisan optimize');
+    exec('php artisan migrate --force');
+
+    exec('composer dumpautoload -o');
+}
