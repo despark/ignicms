@@ -68,5 +68,5 @@
         "preferred-install": "dist"
     },
     "minimum-stability": "stable",
-    "version": "2.5.0"
+    "version": "2.5.1"
 }
