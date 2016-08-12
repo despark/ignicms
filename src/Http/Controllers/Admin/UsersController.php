@@ -19,7 +19,9 @@ class UsersController extends AdminController
         parent::__construct();
 
         $this->sidebarItems['users']['isActive'] = true;
-        $this->sidebarItems['users']['subMenu']['users_manager']['isActive'] = true;
+        if (isset($this->sidebarItems['users']['subMenu']['users_manager'])) {
+            $this->sidebarItems['users']['subMenu']['users_manager']['isActive'] = true;
+        }
 
         $this->viewData['pageTitle'] = 'Users';
         $this->viewData['editRoute'] = 'admin.users.edit';
