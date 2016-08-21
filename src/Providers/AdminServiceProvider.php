@@ -73,6 +73,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../public/' => public_path(),
         ], 'public');
+        $this->publishes([
+            __DIR__.'/../../app/' => base_path('/app'),
+        ], 'gulp');
 
         $this->publishes([
             __DIR__.'/../../.env.example' => base_path('.env.example'),

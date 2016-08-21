@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Despark\Cms\Models\User::class,
+            'model' => App\Models\User::class,
         ],
 
         // 'users' => [

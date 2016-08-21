@@ -1,6 +1,8 @@
 <?php
 
-namespace Despark\Cms\Models;
+namespace App\Models;
+
+use Despark\Cms\Models\AdminModel;
 
 class I18n extends AdminModel
 {

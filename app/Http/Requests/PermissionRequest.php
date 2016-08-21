@@ -1,17 +1,18 @@
 <?php
 
-namespace Despark\Cms\Http\Requests;
+namespace App\Http\Requests;
 
-use Despark\Cms\Models\Role;
+use App\Models\Permission;
+use Despark\Cms\Http\Requests\AdminFormRequest;
 
-class RoleRequest extends AdminFormRequest
+class PermissionRequest extends AdminFormRequest
 {
     /**
-     * RoleRequest constructor.
+     * PermissionRequest constructor.
      */
     public function __construct()
     {
-        $this->model = new Role();
+        $this->model = new Permission();
     }
 
     /**

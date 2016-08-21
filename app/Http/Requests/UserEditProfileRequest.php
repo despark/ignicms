@@ -1,17 +1,12 @@
 <?php
 
-namespace Despark\Cms\Http\Requests\Admin;
+namespace App\Http\Requests;
 
+use App\Models\User;
 use Despark\Cms\Http\Requests\AdminFormRequest;
-use Despark\Cms\Models\SeoPage;
 
-class SeoPagesRequest extends AdminFormRequest
+class UserEditProfileRequest extends Request
 {
-    public function __construct()
-    {
-        $this->model = new SeoPage();
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,10 +18,12 @@ class SeoPagesRequest extends AdminFormRequest
     }
 
     /**
+     * Get the validation rules that apply to the request.
+     *
      * @return array
      */
-    public function messages()
+    public function rules()
     {
-        return $this->changeAttrName();
+        return User::$rulesProfileEdit;
     }
 }

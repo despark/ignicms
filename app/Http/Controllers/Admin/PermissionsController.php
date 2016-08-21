@@ -1,27 +1,28 @@
 <?php
 
-namespace Despark\Cms\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Cms\Models\Role;
-use Despark\Cms\Http\Requests\RoleRequest;
+use App\Models\Permission;
+use App\Http\Requests\PermissionRequest;
+use Despark\Cms\Http\Controllers\AdminController;
 
-class RolesController extends AdminController
+class PermissionsController extends AdminController
 {
     /**
-     * RolesController constructor.
+     * PermissionsController constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
         $this->sidebarItems['users']['isActive'] = true;
-        $this->sidebarItems['users']['subMenu']['roles']['isActive'] = true;
+        $this->sidebarItems['users']['subMenu']['permissions']['isActive'] = true;
 
-        $this->viewData['pageTitle'] = 'Roles';
-        $this->viewData['editRoute'] = 'admin.roles.edit';
-        $this->viewData['createRoute'] = 'admin.roles.create';
-        $this->viewData['deleteRoute'] = 'admin.roles.destroy';
+        $this->viewData['pageTitle'] = 'Permissions';
+        $this->viewData['editRoute'] = 'admin.permissions.edit';
+        $this->viewData['createRoute'] = 'admin.permissions.create';
+        $this->viewData['deleteRoute'] = 'admin.permissions.destroy';
     }
 
     /**
@@ -31,7 +32,7 @@ class RolesController extends AdminController
      */
     public function index()
     {
-        $model = new Role();
+        $model = new Permission();
         $records = $model->filtering()->paginate($this->paginateLimit);
 
         $this->viewData['model'] = $model;
@@ -47,13 +48,13 @@ class RolesController extends AdminController
      */
     public function create()
     {
-        $model = new Role();
+        $model = new Permission();
 
         $this->viewData['record'] = $model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'admin.roles.store';
+        $this->viewData['formAction'] = 'admin.permissions.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -65,24 +66,21 @@ class RolesController extends AdminController
      *
      * @return Response
      */
-    public function store(RoleRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
 
-        $model = new Role();
+        $model = new Permission();
 
         $record = $model->create($input);
 
-        $record->perms()->sync([]);
-        $record->attachPermissions($request->get('permissions'));
-
         $this->notify([
-            'type' => 'success',
-            'title' => 'Successful create role!',
-            'description' => 'Role is created successfully!',
+            'type'        => 'success',
+            'title'       => 'Successful create permission!',
+            'description' => 'Permission is created successfully!',
         ]);
 
-        return redirect(route('admin.roles.edit', ['id' => $record->id]));
+        return redirect(route('admin.permissions.edit', ['id' => $record->id]));
     }
 
     /**
@@ -94,12 +92,12 @@ class RolesController extends AdminController
      */
     public function edit($id)
     {
-        $record = Role::findOrFail($id);
+        $record = Permission::findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'admin.roles.update';
+        $this->viewData['formAction'] = 'admin.permissions.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -112,21 +110,18 @@ class RolesController extends AdminController
      *
      * @return Response
      */
-    public function update(RoleRequest $request, $id)
+    public function update(PermissionRequest $request, $id)
     {
         $input = $request->all();
 
-        $record = Role::findOrFail($id);
-
-        $record->perms()->sync([]);
-        $record->attachPermissions($request->get('permissions'));
+        $record = Permission::findOrFail($id);
 
         $record->update($input);
 
         $this->notify([
             'type' => 'success',
             'title' => 'Successful update!',
-            'description' => 'This role is updated successfully.',
+            'description' => 'This permission is updated successfully.',
         ]);
 
         return redirect()->back();
@@ -141,12 +136,12 @@ class RolesController extends AdminController
      */
     public function destroy($id)
     {
-        Role::findOrFail($id)->delete();
+        Permission::findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',
-            'title' => 'Successful deleted Role!',
-            'description' => 'The role is deleted successfully.',
+            'title' => 'Successful deleted Permission!',
+            'description' => 'The permission is deleted successfully.',
         ]);
 
         return redirect()->back();

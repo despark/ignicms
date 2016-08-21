@@ -1,8 +1,9 @@
 <?php
 
-namespace Despark\Cms\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
-use Despark\Cms\Http\Requests\UserEditProfileRequest;
+use App\Http\Requests\UserEditProfileRequest;
+use Despark\Cms\Http\Controllers\AdminController;
 
 class ProfileController extends AdminController
 {

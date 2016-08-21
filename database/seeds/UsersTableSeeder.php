@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Despark\Cms\Models\User;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {

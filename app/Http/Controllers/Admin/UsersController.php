@@ -1,13 +1,14 @@
 <?php
 
-namespace Despark\Cms\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Despark\Cms\Models\User;
-use Despark\Cms\Http\Requests\UserRequest;
-use Despark\Cms\Http\Requests\UserUpdateRequest;
+use App\Models\User;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Spatie\Permission\Models\Role;
+use Despark\Cms\Http\Controllers\AdminController;
 
 class UsersController extends AdminController
 {
