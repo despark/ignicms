@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\SeoPage;
 use App\Http\Requests\Admin\SeoPagesRequest;
-use Despark\Cms\Http\Controllers\AdminController;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class SeoPagesController extends AdminController
 {

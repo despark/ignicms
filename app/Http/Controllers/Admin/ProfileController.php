@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserEditProfileRequest;
-use Despark\Cms\Http\Controllers\AdminController;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class ProfileController extends AdminController
 {

@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use Spatie\Permission\Models\Role;
-use Despark\Cms\Http\Controllers\AdminController;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class UsersController extends AdminController
 {

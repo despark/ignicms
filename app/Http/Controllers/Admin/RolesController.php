@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Http\Requests\RoleRequest;
-use Despark\Cms\Http\Controllers\AdminController;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class RolesController extends AdminController
 {
