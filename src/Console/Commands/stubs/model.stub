@@ -1,6 +1,6 @@
 <?php
 
-namespace :app_namespaceModels\Admin;
+namespace :app_namespaceModels;
 
 use Despark\Cms\Models\AdminModel;
 :image_traits_include

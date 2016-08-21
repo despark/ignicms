@@ -3,7 +3,7 @@
 namespace Despark\Cms\Http\Requests\Admin;
 
 use Despark\Cms\Http\Requests\AdminFormRequest;
-use Despark\Cms\Models\Admin\SeoPage;
+use Despark\Cms\Models\SeoPage;
 
 class SeoPagesRequest extends AdminFormRequest
 {

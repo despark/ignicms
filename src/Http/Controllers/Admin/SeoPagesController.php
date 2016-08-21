@@ -3,7 +3,7 @@
 namespace Despark\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Cms\Models\Admin\SeoPage;
+use Despark\Cms\Models\SeoPage;
 use Despark\Cms\Http\Requests\Admin\SeoPagesRequest;
 
 class SeoPagesController extends AdminController

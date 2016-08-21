@@ -1,8 +1,7 @@
 <?php
 
-namespace Despark\Cms\Models\Admin;
+namespace Despark\Cms\Models;
 
-use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;

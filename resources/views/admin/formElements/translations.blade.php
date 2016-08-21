@@ -1,4 +1,4 @@
-<?php $i18ns = \Despark\Cms\Models\Admin\I18n::all(); ?>
+<?php $i18ns = \Despark\Cms\Models\I18n::all(); ?>
 @if(!empty($i18ns))
   <div role="tabpanel">
     <ul class="nav nav-tabs" role="tablist">

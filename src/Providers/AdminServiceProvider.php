@@ -86,7 +86,7 @@ class AdminServiceProvider extends ServiceProvider
         if ($configPaths) {
             foreach ($configPaths as $key => $path) {
                 if (!is_dir($path)) {
-                    File::makeDirectory($path, 755, true, true);
+                    mkdir($path, 775, true);
                 }
             }
         }
