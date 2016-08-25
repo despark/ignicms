@@ -1,27 +1,24 @@
 <?php
 
-namespace Despark\Cms\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Cms\Models\Permission;
-use Despark\Cms\Http\Requests\PermissionRequest;
+use App\Models\SeoPage;
+use App\Http\Requests\Admin\SeoPagesRequest;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
-class PermissionsController extends AdminController
+class SeoPagesController extends AdminController
 {
-    /**
-     * PermissionsController constructor.
-     */
     public function __construct()
     {
+        $this->identifier = 'seo_page';
+
         parent::__construct();
 
-        $this->sidebarItems['users']['isActive'] = true;
-        $this->sidebarItems['users']['subMenu']['permissions']['isActive'] = true;
-
-        $this->viewData['pageTitle'] = 'Permissions';
-        $this->viewData['editRoute'] = 'admin.permissions.edit';
-        $this->viewData['createRoute'] = 'admin.permissions.create';
-        $this->viewData['deleteRoute'] = 'admin.permissions.destroy';
+        $this->sidebarItems['seo_pages']['isActive'] = true;
+        $this->viewData['createRoute'] = 'admin.seo_pages.create';
+        $this->viewData['editRoute'] = 'admin.seo_pages.edit';
+        $this->viewData['deleteRoute'] = 'admin.seo_pages.destroy';
     }
 
     /**
@@ -31,8 +28,8 @@ class PermissionsController extends AdminController
      */
     public function index()
     {
-        $model = new Permission();
-        $records = $model->filtering()->paginate($this->paginateLimit);
+        $model = new SeoPage();
+        $records = $model->get();
 
         $this->viewData['model'] = $model;
         $this->viewData['records'] = $records;
@@ -47,13 +44,13 @@ class PermissionsController extends AdminController
      */
     public function create()
     {
-        $model = new Permission();
+        $model = new SeoPage();
 
         $this->viewData['record'] = $model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'admin.permissions.store';
+        $this->viewData['formAction'] = 'admin.seo_pages.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -65,21 +62,21 @@ class PermissionsController extends AdminController
      *
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SeoPagesRequest $request)
     {
         $input = $request->all();
 
-        $model = new Permission();
+        $model = new SeoPage();
 
         $record = $model->create($input);
 
         $this->notify([
-            'type'        => 'success',
-            'title'       => 'Successful create permission!',
-            'description' => 'Permission is created successfully!',
+            'type' => 'success',
+            'title' => 'Successful create!',
+            'description' => 'SeoPage is created successfully!',
         ]);
 
-        return redirect(route('admin.permissions.edit', ['id' => $record->id]));
+        return redirect(route('admin.seo_pages.edit', ['id' => $record->id]));
     }
 
     /**
@@ -91,12 +88,12 @@ class PermissionsController extends AdminController
      */
     public function edit($id)
     {
-        $record = Permission::findOrFail($id);
+        $record = SeoPage::findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'admin.permissions.update';
+        $this->viewData['formAction'] = 'admin.seo_pages.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -109,18 +106,18 @@ class PermissionsController extends AdminController
      *
      * @return Response
      */
-    public function update(PermissionRequest $request, $id)
+    public function update(SeoPagesRequest $request, $id)
     {
         $input = $request->all();
 
-        $record = Permission::findOrFail($id);
+        $record = SeoPage::findOrFail($id);
 
         $record->update($input);
 
         $this->notify([
             'type' => 'success',
             'title' => 'Successful update!',
-            'description' => 'This permission is updated successfully.',
+            'description' => 'SeoPage is updated successfully.',
         ]);
 
         return redirect()->back();
@@ -135,12 +132,12 @@ class PermissionsController extends AdminController
      */
     public function destroy($id)
     {
-        Permission::findOrFail($id)->delete();
+        SeoPage::findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',
-            'title' => 'Successful deleted Permission!',
-            'description' => 'The permission is deleted successfully.',
+            'title' => 'Successful delete!',
+            'description' => 'SeoPage is deleted successfully.',
         ]);
 
         return redirect()->back();

@@ -1,15 +1,15 @@
 <?php
 
-namespace :app_namespaceHttp\Requests\Admin;
+namespace App\Http\Requests\Admin;
 
-use Despark\Cms\Http\Requests\AdminFormRequest;
-use :app_namespaceModels\:model_name;
+use App\Http\Requests\AdminFormRequest;
+use App\Models\SeoPage;
 
-class :request_name extends AdminFormRequest
+class SeoPagesRequest extends AdminFormRequest
 {
     public function __construct()
     {
-        $this->model = new :model_name();
+        $this->model = new SeoPage();
     }
 
     /**

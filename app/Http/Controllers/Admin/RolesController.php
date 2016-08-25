@@ -1,10 +1,11 @@
 <?php
 
-namespace Despark\Cms\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Despark\Cms\Models\Role;
-use Despark\Cms\Http\Requests\RoleRequest;
+use App\Models\Role;
+use App\Http\Requests\RoleRequest;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class RolesController extends AdminController
 {

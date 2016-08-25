@@ -11,5 +11,5 @@ return [
     | Please provide the full namespaced path.
     |
     */
-    'locale_class' => 'Despark\Cms\Models\Admin\I18n',
+    'locale_class' => 'App\Models\I18n',
 ];

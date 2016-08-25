@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Illuminate\Support\Facades\Input;
 use Despark\Cms\Admin\Helpers\FormBuilder;
+use App\Models\I18n;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -88,6 +88,20 @@ trait AdminConfigTrait
                 break;
             case 'sort':
                 return '<div class="fa fa-sort sortable-handle"></div>';
+                break;
+            case 'relation':
+                return $record->{$col['relation']}->{$col['db_field']};
+                break;
+            case 'translation':
+                $locale = config('app.locale', 'en');
+                $i18n = I18n::select('id')->where('locale', $locale)->first();
+                if ($i18n) {
+                    $i18nId = $i18n->id;
+
+                    return $record->translate(1)->{$col['db_field']};
+                }
+
+                return 'No translation';
                 break;
             default :
                 return $record->{$col['db_field']};

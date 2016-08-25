@@ -1,8 +1,9 @@
 <?php
 
-namespace Despark\Cms\Http\Requests;
+namespace App\Http\Requests;
 
-use Despark\Cms\Models\User;
+use App\Models\User;
+use Despark\Cms\Http\Requests\AdminFormRequest;
 
 class UserUpdateRequest extends Request
 {

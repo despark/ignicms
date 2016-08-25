@@ -39,15 +39,5 @@ Route::group(['middleware' => ['web']], function ()
 
         Route::get('/', ['as' => 'adminHome', 'uses' => 'Admin\AdminController@adminHome']);
         Route::get('/403', ['as' => 'adminForbidden', 'uses' => 'Admin\AdminController@forbidden']);
-
-        Route::resource('users', 'Admin\UsersController');
-        Route::resource('seo_pages', 'Admin\SeoPagesController');
-        Route::resource('roles', 'Admin\RolesController');
-        Route::resource('permissions', 'Admin\PermissionsController');
-
-        Route::controller('profile', 'Admin\ProfileController', [
-            'getEdit' => 'admin.profile.edit',
-            'postUpdate' => 'admin.profile.update',
-        ]);
     });
 });

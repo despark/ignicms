@@ -73,6 +73,9 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../public/' => public_path(),
         ], 'public');
+        $this->publishes([
+            __DIR__.'/../../app/' => base_path('/app'),
+        ], 'gulp');
 
         $this->publishes([
             __DIR__.'/../../.env.example' => base_path('.env.example'),
@@ -86,7 +89,7 @@ class AdminServiceProvider extends ServiceProvider
         if ($configPaths) {
             foreach ($configPaths as $key => $path) {
                 if (!is_dir($path)) {
-                    File::makeDirectory($path, 755, true, true);
+                    mkdir($path, 775, true);
                 }
             }
         }
