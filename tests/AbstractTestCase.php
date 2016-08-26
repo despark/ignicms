@@ -1,30 +1,23 @@
 <?php
 
+namespace Despark\Tests\Cms;
 
-abstract class AbstractIgniTests extends \Illuminate\Foundation\Testing\TestCase
+use GrahamCampbell\TestBench\AbstractPackageTestCase;
+use ReflectionClass;
+
+abstract class AbstractTestCase extends AbstractPackageTestCase
 {
 
     /**
-     * The base URL to use while testing the application.
+     * Get the service provider class.
      *
-     * @var string
+     * @param \Illuminate\Contracts\Foundation\Application $app
+     *
+     * @return string
      */
-    protected $baseUrl = 'http://localhost';
-
-    /**
-     * Creates the application.
-     *
-     * Needs to be implemented by subclasses.
-     *
-     * @return \Symfony\Component\HttpKernel\HttpKernelInterface
-     */
-    public function createApplication()
+    protected function getServiceProviderClass($app)
     {
-        $app = require __DIR__.'/../../../../bootstrap/app.php';
-
-        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
-
-        return $app;
+        return \Despark\Cms\Providers\AdminServiceProvider::class;
     }
 
     /**
@@ -42,5 +35,17 @@ abstract class AbstractIgniTests extends \Illuminate\Foundation\Testing\TestCase
         $reflection_property = $reflection->getProperty($property);
         $reflection_property->setAccessible(true);
         $reflection_property->setValue($object, $value);
+    }
+
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     *
+     * @return void
+     */
+    protected function getEnvironmentSetUp($app)
+    {
+        parent::getEnvironmentSetUp($app);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Commands;
+namespace Despark\Tests\Cms\Commands;
 
 
-use AbstractIgniTests;
 use Despark\Cms\Console\Commands\AdminResourceCommand;
 use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
+use Despark\Tests\Cms\AbstractTestCase;
 use Mockery\Mock;
 
-class ResourceTest extends AbstractIgniTests
+class ResourceTest extends AbstractTestCase
 {
 
     /**
