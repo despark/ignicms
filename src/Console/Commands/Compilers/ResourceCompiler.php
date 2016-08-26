@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Console\Commands\Compilers;
 
+use Despark\Cms\Console\Commands\AdminResourceCommand;
 use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 
@@ -14,7 +15,7 @@ class ResourceCompiler
     use AppNamespaceDetectorTrait;
 
     /**
-     * @var Command
+     * @var Command|AdminResourceCommand
      */
     protected $command;
 
@@ -83,6 +84,7 @@ class ResourceCompiler
      * @param Command $command
      * @param         $identifier
      * @param         $options
+     * @todo why setting options where we can get it from command? Either remove command or keep options.
      */
     public function __construct(Command $command, $identifier, $options)
     {
@@ -134,7 +136,7 @@ class ResourceCompiler
             // create the resource names
             $route .= ",[".PHP_EOL."'names' => [".PHP_EOL;
             foreach ($this->routeNames as $action => $name) {
-                $route .= "'$action' => '$name',";
+                $route .= "'$action' => '$name',".PHP_EOL;
             }
             $route .= ']'.PHP_EOL.']);'.PHP_EOL;
 
@@ -147,7 +149,7 @@ class ResourceCompiler
                 'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
         }
 
-        file_put_contents(app_path('Http/resourcesRoutes.php'), $route, FILE_APPEND);
+        $this->appendToFile(app_path('Http/resourcesRoutes.php'), $route);
 
         $template = strtr($template, $this->modelReplacements);
 
@@ -251,5 +253,18 @@ class ResourceCompiler
         $template = strtr($template, $this->controllerReplacements);
 
         return $template;
+    }
+
+    /**
+     * @param $file
+     * @param $content
+     * @throws \Exception
+     */
+    public function appendToFile($file, $content)
+    {
+        if ( ! file_exists($file)) {
+            throw new \Exception('File is missing');
+        }
+        file_put_contents($file, $content, FILE_APPEND);
     }
 }
