@@ -21,6 +21,7 @@ install:
   - curl -s https://raw.githubusercontent.com/despark/ignicms/3.0/tests/scripts/travisci/setup.sh | bash
 
 script:
+  - printenv TRAVIS_COMMIT_RANGE
   - cd laravel
   - cp vendor/$TRAVIS_REPO_SLUG/tests/config/.env ./.env
   - composer update
