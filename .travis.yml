@@ -11,15 +11,13 @@ php:
   - 7.0
 
 install:
-  # create a new database for the hyn connection
-  - export DB_USERNAME=travis DB_DATABASE=hyn DB_PASSWORD= QUEUE_DRIVER=sync
   # specify the laravel service providers to insert
   - export PACKAGE_PROVIDER="
     Despark\\\\Cms\\\\Providers\\\\AdminServiceProvider::class,
   #specify the seed class to seed the data
   #- export SEED_CLASS=TestSeeds::class
   #run the setup script
-  - curl -s https://raw.githubusercontent.com/kevupton/docker-laravel-tests/master/setup.sh | bash
+  - curl -s https://raw.githubusercontent.com/despark/ignicms/3.0/tests/scripts/travisci/setup.sh | bash
 
 script:
   - cd laravel
