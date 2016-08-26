@@ -4,6 +4,7 @@ mysql -e 'create database IF NOT EXISTS '$DB_DATABASE';' -u root
 mysql -e "grant all privileges on *.* to '$DB_USERNAME'@'localhost' with grant option;" -u root
 
 if [ ! -f "laravel/composer.json" ]; then
+    printenv TRAVIS_COMMIT_RANGE
     rm -rf laravel
     composer create-project laravel/laravel
     cd laravel

@@ -10,6 +10,9 @@ addons:
 php:
   - 7.0
 
+cache:
+  directories:
+    - laravel
 install:
   # specify the laravel service providers to insert
   - export PACKAGE_PROVIDER="
