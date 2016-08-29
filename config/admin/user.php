@@ -22,10 +22,7 @@ return [
         'roles' => [
             'type' => 'select',
             'label' => 'Role',
-            'select_options' => [
-                'admin' => 'Admin',
-                'editor' => 'Editor',
-            ],
+            'select_options' => 'rolesOptions',
         ],
     ],
 
