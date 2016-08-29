@@ -30,7 +30,7 @@ trait UploadFilesTrait
                 $filename = $file->getClientOriginalName();
                 $fileSavePath = $this->getFileSavePath($options['dirName']);
 
-                $file->move($fileSavePath, $filename);A
+                $file->move($fileSavePath, $filename);
 
                 $this->attributes[$fieldName] = $fileSavePath.$filename;
             }
