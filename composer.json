@@ -51,6 +51,5 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "stable",
-    "version": "2.5.1"
+    "minimum-stability": "stable"
 }
