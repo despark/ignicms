@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Permission;
+use Despark\Cms\Models\Permission;
 use Despark\Cms\Http\Requests\AdminFormRequest;
 
 class PermissionRequest extends AdminFormRequest

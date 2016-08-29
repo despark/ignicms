@@ -10,4 +10,8 @@ class Permission extends PermissionModel
     use AdminModelTrait;
 
     public $identifier = 'permission';
+
+    protected $rules = [
+        'name' => 'required|max:255'
+    ];
 }

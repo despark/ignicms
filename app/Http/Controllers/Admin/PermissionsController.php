@@ -17,6 +17,7 @@ class PermissionsController extends AdminController
 
     /**
      * PermissionsController constructor.
+     *
      * @param Permission $permission
      */
     public function __construct(Permission $permission)
@@ -41,7 +42,7 @@ class PermissionsController extends AdminController
      */
     public function index()
     {
-        $records = $this->permissions->paginate($this->paginateLimit);
+        $records = $this->permissions->get();
 
         $this->viewData['model'] = $this->permissions;
         $this->viewData['records'] = $records;
@@ -110,7 +111,8 @@ class PermissionsController extends AdminController
      * Update the specified resource in storage.
      *
      * @param PermissionRequest $request
-     * @param int                       $id
+     * @param int               $id
+     *
      * @return Response
      */
     public function update(PermissionRequest $request, $id)

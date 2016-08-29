@@ -14,7 +14,6 @@
             'role' => 'form',
             'enctype'=> 'multipart/form-data', ]
         ) !!}
-
             {!! $record->buildForm() !!}
 
             <button type="submit" class="btn btn-primary">Save</button>

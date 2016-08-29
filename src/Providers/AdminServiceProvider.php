@@ -10,6 +10,7 @@ use File;
 use Despark\Cms\Admin\Admin;
 use Mailchimp;
 use Spatie\Permission\Contracts\Permission;
+use Spatie\Permission\Contracts\Role;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -86,7 +87,7 @@ class AdminServiceProvider extends ServiceProvider
         ], 'public');
         $this->publishes([
             __DIR__.'/../../app/' => base_path('/app'),
-        ], 'gulp');
+        ], 'app');
 
         $this->publishes([
             __DIR__.'/../../.env.example' => base_path('.env.example'),
@@ -148,5 +149,6 @@ class AdminServiceProvider extends ServiceProvider
          * Swap Permission model implementation
          */
         $this->app->bind(Permission::class, \Despark\Cms\Models\Permission::class);
+        $this->app->bind(Role::class, \Despark\Cms\Models\Role::class);
     }
 }
