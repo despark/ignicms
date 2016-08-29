@@ -3,16 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Models\Permission;
 use App\Http\Requests\PermissionRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
+use Illuminate\Http\Response;
+use Spatie\Permission\Contracts\Permission;
 
 class PermissionsController extends AdminController
 {
     /**
-     * PermissionsController constructor.
+     * @var Permission|\Despark\Cms\Models\Permission
      */
-    public function __construct()
+    protected $permissions;
+
+    /**
+     * PermissionsController constructor.
+     *
+     * @param Permission $permission
+     */
+    public function __construct(Permission $permission)
     {
         parent::__construct();
 
@@ -20,9 +28,11 @@ class PermissionsController extends AdminController
         $this->sidebarItems['users']['subMenu']['permissions']['isActive'] = true;
 
         $this->viewData['pageTitle'] = 'Permissions';
-        $this->viewData['editRoute'] = 'admin.permissions.edit';
-        $this->viewData['createRoute'] = 'admin.permissions.create';
-        $this->viewData['deleteRoute'] = 'admin.permissions.destroy';
+        $this->viewData['editRoute'] = 'permissions.edit';
+        $this->viewData['createRoute'] = 'permissions.create';
+        $this->viewData['deleteRoute'] = 'permissions.destroy';
+
+        $this->permissions = $permission;
     }
 
     /**
@@ -32,10 +42,9 @@ class PermissionsController extends AdminController
      */
     public function index()
     {
-        $model = new Permission();
-        $records = $model->filtering()->paginate($this->paginateLimit);
+        $records = $this->permissions->get();
 
-        $this->viewData['model'] = $model;
+        $this->viewData['model'] = $this->permissions;
         $this->viewData['records'] = $records;
 
         return view('admin.layouts.list', $this->viewData);
@@ -48,13 +57,11 @@ class PermissionsController extends AdminController
      */
     public function create()
     {
-        $model = new Permission();
-
-        $this->viewData['record'] = $model;
+        $this->viewData['record'] = $this->permissions;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'admin.permissions.store';
+        $this->viewData['formAction'] = 'permissions.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -70,17 +77,15 @@ class PermissionsController extends AdminController
     {
         $input = $request->all();
 
-        $model = new Permission();
-
-        $record = $model->create($input);
+        $record = $this->permissions->create($input);
 
         $this->notify([
-            'type'        => 'success',
-            'title'       => 'Successful create permission!',
+            'type' => 'success',
+            'title' => 'Successful create permission!',
             'description' => 'Permission is created successfully!',
         ]);
 
-        return redirect(route('admin.permissions.edit', ['id' => $record->id]));
+        return redirect(route('permissions.edit', ['id' => $record->id]));
     }
 
     /**
@@ -92,12 +97,12 @@ class PermissionsController extends AdminController
      */
     public function edit($id)
     {
-        $record = Permission::findOrFail($id);
+        $record = $this->permissions->findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'admin.permissions.update';
+        $this->viewData['formAction'] = 'permissions.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -105,8 +110,8 @@ class PermissionsController extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int     $id
+     * @param PermissionRequest $request
+     * @param int               $id
      *
      * @return Response
      */
@@ -114,7 +119,7 @@ class PermissionsController extends AdminController
     {
         $input = $request->all();
 
-        $record = Permission::findOrFail($id);
+        $record = $this->permissions->findOrFail($id);
 
         $record->update($input);
 
@@ -136,7 +141,7 @@ class PermissionsController extends AdminController
      */
     public function destroy($id)
     {
-        Permission::findOrFail($id)->delete();
+        $this->permissions->findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',

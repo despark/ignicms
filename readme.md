@@ -1,3 +1,7 @@
+<p align="center">
+<a href="https://styleci.io/repos/58520217"><img src="https://styleci.io/repos/58520217/shield?branch=3.0" alt="StyleCI"></a>
+<a href="https://travis-ci.org/despark/ignicms"><img src="https://travis-ci.org/despark/ignicms.svg?branch=3.0" alt="Build Status"></img></a>
+</p>
 # Despark's igniCMS
 
 **igniCMS** is an administrative interface builder for Laravel 5.1

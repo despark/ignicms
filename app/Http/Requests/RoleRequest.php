@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Role;
+use Despark\Cms\Models\Role;
 use Despark\Cms\Http\Requests\AdminFormRequest;
 
 class RoleRequest extends AdminFormRequest

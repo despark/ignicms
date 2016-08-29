@@ -10,24 +10,25 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.5.9",
-        "laravel/framework": "5.2.*",
+        "php": ">=5.6.4",
+        "laravel/framework": "5.3.*",
         "rtconner/laravel-tagging": "~2.0",
         "barryvdh/laravel-ide-helper": "^2.1",
-        "laravelcollective/html": "~5.0",
+        "laravelcollective/html": "5.3.*@dev",
         "intervention/image": "^2.3",
         "cviebrock/eloquent-sluggable": "^3.0",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "skovmand/mailchimp-laravel": "1.*",
+        "mailchimp/mailchimp": "~2.0",
         "roumen/sitemap": "^2.5",
         "rutorika/sortable": "^2.3",
         "jenssegers/agent": "^2.3",
         "spatie/laravel-permission": "^1.4"
     },
     "require-dev": {
+        "graham-campbell/testbench": "^3.2",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~5.0",
         "phpspec/phpspec": "~2.1",
         "corneltek/phprelease": "^1.3",
         "symfony/dom-crawler": "~3.0",
@@ -43,26 +44,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": []
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php artisan clear-compiled",
-            "php artisan optimize",
-            "php artisan vendor:publish --provider='Despark\\Cms\\Providers\\AdminServiceProvider'"
-        ],
-        "pre-update-cmd": [],
-        "post-update-cmd": [
-            "php artisan clear-compiled",
-            "php artisan ide-helper:generate",
-            "php artisan optimize"
-        ],
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ]
+        "psr-4": {
+            "Despark\\Tests\\Cms\\": "tests/"
+        }
     },
     "config": {
         "preferred-install": "dist"

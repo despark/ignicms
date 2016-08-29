@@ -28,4 +28,7 @@
         font-size: 14px;
         letter-spacing: 0.9px;
     }
+    li.select2-selection__choice {
+        color: $text-color-dark;
+    }
 }

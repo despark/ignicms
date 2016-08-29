@@ -19,5 +19,4 @@ abstract class Request extends FormRequest
             'title' => 'required',
         ];
     }
-
 }
