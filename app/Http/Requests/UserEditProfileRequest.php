@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Despark\Cms\Http\Requests\AdminFormRequest;
 
 class UserEditProfileRequest extends Request
 {

@@ -7,8 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 
 /**
- * Class ResourceCompiler
- * @package Despark\Cms\Console\Commands\Compilers
+ * Class ResourceCompiler.
  */
 class ResourceCompiler
 {
@@ -127,19 +126,17 @@ class ResourceCompiler
             foreach ($this->routeActions as $action) {
                 $this->routeNames[$action] = 'admin.'.$identifierPlural.'.'.$action;
             }
-
         }
 
         $route = "Route::resource('".$identifierPlural."', '".$this->getAppNamespace().
             'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."'";
-        if ( ! empty($this->routeNames)) {
+        if (! empty($this->routeNames)) {
             // create the resource names
-            $route .= ",[".PHP_EOL."'names' => [".PHP_EOL;
+            $route .= ',['.PHP_EOL."'names' => [".PHP_EOL;
             foreach ($this->routeNames as $action => $name) {
                 $route .= "'$action' => '$name',".PHP_EOL;
             }
             $route .= ']'.PHP_EOL.']);'.PHP_EOL;
-
         } else {
             // Close the Route resource
             $route .= ');'.PHP_EOL;
@@ -262,7 +259,7 @@ class ResourceCompiler
      */
     public function appendToFile($file, $content)
     {
-        if ( ! file_exists($file)) {
+        if (! file_exists($file)) {
             throw new \Exception('File is missing');
         }
         file_put_contents($file, $content, FILE_APPEND);

@@ -143,7 +143,7 @@ class AdminResourceCommand extends Command
         $file = $path.DIRECTORY_SEPARATOR.$filename;
         if (File::exists($file)) {
             $result = $this->confirm('File "'.$filename.'" already exist. Overwrite?', false);
-            if ( ! $result) {
+            if (! $result) {
                 return;
             }
         }

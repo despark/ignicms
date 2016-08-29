@@ -6,8 +6,7 @@ use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class I18n
- * @package App\Models
+ * Class I18n.
  */
 class I18n extends Model
 {

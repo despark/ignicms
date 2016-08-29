@@ -130,13 +130,13 @@ trait AdminImage
         $modelDir = strtolower($modelDir).DIRECTORY_SEPARATOR;
         $modelDir = 'uploads'.DIRECTORY_SEPARATOR.$modelDir;
 
-        if ( ! File::isDirectory(public_path($modelDir))) {
+        if (! File::isDirectory(public_path($modelDir))) {
             File::makeDirectory(public_path($modelDir));
         }
 
         $modelDir = strtolower($modelDir).$this->id.DIRECTORY_SEPARATOR;
 
-        if ( ! File::isDirectory(public_path($modelDir))) {
+        if (! File::isDirectory(public_path($modelDir))) {
             File::makeDirectory(public_path($modelDir));
         }
 

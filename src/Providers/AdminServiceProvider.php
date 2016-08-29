@@ -61,17 +61,17 @@ class AdminServiceProvider extends ServiceProvider
         $this->commands($this->commands);
 
         // Publish the Resources
-        # Migrations
+        // Migrations
         $this->publishes([
             __DIR__.'/../../database/migrations/' => database_path('/migrations'),
         ], 'migrations');
 
-        # Seeders
+        // Seeders
         $this->publishes([
             __DIR__.'/../../database/seeds/' => database_path('/seeds'),
         ], 'seeds');
 
-        # Configs
+        // Configs
         $this->publishes([
             __DIR__.'/../../config/' => config_path(),
         ], 'config');
@@ -99,7 +99,7 @@ class AdminServiceProvider extends ServiceProvider
         $configPaths = config('admin.bootstrap.paths');
         if ($configPaths) {
             foreach ($configPaths as $key => $path) {
-                if ( ! is_dir($path)) {
+                if (! is_dir($path)) {
                     mkdir($path, 775, true);
                 }
             }

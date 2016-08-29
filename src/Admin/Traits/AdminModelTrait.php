@@ -8,12 +8,10 @@ use Despark\Cms\src\Admin\Observers\AdminObserver;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class AdminModelTrait
- * @package Despark\Cms\Admin\Traits
+ * Class AdminModelTrait.
  */
 trait AdminModelTrait
 {
-
     /**
      * @array $adminColumns table columns in admin list page
      */
@@ -50,7 +48,7 @@ trait AdminModelTrait
 
     public function getIdentifier()
     {
-        if ( ! isset($this->identifier)) {
+        if (! isset($this->identifier)) {
             throw new \Exception('Missing required property `identifier` in: '.__CLASS__);
         }
 
@@ -62,7 +60,7 @@ trait AdminModelTrait
      */
     public function getAdminTableColumns()
     {
-        if ( ! isset($this->adminColumns)) {
+        if (! isset($this->adminColumns)) {
             $this->adminColumns = config('admin.'.$this->getIdentifier().'.adminColumns', []);
         }
 
@@ -138,7 +136,7 @@ trait AdminModelTrait
 
                 return 'No translation';
                 break;
-            default :
+            default:
                 return $record->{$col['db_field']};
                 break;
         }
@@ -205,7 +203,7 @@ trait AdminModelTrait
      */
     public function getFormFields()
     {
-        if ( ! isset($this->adminFormFields)) {
+        if (! isset($this->adminFormFields)) {
             $this->adminFormFields = config('admin.'.$this->getIdentifier().'.adminFormFields');
         }
 

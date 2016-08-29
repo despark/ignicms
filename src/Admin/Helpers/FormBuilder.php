@@ -1,13 +1,10 @@
 <?php
+
 namespace Despark\Cms\Admin\Helpers;
 
-
 /**
- * Class FormBuilder
- *
- * @package Despark\Admin\Helpers
+ * Class FormBuilder.
  */
-
 class FormBuilder
 {
     /**
@@ -30,7 +27,7 @@ class FormBuilder
      */
     public function renderInput($view)
     {
-        return view('admin.formElements.'.$view, ['record' => $this->model, 'fieldName' => $this->field, 'options' => $this->options] );
+        return view('admin.formElements.'.$view, ['record' => $this->model, 'fieldName' => $this->field, 'options' => $this->options]);
     }
 
     /**
@@ -47,5 +44,4 @@ class FormBuilder
 
         return $this->renderInput($this->options['type']);
     }
-
 }

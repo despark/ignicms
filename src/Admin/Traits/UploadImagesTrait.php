@@ -8,8 +8,7 @@ use File;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class UploadImagesTrait
- * @package Despark\Cms\Admin\Traits
+ * Class UploadImagesTrait.
  */
 trait UploadImagesTrait
 {
@@ -54,7 +53,7 @@ trait UploadImagesTrait
 
                     $thumbnailPath = $this->getThumbnailPath($thumbnailName);
 
-                    if ( ! File::isDirectory($thumbnailPath)) {
+                    if (! File::isDirectory($thumbnailPath)) {
                         File::makeDirectory($thumbnailPath);
                     }
 
@@ -101,11 +100,11 @@ trait UploadImagesTrait
     {
         $modelImageFields = $this->getImageFields();
 
-        if ( ! array_key_exists($fieldName, $modelImageFields)) {
+        if (! array_key_exists($fieldName, $modelImageFields)) {
             return false;
         }
 
-        if ( ! array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
+        if (! array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
             $thumbnailType = 'original';
         }
 
