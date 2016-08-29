@@ -3,7 +3,6 @@
 namespace Despark\Cms\Http\Controllers\Admin;
 
 use Despark\Cms\Http\Controllers\Controller;
-use Input;
 use View;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;

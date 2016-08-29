@@ -13,8 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => ['web']], function ()
-{
+Route::group(['middleware' => ['web']], function () {
     Route::get('/', ['as' => 'work', 'uses' => 'HomeController@index']);
     Auth::routes();
     // Authentication routes...
@@ -36,7 +35,6 @@ Route::group(['middleware' => ['web']], function ()
 
     // Admin
     Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
-
         Route::get('/', ['as' => 'adminHome', 'uses' => 'Admin\AdminController@adminHome']);
         Route::get('/403', ['as' => 'adminForbidden', 'uses' => 'Admin\AdminController@forbidden']);
     });

@@ -7,7 +7,6 @@ use ReflectionClass;
 
 abstract class AbstractTestCase extends AbstractPackageTestCase
 {
-
     /**
      * Get the service provider class.
      *
@@ -21,7 +20,7 @@ abstract class AbstractTestCase extends AbstractPackageTestCase
     }
 
     /**
-     * Sets a protected property on a given object via reflection
+     * Sets a protected property on a given object via reflection.
      *
      * @param $object - instance in which protected value is being modified
      * @param $property - property on instance being modified

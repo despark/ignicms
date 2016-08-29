@@ -7,8 +7,7 @@ use File;
 use Illuminate\Support\Facades\Request;
 
 /**
- * Class UploadFilesTrait
- * @package Despark\Cms\Admin\Traits
+ * Class UploadFilesTrait.
  */
 trait UploadFilesTrait
 {
@@ -18,7 +17,7 @@ trait UploadFilesTrait
     public $uploadFileDir = 'uploads';
 
     /**
-     *
+     * Save file method.
      */
     public function saveFiles()
     {

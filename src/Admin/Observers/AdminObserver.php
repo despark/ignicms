@@ -1,16 +1,13 @@
 <?php
 
-
 namespace Despark\Cms\src\Admin\Observers;
-
 
 use Despark\Cms\Admin\Traits\UploadFilesTrait;
 use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class AdminObserver
- * @package Despark\Cms\src\Admin\Observers
+ * Class AdminObserver.
  */
 class AdminObserver
 {

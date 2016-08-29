@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Despark\Tests\Cms\Commands;
-
 
 use Despark\Cms\Console\Commands\AdminResourceCommand;
 use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
@@ -11,7 +9,6 @@ use Mockery\Mock;
 
 class ResourceTest extends AbstractTestCase
 {
-
     /**
      * @group commands
      * @group resource
@@ -62,7 +59,7 @@ class ResourceTest extends AbstractTestCase
         // We need a way to undo changes.
     }
 
-    public function dummyAppendToFile($file = null, $content)
+    public function dummyAppendToFile($file, $content)
     {
         $file = storage_path('dummy_file.test');
         \File::put($file, $content);
@@ -72,5 +69,4 @@ class ResourceTest extends AbstractTestCase
     {
         return (strstr($routeName, 'admin.') !== false) ? false : true;
     }
-
 }

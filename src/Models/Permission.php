@@ -1,4 +1,5 @@
 <?php
+
 namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Traits\AdminModelTrait;
