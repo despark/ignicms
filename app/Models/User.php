@@ -73,6 +73,6 @@ class User extends Authenticatable implements
 
     public function rolesOptions()
     {
-        return Role::all()->pluck('name', 'id')->toArray();
+        return Role::all()->pluck('name', 'name')->toArray();
     }
 }

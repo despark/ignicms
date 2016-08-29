@@ -19,10 +19,14 @@ return [
             'type' => 'password',
             'label' => 'Password',
         ],
-        'roles' => [
-            'type' => 'select',
-            'label' => 'Role',
+        'roles[]' => [
+            'type' => 'manytomanySelect',
+            'label' => 'Roles',
+            'relationMethod' => 'roles',
             'select_options' => 'rolesOptions',
+            'relationTextField' => 'name',
+            'validateName' => 'roles',
+            'selectedKey' => 'name',
         ],
     ],
 

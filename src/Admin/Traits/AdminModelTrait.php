@@ -234,7 +234,7 @@ trait AdminModelTrait
      */
     public function getRulesUpdate()
     {
-        return (isset($this->rulesUpdate)) ? $this->rulesUpdate : $this->rules;
+        return (isset($this->rulesUpdate)) ? array_merge($this->rulesUpdate, $this->rules) : $this->rules;
     }
 
     /**

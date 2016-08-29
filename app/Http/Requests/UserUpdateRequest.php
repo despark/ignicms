@@ -3,9 +3,18 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use Despark\Cms\Http\Requests\AdminFormRequest;
 
-class UserUpdateRequest extends Request
+class UserUpdateRequest extends AdminFormRequest
 {
+    /**
+     * PermissionRequest constructor.
+     */
+    public function __construct()
+    {
+        $this->model = new User();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,7 +34,7 @@ class UserUpdateRequest extends Request
     {
         $model = new User();
         $rules = $model->getRulesUpdate();
-        $rules['email'] = str_replace('{id}', $this->route()->getParameter('users'), $rules['email']);
+        $rules['email'] = str_replace('{id}', $this->route()->getParameter('user'), $rules['email']);
 
         return $rules;
     }

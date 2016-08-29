@@ -73,7 +73,7 @@ class UsersController extends AdminController
      */
     public function store(UserRequest $request)
     {
-        $input = $request->all();
+        $input = $request->except('roles');
 
         $model = new User();
 
@@ -89,14 +89,7 @@ class UsersController extends AdminController
             $record->retag($request->get('tags'));
         }
 
-        if ($request->has('roles')) {
-            $roles = Role::all();
-            foreach ($roles as $role) {
-                $record->removeRole($role->name);
-            }
-
-            $record->assignRole($request->get('roles'));
-        }
+        $record->syncRoles($request->roles);
 
         $record->addImages($input);
 
@@ -138,7 +131,7 @@ class UsersController extends AdminController
      */
     public function update(UserUpdateRequest $request, $id)
     {
-        $input = $request->all();
+        $input = $request->except('roles');
 
         if ($request->has('password')) {
             $input['password'] = Hash::make($request->get('password'));
@@ -152,14 +145,7 @@ class UsersController extends AdminController
             $record->retag($request->get('tags'));
         }
 
-        if ($request->has('roles')) {
-            $roles = Role::all();
-            foreach ($roles as $role) {
-                $record->removeRole($role->name);
-            }
-
-            $record->assignRole($request->get('roles'));
-        }
+        $record->syncRoles($request->roles);
 
         $record->update($input);
 
