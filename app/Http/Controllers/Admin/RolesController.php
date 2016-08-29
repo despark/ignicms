@@ -9,7 +9,6 @@ use Spatie\Permission\Contracts\Role;
 
 class RolesController extends AdminController
 {
-
     protected $model;
 
     /**

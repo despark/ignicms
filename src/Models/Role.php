@@ -11,7 +11,7 @@ class Role extends RoleModel
     public $identifier = 'role';
 
     protected $rules = [
-        'name' => 'required|unique|max:255'
+        'name' => 'required|unique|max:255',
     ];
 
     public function getPermissions()

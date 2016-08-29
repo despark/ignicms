@@ -12,6 +12,6 @@ class Permission extends PermissionModel
     public $identifier = 'permission';
 
     protected $rules = [
-        'name' => 'required|max:255'
+        'name' => 'required|max:255',
     ];
 }
