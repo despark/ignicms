@@ -18,7 +18,7 @@ trait UploadFilesTrait
     public $uploadFileDir = 'uploads';
 
     /**
-     *
+     * Save file method.
      */
     public function saveFiles()
     {
