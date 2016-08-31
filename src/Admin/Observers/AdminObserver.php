@@ -1,6 +1,6 @@
 <?php
 
-namespace Despark\Cms\src\Admin\Observers;
+namespace Despark\Cms\Admin\Observers;
 
 use Despark\Cms\Admin\Traits\UploadFilesTrait;
 use Despark\Cms\Admin\Traits\UploadImagesTrait;

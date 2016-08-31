@@ -4,7 +4,7 @@ namespace Despark\Cms\Admin\Traits;
 
 use Despark\Cms\Admin\Helpers\FormBuilder;
 use App\Models\I18n;
-use Despark\Cms\src\Admin\Observers\AdminObserver;
+use Despark\Cms\Admin\Observers\AdminObserver;
 use Illuminate\Support\Facades\Request;
 
 /**
