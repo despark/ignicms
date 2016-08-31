@@ -83,7 +83,8 @@ class ResourceCompiler
      * @param Command $command
      * @param         $identifier
      * @param         $options
-     * @todo why setting options where we can get it from command? Either remove command or keep options.
+     *
+     * @todo why setting options where we can get it from command? Either remove command or keep options
      */
     public function __construct(Command $command, $identifier, $options)
     {
@@ -94,7 +95,9 @@ class ResourceCompiler
 
     /**
      * @param $template
+     *
      * @return string
+     *
      * @throws \Exception
      */
     public function render_model($template)
@@ -122,28 +125,29 @@ class ResourceCompiler
             if (\Route::has('admin.'.$identifierPlural.'.index')) {
                 throw new \Exception('Resource `'.$this->identifier.'` already exists');
             }
+
             // We need to append admin
             foreach ($this->routeActions as $action) {
                 $this->routeNames[$action] = 'admin.'.$identifierPlural.'.'.$action;
             }
         }
 
-        $route = "Route::resource('".$identifierPlural."', '".$this->getAppNamespace().
-            'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."'";
+        $route = "Route::resource('$identifierPlural', 'Admin\\".$this->command->controller_name($this->identifier)."'";
         if (! empty($this->routeNames)) {
             // create the resource names
             $route .= ',['.PHP_EOL."'names' => [".PHP_EOL;
             foreach ($this->routeNames as $action => $name) {
                 $route .= "'$action' => '$name',".PHP_EOL;
             }
+
             $route .= ']'.PHP_EOL.']);'.PHP_EOL;
         } else {
             // Close the Route resource
             $route .= ');'.PHP_EOL;
         }
+
         if ($this->options['file_uploads']) {
-            $route .= "Route::get('".$identifierPlural."/delete/{fileFieldName}', '".$this->getAppNamespace().
-                'Http\Controllers\Admin\\'.$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
+            $route .= "Route::get('$identifierPlural/delete/{fileFieldName}', 'Admin\\".$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
         }
 
         $this->appendToFile(app_path('Http/resourcesRoutes.php'), $route);
@@ -155,6 +159,7 @@ class ResourceCompiler
 
     /**
      * @param $template
+     *
      * @return string
      */
     public function render_config($template)
@@ -193,6 +198,7 @@ class ResourceCompiler
 
     /**
      * @param $template
+     *
      * @return string
      */
     public function render_request($template)
@@ -208,6 +214,7 @@ class ResourceCompiler
 
     /**
      * @param $template
+     *
      * @return string
      */
     public function render_controller($template)
@@ -240,6 +247,7 @@ class ResourceCompiler
 
     /**
      * @param $template
+     *
      * @return string
      */
     public function render_migration($template)
@@ -255,6 +263,7 @@ class ResourceCompiler
     /**
      * @param $file
      * @param $content
+     *
      * @throws \Exception
      */
     public function appendToFile($file, $content)
