@@ -50,7 +50,7 @@ class :controller_name extends AdminController
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'admin.:resource.store';
+        $this->viewData['formAction'] = ':resource.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -76,7 +76,7 @@ class :controller_name extends AdminController
             'description' => ':model_name is created successfully!',
         ]);
 
-        return redirect(route('admin.:resource.edit', ['id' => $record->id]));
+        return redirect(route(':resource.edit', ['id' => $record->id]));
     }
 
     /**
@@ -93,7 +93,7 @@ class :controller_name extends AdminController
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'admin.:resource.update';
+        $this->viewData['formAction'] = ':resource.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
