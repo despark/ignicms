@@ -132,8 +132,8 @@ class ResourceCompiler
             }
         }
 
-        $route = "Route::resource('".$identifierPlural."', 'Admin\\'".$this->command->controller_name($this->identifier)."'";
-        if (!empty($this->routeNames)) {
+        $route = "Route::resource('$identifierPlural', 'Admin\\".$this->command->controller_name($this->identifier)."'";
+        if (! empty($this->routeNames)) {
             // create the resource names
             $route .= ',['.PHP_EOL."'names' => [".PHP_EOL;
             foreach ($this->routeNames as $action => $name) {
@@ -147,7 +147,7 @@ class ResourceCompiler
         }
 
         if ($this->options['file_uploads']) {
-            $route .= "Route::get('$identifierPlural/delete/{fileFieldName}', 'Admin\\'".$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
+            $route .= "Route::get('$identifierPlural/delete/{fileFieldName}', 'Admin\\".$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
         }
 
         $this->appendToFile(app_path('Http/resourcesRoutes.php'), $route);
@@ -268,7 +268,7 @@ class ResourceCompiler
      */
     public function appendToFile($file, $content)
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             throw new \Exception('File is missing');
         }
         file_put_contents($file, $content, FILE_APPEND);
