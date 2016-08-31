@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Illuminate\Database\Eloquent\Model;
