@@ -22,7 +22,8 @@
         "roumen/sitemap": "^2.5",
         "rutorika/sortable": "^2.3",
         "jenssegers/agent": "^2.3",
-        "spatie/laravel-permission": "^1.4"
+        "spatie/laravel-permission": "^1.4",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.2",

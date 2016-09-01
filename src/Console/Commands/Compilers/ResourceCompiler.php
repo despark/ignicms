@@ -2,6 +2,12 @@
 
 namespace Despark\Cms\Console\Commands\Compilers;
 
+use Despark\Cms\Admin\Interfaces\UploadFileInterface;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Despark\Cms\Admin\Traits\AdminFile;
+use Despark\Cms\Admin\Traits\AdminImage;
+use Despark\Cms\Admin\Traits\UploadFilesTrait;
+use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Despark\Cms\Console\Commands\AdminResourceCommand;
 use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
@@ -40,6 +46,8 @@ class ResourceCompiler
         ':file_traits_include' => '',
         ':file_traits_use' => '',
         ':table_name' => '',
+        ':implementations' => [],
+        ':uses' => [],
     ];
 
     /**
@@ -102,14 +110,23 @@ class ResourceCompiler
      */
     public function render_model($template)
     {
-        if ($this->options['image_uploads']) {
-            $this->modelReplacements[':image_traits_include'] = 'use Despark\Cms\Admin\Traits\UploadImagesTrait;';
-            $this->modelReplacements[':image_traits_use'] = 'use UploadImagesTrait;';
-        }
 
-        if ($this->options['file_uploads']) {
-            $this->modelReplacements[':file_traits_include'] = 'use Despark\Cms\Admin\Traits\UploadFilesTrait;';
-            $this->modelReplacements[':file_traits_use'] = 'use UploadFilesTrait;';
+        if ($this->options['image_uploads'] || $this->options['file_uploads']) {
+
+
+            if ($this->options['image_uploads']) {
+                $this->modelReplacements[':uses'][] = UploadImageInterface::class;
+                $this->modelReplacements[':implementations'][] = class_basename(UploadImageInterface::class);
+                $this->options[':traits'][] = class_basename(AdminImage::class);
+                $this->options[':uses'][] = AdminImage::class;
+            }
+
+            if ($this->options['file_uploads']) {
+                $this->modelReplacements[':uses'][] = UploadFileInterface::class;
+                $this->options[':uses'][] = AdminFile::class;
+                $this->modelReplacements[':implementations'][] = class_basename(UploadFileInterface::class);
+                $this->options[':traits'][] = class_basename(AdminFile::class);
+            }
         }
 
         $this->modelReplacements[':app_namespace'] = $this->getAppNamespace();
@@ -118,6 +135,8 @@ class ResourceCompiler
         $this->modelReplacements[':identifier'] = $this->identifier;
 
         $identifierPlural = str_plural($this->identifier);
+
+        $this->prepareReplacements();
 
         // Check to see if route is not already used
         if (\Route::has($identifierPlural.'.index')) {
@@ -152,9 +171,26 @@ class ResourceCompiler
 
         $this->appendToFile(app_path('Http/resourcesRoutes.php'), $route);
 
+
         $template = strtr($template, $this->modelReplacements);
 
         return $template;
+    }
+
+    /**
+     * Prepare Replacements
+     */
+    private function prepareReplacements()
+    {
+        foreach ($this->modelReplacements[':uses'] as $use) {
+            $this->modelReplacements[':uses'] = 'use '.$use.';'.PHP_EOL;
+        }
+
+        $this->modelReplacements[':implementations'] = ! empty($this->modelReplacements[':implementations']) ?
+            'implements '.implode(', ', $this->modelReplacements[':implementations']) : '';
+
+        $this->modelReplacements[':traits'] = ! empty($this->modelReplacements[':traits']) ?
+            'use '.implode(', ', $this->modelReplacements[':implementations']) : '';
     }
 
     /**
@@ -273,4 +309,6 @@ class ResourceCompiler
         }
         file_put_contents($file, $content, FILE_APPEND);
     }
+
+
 }

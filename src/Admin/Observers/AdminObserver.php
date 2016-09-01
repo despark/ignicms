@@ -2,6 +2,8 @@
 
 namespace Despark\Cms\Admin\Observers;
 
+use Despark\Cms\Admin\Interfaces\UploadFileInterface;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Despark\Cms\Admin\Traits\UploadFilesTrait;
 use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -16,11 +18,11 @@ class AdminObserver
      */
     public function saving(Model $model)
     {
-        if (in_array(UploadImagesTrait::class, class_uses($model))) {
+        if ($model instanceof UploadImageInterface) {
             $model->saveImages();
         }
 
-        if (in_array(UploadFilesTrait::class, class_uses($model))) {
+        if ($model instanceof UploadFileInterface) {
             $model->saveFiles();
         }
     }

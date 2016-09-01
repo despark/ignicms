@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Request;
 
 /**
  * Class UploadImagesTrait.
+ * @deprecated
  */
 trait UploadImagesTrait
 {
@@ -18,9 +19,9 @@ trait UploadImagesTrait
     public $uploadDir = 'uploads';
 
     /**
-     * @param array $options
+     * Save Image
      */
-    public function saveImages(array $options = [])
+    public function saveImages()
     {
         $imageFields = $this->getImageFields();
 

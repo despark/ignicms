@@ -4,14 +4,13 @@ namespace :app_namespaceModels;
 
 use Illuminate\Database\Eloquent\Model;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
-:image_traits_include
-:file_traits_include
+:uses
 
-class :model_name extends Model
+
+class :model_name extends Model :implementations
 {
     use AdminModelTrait;
-    :image_traits_use
-    :file_traits_use
+    :traits
 
     protected $table = ':table_name';
 

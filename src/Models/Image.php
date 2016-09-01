@@ -9,24 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Image extends Model
 {
-    /**
-     * @var string
-     */
-    protected $table = 'imageables';
-
-    public $timestamps = false;
-
     protected $fillable = [
-        'file',
-        'orientation',
+        'original_image',
+        'retina_image',
+        'field_name',
     ];
 
     protected $rules = [
         'file' => 'image|max:5000',
     ];
 
-    public function imageable()
+    public function image()
     {
-        return $this->morphTo('imageable', 'imageable_type', 'imageable_id');
+        return $this->morphTo(null, null, 'resource_id');
     }
 }
