@@ -16,10 +16,11 @@ class AdminObserver
      */
     public function saving(Model $model)
     {
-        if ($model instanceof UploadImagesTrait) {
+        if (in_array(UploadImagesTrait::class, class_uses($model))) {
             $model->saveImages();
         }
-        if ($model instanceof UploadFilesTrait) {
+
+        if (in_array(UploadFilesTrait::class, class_uses($model))) {
             $model->saveFiles();
         }
     }

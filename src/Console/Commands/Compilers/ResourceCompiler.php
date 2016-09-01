@@ -166,7 +166,7 @@ class ResourceCompiler
     {
         if ($this->options['image_uploads']) {
             $this->configReplacements[':image_fields'] = "'image_fields' => [
-        'image'  => [
+        'image' => [
             'thumbnails' => [
                 'admin' => [
                     'width' => 150,
