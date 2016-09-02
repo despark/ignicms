@@ -6,11 +6,9 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Despark\Cms\Models\Auth\User as Authenticatable;
 use Conner\Tagging\Taggable;
-use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
-use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -21,10 +19,8 @@ class User extends Authenticatable implements
 {
     use CanResetPassword;
     use Taggable;
-    use AdminImage;
     use HasRoles;
     use AdminModelTrait;
-    use UploadImagesTrait;
 
     public $identifier = 'user';
 

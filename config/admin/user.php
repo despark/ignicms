@@ -29,5 +29,4 @@ return [
             'selectedKey' => 'name',
         ],
     ],
-
 ];

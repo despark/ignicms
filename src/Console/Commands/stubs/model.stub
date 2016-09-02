@@ -2,12 +2,12 @@
 
 namespace :app_namespaceModels;
 
-use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
 :uses
 
 
-class :model_name extends Model :implementations
+class :model_name extends AdminModel :implementations
 {
     use AdminModelTrait;
     :traits

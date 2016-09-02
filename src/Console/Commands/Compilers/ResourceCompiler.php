@@ -48,6 +48,7 @@ class ResourceCompiler
         ':table_name' => '',
         ':implementations' => [],
         ':uses' => [],
+        ':traits' => [],
     ];
 
     /**
@@ -117,15 +118,15 @@ class ResourceCompiler
             if ($this->options['image_uploads']) {
                 $this->modelReplacements[':uses'][] = UploadImageInterface::class;
                 $this->modelReplacements[':implementations'][] = class_basename(UploadImageInterface::class);
-                $this->options[':traits'][] = class_basename(AdminImage::class);
-                $this->options[':uses'][] = AdminImage::class;
+                $this->modelReplacements[':uses'][] = AdminImage::class;
+                $this->modelReplacements[':traits'][] = class_basename(AdminImage::class);
             }
 
             if ($this->options['file_uploads']) {
                 $this->modelReplacements[':uses'][] = UploadFileInterface::class;
-                $this->options[':uses'][] = AdminFile::class;
                 $this->modelReplacements[':implementations'][] = class_basename(UploadFileInterface::class);
-                $this->options[':traits'][] = class_basename(AdminFile::class);
+                $this->modelReplacements[':uses'][] = AdminFile::class;
+                $this->modelReplacements[':traits'][] = class_basename(AdminFile::class);
             }
         }
 
@@ -182,15 +183,17 @@ class ResourceCompiler
      */
     private function prepareReplacements()
     {
+        $usesString = '';
         foreach ($this->modelReplacements[':uses'] as $use) {
-            $this->modelReplacements[':uses'] = 'use '.$use.';'.PHP_EOL;
+            $usesString .= 'use '.$use.';'.PHP_EOL;
         }
+        $this->modelReplacements[':uses'] = $usesString;
 
         $this->modelReplacements[':implementations'] = ! empty($this->modelReplacements[':implementations']) ?
             'implements '.implode(', ', $this->modelReplacements[':implementations']) : '';
 
         $this->modelReplacements[':traits'] = ! empty($this->modelReplacements[':traits']) ?
-            'use '.implode(', ', $this->modelReplacements[':implementations']) : '';
+            'use '.implode(', ', $this->modelReplacements[':traits']).';' : '';
     }
 
     /**

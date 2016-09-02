@@ -25,18 +25,20 @@
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <!-- The user image in the navbar-->
-                        @if (Auth::user()->getFilePathByOrientation(2))
-                            <img src="{{ asset(Auth::user()->getFilePathByOrientation(2)) }}" class="user-image" alt="User Image"/>
-                        @endif
-                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                        @if (Auth::user()->hasImages())
+                            <img src="{{ asset(Auth::user()->getFilePathByOrientation(2)) }}" class="user-image"
+                                 alt="User Image"/>
+                            @endif
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">{{ Auth::user()->name }}</span>
                     </a>
 
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
                         <li class="user-header">
-                            @if (Auth::user()->getFilePathByOrientation(2))
-                                <img src="{{ asset(Auth::user()->getFilePathByOrientation(2)) }}" class="img-circle" alt="User Image" />
+                            @if (Auth::user()->hasImages())
+                                <img src="{{ asset(Auth::user()->getFilePathByOrientation(2)) }}" class="img-circle"
+                                     alt="User Image"/>
                             @endif
                             <p>
                                 {{ Auth::user()->name }}
@@ -51,7 +53,7 @@
                             </div> -->
                             <div class="pull-right">
                                 <form method="post" action="{{url('/logout')}}">
-                                <button class="btn btn-default btn-flat">Sign out</button>
+                                    <button class="btn btn-default btn-flat">Sign out</button>
                                 </form>
                             </div>
                         </li>

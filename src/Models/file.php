@@ -11,6 +11,7 @@ class File extends Model
 
     public function file()
     {
+        static::created();
         return $this->morphTo();
     }
 }

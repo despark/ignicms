@@ -26,9 +26,10 @@ class ImageableRefactor extends Migration
              * `updated_at` timestamp NULL DEFAULT NULL,
              */
             $table->renameColumn('imageable_id', 'resource_id');
-            $table->renameColumn('imageable_type', 'image_type');
+            $table->renameColumn('imageable_type', 'resource_model');
+            $table->string('image_type', 100)->after('imageable_type');
             $table->renameColumn('file', 'original_image');
-            $table->string('retina_image_x2', 100)->after('file');
+            $table->unsignedSmallInteger('retina_factor')->nullable()->after('file');
 
             $table->dropColumn('orientation');
 
@@ -46,9 +47,10 @@ class ImageableRefactor extends Migration
 
         Schema::table('imageables', function (Blueprint $table) {
             $table->renameColumn('resource_id', 'imageable_id');
-            $table->renameColumn('image_id', 'imageable_type');
+            $table->renameColumn('resource_model', 'imageable_type');
             $table->renameColumn('original_image', 'file');
-            $table->dropColumn('retina_image_x2');
+            $table->dropColumn('retina_factor');
+            $table->dropColumn('image_type');
             $table->integer('orientation')->after('original_image');
 
         });

@@ -16,7 +16,7 @@ class AdminObserver
     /**
      * @param Model $model
      */
-    public function saving(Model $model)
+    public function saved(Model $model)
     {
         if ($model instanceof UploadImageInterface) {
             $model->saveImages();

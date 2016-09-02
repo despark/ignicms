@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
-use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
-use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Models\AdminModel;
 
-class SeoPage extends Model implements SluggableInterface
+class SeoPage extends AdminModel implements SluggableInterface
 {
-    use UploadImagesTrait, SluggableTrait, AdminModelTrait;
+    use AdminImage, SluggableTrait, AdminModelTrait;
 
     protected $sluggable = [
         'build_from' => 'page_title',
