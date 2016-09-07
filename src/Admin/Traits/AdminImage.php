@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Admin\Traits;
 
+use Despark\Cms\Admin\Observers\ImageObserver;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Models\Image as ImageModel;
@@ -30,6 +31,11 @@ trait AdminImage
     /**
      * @var string
      */
+    protected $currentUploadDir;
+
+    /**
+     * @var string
+     */
     public $uploadDir = 'uploads';
 
     /**
@@ -46,6 +52,8 @@ trait AdminImage
      */
     public static function bootAdminImage()
     {
+        // Observer for the model
+        static::observe(ImageObserver::class);
         // We need to listen for booted event and modify the model.
         \Event::listen("eloquent.booted: ".static::class, [new self, 'bootstrapModel']);
 
@@ -119,23 +127,12 @@ trait AdminImage
 
         foreach ($imageFields as $imageType => $options) {
             if ($file = array_get($this->files, $imageType)) {
+
                 // First delete unused images
-                $idsToDelete = [];
                 foreach ($this->getImagesOfType($imageType) as $image) {
-                    /** @var ImageModel $image */
-                    $idsToDelete[] = $image->getKey();
-                    // Remove physical
-                    $paths[] = $this->getThumbnailPath().$image->originalImage();
-
-                    foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
-
-                    }
-
+                    $image->delete();
                 }
-                if ($idsToDelete) {
-                    ImageModel::destroy($idsToDelete);
 
-                }
                 $images = $this->manipulateImage($file, $options);
 
                 // We will save just the source one as a relation.
@@ -165,8 +162,11 @@ trait AdminImage
         $pathParts = pathinfo($sanitizedFilename);
         // Move uploaded file and rename it as source file.
         $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
+        // We need to generate unique name if the name is already in use.
+
         $sourceFile = $file->move($this->getThumbnailPath(), $filename);
         $images['original']['source'] = $sourceFile;
+
 
         // If we have retina factor
         if ($this->retinaFactor) {
@@ -180,18 +180,18 @@ trait AdminImage
             $width = round($originalImage->getWidth() / $this->retinaFactor);
             $height = round($originalImage->getHeight() / $this->retinaFactor);
             $originalImage->resize($width, $height);
-            $images['original']['original_file'] = $originalImage->save($sanitizedFilename);
+            $images['original']['original_file'] = $originalImage->save($this->getThumbnailPath().$sanitizedFilename);
 
             // Generate thumbs
             foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
                 // Create retina thumb
                 $images['thumbnails'][$thumbnailName]['retina'] = $this->createThumbnail($sourceFile->getRealPath(),
-                    $thumbnailName, $this->generateRetinaName($sourceFile->getFilename()),
+                    $thumbnailName, $this->generateRetinaName($sanitizedFilename),
                     $thumbnailOptions['width'] * $this->retinaFactor, $thumbnailOptions['height'] * $this->retinaFactor,
                     $thumbnailOptions['type']);
                 // Create original thumb
                 $images['thumbnails'][$thumbnailName]['original'] = $this->createThumbnail($sourceFile->getRealPath(),
-                    $thumbnailName, $file->getClientOriginalName(), $thumbnailOptions['width'],
+                    $thumbnailName, $sanitizedFilename, $thumbnailOptions['width'],
                     $thumbnailOptions['height'], $thumbnailOptions['type']);
             }
         } else {
@@ -204,7 +204,7 @@ trait AdminImage
             foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
                 // Create original thumb
                 $images['thumbnails'][$thumbnailName]['original'] = $this->createThumbnail($sourceFile->getRealPath(),
-                    $thumbnailName, $file->getClientOriginalName(), $thumbnailOptions['width'],
+                    $thumbnailName, $sanitizedFilename, $thumbnailOptions['width'],
                     $thumbnailOptions['height'], $thumbnailOptions['type']);
             }
         }
@@ -280,7 +280,7 @@ trait AdminImage
     {
         $pathParts = pathinfo($filename);
 
-        return str_slug($pathParts['filename']).'.'.$pathParts['extension'];
+        return str_slug($pathParts['filename']).'.'.filter_var(strtolower($pathParts['extension']));
     }
 
     /**
@@ -294,20 +294,6 @@ trait AdminImage
         return $pathParts['filename'].'@2x.'.$pathParts['extension'];
     }
 
-    /**
-     * @return array|mixed|string
-     */
-    public function getCurrentUploadDir()
-    {
-        $modelDir = explode('Models', get_class($this));
-        $modelDir = str_replace('\\', '_', $modelDir[1]);
-        $modelDir = ltrim($modelDir, '_');
-        $modelDir = strtolower($modelDir);
-
-        $modelDir = $this->uploadDir.DIRECTORY_SEPARATOR.$modelDir;
-
-        return $modelDir;
-    }
 
     /**
      * @param string $thumbnailType
@@ -316,7 +302,7 @@ trait AdminImage
     public function getThumbnailPath($thumbnailType = 'original')
     {
         if (! isset($this->thumbnailPaths[$thumbnailType])) {
-            $this->thumbnailPaths[$thumbnailType] = $this->getCurrentUploadDir().DIRECTORY_SEPARATOR.$thumbnailType.DIRECTORY_SEPARATOR;
+            $this->thumbnailPaths[$thumbnailType] = $this->getCurrentUploadDir().$thumbnailType.DIRECTORY_SEPARATOR;
         }
 
         return $this->thumbnailPaths[$thumbnailType];
@@ -384,5 +370,48 @@ trait AdminImage
         $factor = $this->retinaFactor ? $this->retinaFactor : 1;
 
         return [$minWidth * $factor, $minHeight * $factor];
+    }
+
+    /**
+     * @return array|mixed|string
+     */
+    public function getCurrentUploadDir()
+    {
+        if (! isset($this->currentUploadDir)) {
+            $modelDir = explode('Models', get_class($this));
+            $modelDir = str_replace('\\', '_', $modelDir[1]);
+            $modelDir = ltrim($modelDir, '_');
+            $modelDir = strtolower($modelDir);
+
+            $this->currentUploadDir = $this->uploadDir.DIRECTORY_SEPARATOR.$modelDir.
+                DIRECTORY_SEPARATOR.$this->getKey().DIRECTORY_SEPARATOR;
+        }
+
+        return $this->currentUploadDir;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasImages($type = null)
+    {
+        if ($type) {
+            return $this->images()->where('image_type', '=', $type)->exists();
+        }
+
+        return (bool)count($this->images);
+    }
+
+    /**
+     * @param null $type
+     * @return mixed
+     */
+    public function getImages($type = null)
+    {
+        if ($type) {
+            return $this->images()->where('image_type', '=', $type)->get();
+        }
+
+        return $this->images;
     }
 }
