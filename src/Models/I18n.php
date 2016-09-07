@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Despark\Cms\Models;
 
 use Despark\Cms\Models\AdminModel;
 
