@@ -88,7 +88,8 @@ trait AdminImage
                 // Calculate minimum allowed image size.
                 list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
                 // Set dimensions on the model.
-                $model->setMinDimensions(['width' => $minWidth, 'height' => $minHeight]);
+                $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);
+
 
                 $restrictions = [];
                 if ($minWidth) {
@@ -420,22 +421,36 @@ trait AdminImage
     /**
      * @return mixed
      */
-    public function getMinDimensions($asString = false)
+    public function getMinDimensions($field, $asString = false)
     {
+        $minDimensions = isset($this->minDimensions[$field]) ? $this->minDimensions[$field] : null;
+        if (is_null($minDimensions)) {
+            // we try to build it.
+            //  Get image fields from the model
+            $imageFields = $this->getImageFields();
+            $imageField = array_get($imageFields, $field);
+            if ($imageField) {
+                list($minDimensions['width'], $minDimensions['height']) = $this->getMinAllowedImageSize($imageField);
+                // Cache it.
+                $this->setMinDimensions($field, $minDimensions);
+            } else {
+                return null;
+            }
+        }
         if ($asString) {
-            if (isset($this->minDimensions)) {
-                if (isset($this->minDimensions['width']) && $this->minDimensions['width']
-                    && isset($this->minDimensions['height']) && $this->minDimensions['height']
+            if ($minDimensions) {
+                if (isset($this->minDimensions['width']) && $minDimensions['width']
+                    && isset($minDimensions['height']) && $minDimensions['height']
                 ) {
-                    return $this->minDimensions['width'].'x'.$this->minDimensions['height'];
+                    return $minDimensions['width'].'x'.$minDimensions['height'];
                 }
 
-                if (isset($this->minDimensions['width']) && $this->minDimensions['width']) {
-                    return $this->minDimensions['width'].'px '.trans('admin.images.width');
+                if (isset($minDimensions['width']) && $minDimensions['width']) {
+                    return $minDimensions['width'].'px '.trans('admin.images.width');
                 }
 
-                if (isset($this->minDimensions['height']) && $this->minDimensions['height']) {
-                    return $this->minDimensions['height'].'px '.trans('admin.images.height');
+                if (isset($minDimensions['height']) && $minDimensions['height']) {
+                    return $minDimensions['height'].'px '.trans('admin.images.height');
                 }
 
             }
@@ -443,7 +458,7 @@ trait AdminImage
             return null;
         }
 
-        return $this->minDimensions;
+        return $minDimensions;
     }
 
 
@@ -451,9 +466,9 @@ trait AdminImage
      * @param mixed $minDimensions
      * @return AdminImage
      */
-    public function setMinDimensions($minDimensions)
+    public function setMinDimensions($field, $minDimensions)
     {
-        $this->minDimensions = $minDimensions;
+        $this->minDimensions[$field] = $minDimensions;
 
         return $this;
     }
