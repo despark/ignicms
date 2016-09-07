@@ -98,7 +98,7 @@ trait AdminConfigTrait
                 if ($i18n) {
                     $i18nId = $i18n->id;
 
-                    return $record->translate(1)->{$col['db_field']};
+                    return $record->translate($i18nId)->{$col['db_field']};
                 }
 
                 return 'No translation';
