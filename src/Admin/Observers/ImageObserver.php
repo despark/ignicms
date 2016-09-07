@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Despark\Cms\Admin\Observers;
-
 
 use Despark\Cms\Models\Image;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ImageObserver
+ * Class ImageObserver.
  */
 class ImageObserver
 {

@@ -1,19 +1,16 @@
 <?php
 
-
 namespace Despark\Cms\Models;
-
 
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
 /**
- * Class AdminModel
+ * Class AdminModel.
  */
 class AdminModel extends Model
 {
-
     /**
      * @var UploadedFile[] Files to save.
      */
@@ -81,6 +78,6 @@ class AdminModel extends Model
      */
     public function hasImages()
     {
-        return ($this instanceof UploadImageInterface && $this->images()->exists());
+        return $this instanceof UploadImageInterface && $this->images()->exists();
     }
 }

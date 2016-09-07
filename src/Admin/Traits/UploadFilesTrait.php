@@ -2,7 +2,6 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Despark\Cms\Admin\Interfaces\UploadFileInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use File;
 use Illuminate\Support\Facades\Request;
