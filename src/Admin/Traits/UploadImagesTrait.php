@@ -19,7 +19,7 @@ trait UploadImagesTrait
     public $uploadDir = 'uploads';
 
     /**
-     * Save Image
+     * Save Image.
      */
     public function saveImages()
     {

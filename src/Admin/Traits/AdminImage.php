@@ -17,7 +17,6 @@ use Image;
  */
 trait AdminImage
 {
-
     /**
      * @var array Cache of generated thumb paths
      */
@@ -43,7 +42,7 @@ trait AdminImage
      */
     public function images()
     {
-        /** @var Model $this */
+        /* @var Model $this */
         return $this->morphMany(ImageModel::class, 'image', 'resource_model', 'resource_id');
     }
 
@@ -55,8 +54,7 @@ trait AdminImage
         // Observer for the model
         static::observe(ImageObserver::class);
         // We need to listen for booted event and modify the model.
-        \Event::listen("eloquent.booted: ".static::class, [new self, 'bootstrapModel']);
-
+        \Event::listen('eloquent.booted: '.static::class, [new self, 'bootstrapModel']);
     }
 
     /**
@@ -117,9 +115,8 @@ trait AdminImage
         }
     }
 
-
     /**
-     * Save Image
+     * Save Image.
      */
     public function saveImages()
     {
@@ -212,7 +209,6 @@ trait AdminImage
         return $images;
     }
 
-
     /**
      * @param string $sourceImagePath Source image path
      * @param string $thumbName Thumbnail name
@@ -294,7 +290,6 @@ trait AdminImage
         return $pathParts['filename'].'@2x.'.$pathParts['extension'];
     }
 
-
     /**
      * @param string $thumbnailType
      * @return string
@@ -362,7 +357,6 @@ trait AdminImage
         $minWidth = 0;
         $minHeight = 0;
         foreach ($field['thumbnails'] as $thumbnail) {
-
             $minWidth = $thumbnail['width'] > $minWidth ? $thumbnail['width'] : $minWidth;
             $minHeight = $thumbnail['height'] > $minHeight ? $thumbnail['height'] : $minHeight;
         }
@@ -399,7 +393,7 @@ trait AdminImage
             return $this->images()->where('image_type', '=', $type)->exists();
         }
 
-        return (bool)count($this->images);
+        return (bool) count($this->images);
     }
 
     /**

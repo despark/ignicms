@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use File;
 
 /**
- * Class AdminResourceCommand
+ * Class AdminResourceCommand.
  */
 class AdminResourceCommand extends Command
 {
@@ -107,9 +107,7 @@ class AdminResourceCommand extends Command
         return str_replace(' ', '', $snake);
     }
 
-    /**
-     *
-     */
+
     protected function askImageUploads()
     {
         $answer = $this->confirm('Do you need image uploads?');
@@ -117,9 +115,7 @@ class AdminResourceCommand extends Command
         $this->resourceOptions['image_uploads'] = $answer;
     }
 
-    /**
-     *
-     */
+
     protected function askFileUploads()
     {
         $answer = $this->confirm('Do you need file uploads?');
@@ -127,9 +123,7 @@ class AdminResourceCommand extends Command
         $this->resourceOptions['file_uploads'] = $answer;
     }
 
-    /**
-     *
-     */
+
     protected function askMigration()
     {
         $answer = $this->confirm('Do you need migration?');
@@ -137,9 +131,7 @@ class AdminResourceCommand extends Command
         $this->resourceOptions['migration'] = $answer;
     }
 
-    /**
-     *
-     */
+
     protected function askActions()
     {
         $options = ['create', 'edit', 'destroy'];

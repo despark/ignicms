@@ -4,8 +4,6 @@ namespace Despark\Cms\Admin\Observers;
 
 use Despark\Cms\Admin\Interfaces\UploadFileInterface;
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
-use Despark\Cms\Admin\Traits\UploadFilesTrait;
-use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**

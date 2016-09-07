@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Despark\Cms\Admin\Interfaces;
-
 
 interface UploadImageInterface
 {

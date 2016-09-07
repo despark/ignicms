@@ -16,7 +16,7 @@ class ImageableRefactor extends Migration
         Schema::rename('imageables', 'images');
 
         Schema::table('images', function (Blueprint $table) {
-            /**
+            /*
              * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
              * `imageable_id` int(11) NOT NULL,
              * `imageable_type` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
@@ -32,7 +32,6 @@ class ImageableRefactor extends Migration
             $table->unsignedSmallInteger('retina_factor')->nullable()->after('file');
 
             $table->dropColumn('orientation');
-
         });
     }
 
@@ -52,7 +51,6 @@ class ImageableRefactor extends Migration
             $table->dropColumn('retina_factor');
             $table->dropColumn('image_type');
             $table->integer('orientation')->after('original_image');
-
         });
     }
 }
