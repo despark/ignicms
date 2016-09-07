@@ -14,8 +14,11 @@
         'placeholder' => $options['label'],
     ] ) !!}
 
-    <div class="help-text">{{ $options['help'] or '' }}</div>
-
+    @if(isset($options['help']))
+        <div class="help-text">{{ $options['help']}}</div>
+    @elseif($dimensions = $record->getMinDimensions(true))
+        <div class="help-text">{{ trans('admin.images.min_dimensions' , ['dimensions' => $dimensions]) }}</div>
+    @endif
     <div class="text-red">
         {{ join($errors->get($fieldName), '<br />') }}
     </div>

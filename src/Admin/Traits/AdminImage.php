@@ -33,6 +33,11 @@ trait AdminImage
     protected $currentUploadDir;
 
     /**
+     * @var
+     */
+    protected $minDimensions;
+
+    /**
      * @var string
      */
     public $uploadDir = 'uploads';
@@ -82,6 +87,9 @@ trait AdminImage
             foreach ($imageFields as $fieldName => $field) {
                 // Calculate minimum allowed image size.
                 list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
+                // Set dimensions on the model.
+                $model->setMinDimensions(['width' => $minWidth, 'height' => $minHeight]);
+
                 $restrictions = [];
                 if ($minWidth) {
                     $restrictions[] = 'min_width='.$minWidth;
@@ -393,7 +401,7 @@ trait AdminImage
             return $this->images()->where('image_type', '=', $type)->exists();
         }
 
-        return (bool) count($this->images);
+        return (bool)count($this->images);
     }
 
     /**
@@ -408,4 +416,47 @@ trait AdminImage
 
         return $this->images;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMinDimensions($asString = false)
+    {
+        if ($asString) {
+            if (isset($this->minDimensions)) {
+                if (isset($this->minDimensions['width']) && $this->minDimensions['width']
+                    && isset($this->minDimensions['height']) && $this->minDimensions['height']
+                ) {
+                    return $this->minDimensions['width'].'x'.$this->minDimensions['height'];
+                }
+
+                if (isset($this->minDimensions['width']) && $this->minDimensions['width']) {
+                    return $this->minDimensions['width'].'px '.trans('admin.images.width');
+                }
+
+                if (isset($this->minDimensions['height']) && $this->minDimensions['height']) {
+                    return $this->minDimensions['height'].'px '.trans('admin.images.height');
+                }
+
+            }
+
+            return null;
+        }
+
+        return $this->minDimensions;
+    }
+
+
+    /**
+     * @param mixed $minDimensions
+     * @return AdminImage
+     */
+    public function setMinDimensions($minDimensions)
+    {
+        $this->minDimensions = $minDimensions;
+
+        return $this;
+    }
+
+
 }

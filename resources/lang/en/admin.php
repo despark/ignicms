@@ -12,4 +12,9 @@ return [
     'noData' => 'No data',
     'profile' => 'Profile',
     'sign out' => 'Sign out',
+    'images' => [
+        'min_dimensions' => 'The image dimensions must be minimum :dimensions',
+        'width' => 'width',
+        'height' => 'height',
+    ],
 ];
