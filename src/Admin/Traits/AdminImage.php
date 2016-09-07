@@ -428,7 +428,7 @@ trait AdminImage
             // we try to build it.
             //  Get image fields from the model
             $imageFields = $this->getImageFields();
-            $imageField = array_get($imageFields, $field);
+            $imageField = array_get($imageFields, (string)$field);
             if ($imageField) {
                 list($minDimensions['width'], $minDimensions['height']) = $this->getMinAllowedImageSize($imageField);
                 // Cache it.

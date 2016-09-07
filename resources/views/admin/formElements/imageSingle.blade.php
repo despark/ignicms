@@ -2,9 +2,13 @@
 <div class="form-group {{ $errors->has($fieldName) ? 'has-error' : '' }}">
     {!! Form::label($fieldName, $options['label']) !!}
 
-    @if($image = $record->$fieldName)
+    @if($record->hasImages($fieldName))
         <div class="form-group">
-            {!! Html::image($record->getImageThumbnailPath($fieldName, 'admin')) !!}
+            @foreach($record->getImages($fieldName) as $image)
+                <div class="image-row">
+                    {!! Html::image($image->getOriginalImagePath('admin')) !!}
+                </div>
+            @endforeach
         </div>
     @endif
 
@@ -16,7 +20,7 @@
 
     @if(isset($options['help']))
         <div class="help-text">{{ $options['help']}}</div>
-    @elseif($dimensions = $record->getMinDimensions(true))
+    @elseif($dimensions = $record->getMinDimensions($fieldName, true))
         <div class="help-text">{{ trans('admin.images.min_dimensions' , ['dimensions' => $dimensions]) }}</div>
     @endif
     <div class="text-red">
