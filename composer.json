@@ -67,6 +67,5 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "stable",
-    "version": "2.5.4"
+    "minimum-stability": "stable"
 }
