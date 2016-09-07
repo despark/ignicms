@@ -105,8 +105,6 @@ class AdminServiceProvider extends ServiceProvider
                 }
             }
         }
-
-        exec('composer dumpautoload');
     }
 
     /**
