@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Despark\Tests\Cms\Resources;
-
 
 use Despark\Cms\Admin\Traits\AdminFile;
 use Despark\Cms\Admin\Traits\AdminImage;
@@ -21,5 +19,4 @@ class TestResourceModel extends AdminModel
     protected $rules = [];
 
     protected $fillable = ['test_field'];
-
 }

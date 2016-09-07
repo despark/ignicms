@@ -1,14 +1,10 @@
 <?php
 
-
 namespace Despark\Tests\Cms\Functional;
-
 
 use Despark\Tests\Cms\AbstractTestCase;
 use Despark\Tests\Cms\Resources\TestResourceModel;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Mockery\Mock;
 
 class AdminImageTest extends AbstractTestCase
 {

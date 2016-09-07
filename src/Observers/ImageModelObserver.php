@@ -1,18 +1,14 @@
 <?php
 
-
 namespace Despark\Cms\Observers;
 
-
 use Despark\Cms\Models\Image;
-use Illuminate\Support\Facades\File;
 
 /**
- * Class ImageModelObserver
+ * Class ImageModelObserver.
  */
 class ImageModelObserver
 {
-
     /**
      * @param Image $model
      */
@@ -26,5 +22,4 @@ class ImageModelObserver
             }
         }
     }
-
 }

@@ -3,7 +3,6 @@
 namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
-use Despark\Cms\Admin\Observers\ImageObserver;
 use Despark\Cms\Observers\ImageModelObserver;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Image extends Model
 {
-
     /**
      * @var array Cache of generated thumb paths
      */

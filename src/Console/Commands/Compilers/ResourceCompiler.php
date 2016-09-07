@@ -6,8 +6,6 @@ use Despark\Cms\Admin\Interfaces\UploadFileInterface;
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Despark\Cms\Admin\Traits\AdminFile;
 use Despark\Cms\Admin\Traits\AdminImage;
-use Despark\Cms\Admin\Traits\UploadFilesTrait;
-use Despark\Cms\Admin\Traits\UploadImagesTrait;
 use Despark\Cms\Console\Commands\AdminResourceCommand;
 use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
@@ -111,10 +109,7 @@ class ResourceCompiler
      */
     public function render_model($template)
     {
-
         if ($this->options['image_uploads'] || $this->options['file_uploads']) {
-
-
             if ($this->options['image_uploads']) {
                 $this->modelReplacements[':uses'][] = UploadImageInterface::class;
                 $this->modelReplacements[':implementations'][] = class_basename(UploadImageInterface::class);
@@ -179,7 +174,7 @@ class ResourceCompiler
     }
 
     /**
-     * Prepare Replacements
+     * Prepare Replacements.
      */
     private function prepareReplacements()
     {
@@ -312,6 +307,4 @@ class ResourceCompiler
         }
         file_put_contents($file, $content, FILE_APPEND);
     }
-
-
 }
