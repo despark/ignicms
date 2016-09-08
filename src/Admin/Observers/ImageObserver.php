@@ -10,6 +10,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ImageObserver
 {
+
+    /**
+     * @param Model $model
+     */
+    public function saved(Model $model)
+    {
+        $model->saveImages();
+    }
+
     /**
      * @param Image|Model $model
      */

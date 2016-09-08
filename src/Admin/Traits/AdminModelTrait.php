@@ -39,13 +39,9 @@ trait AdminModelTrait
     public $adminPreviewUrlParams = [];
 
     /**
-     * Model boot method.
+     * @return mixed
+     * @throws \Exception
      */
-    public static function bootAdminModelTrait()
-    {
-        static::observe(AdminObserver::class);
-    }
-
     public function getIdentifier()
     {
         if (! isset($this->identifier)) {
