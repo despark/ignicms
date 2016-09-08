@@ -21,6 +21,10 @@ class AdminModel extends Model
      */
     protected $dirtyFiles = [];
 
+    protected $rules = [];
+
+    protected $rulesUpdate = [];
+
     /**
      * @param array $attributes
      * @return $this
@@ -80,4 +84,44 @@ class AdminModel extends Model
     {
         return $this instanceof UploadImageInterface && $this->images()->exists();
     }
+
+    /**
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * @param array $rules
+     * @return AdminModel
+     */
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRulesUpdate()
+    {
+        return array_merge($this->rules, $this->rulesUpdate);
+    }
+
+    /**
+     * @param array $rulesUpdate
+     * @return AdminModel
+     */
+    public function setRulesUpdate($rulesUpdate)
+    {
+        $this->rulesUpdate = $rulesUpdate;
+
+        return $this;
+    }
+
+
 }

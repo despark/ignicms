@@ -85,43 +85,63 @@ trait AdminImage
         $this->retinaFactor = config('ignicms.images.retina_factor');
         if ($this->retinaFactor) {
             foreach ($imageFields as $fieldName => $field) {
-                // Calculate minimum allowed image size.
-                list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
-                // Set dimensions on the model.
-                $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);
-
-
-                $restrictions = [];
-                if ($minWidth) {
-                    $restrictions[] = 'min_width='.$minWidth;
-                }
-                if ($minHeight) {
-                    $restrictions[] = 'min_height='.$minHeight;
-                }
-                // Prepare model rules.
-                if (isset($model->rules[$fieldName])) {
-                    $rules = explode('|', $model->rules[$fieldName]);
-                    if (strstr('max:', $model->rules[$fieldName]) === false) {
-                        $rules[] = 'max:'.config('ignicms.images.max_upload_size');
-                        $model->rules[$fieldName] = 'dimensions:'.implode(',', $restrictions).
-                            '|max:'.config('ignicms.images.max_upload_size');
-                    }
-                    // Check to see for dimensions rule and remove it.
-                    if (strstr('dimensions:', $model->rules[$fieldName]) !== false) {
-                        foreach ($rules as $key => $rule) {
-                            if (strstr('dimensions:', $rule) !== false) {
-                                unset($rules[$key]);
-                            }
-                        }
-                    }
-                    $rules[] = 'dimensions:'.implode(',', $restrictions);
-                    $model->rules[$fieldName] = implode('|', $rules);
-                } else {
-                    $model->rules[$fieldName] = 'max:'.config('ignicms.images.max_upload_size').
-                        '|dimensions:'.implode(',', $restrictions);
-                }
+                $this->prepareImageRules($model, 'rules', $fieldName, $field);
             }
         }
+    }
+
+    /**
+     * @param Model $model
+     * @param $property
+     * @param $fieldName
+     * @param $field
+     * @throws \Exception
+     */
+    protected function prepareImageRules(Model $model, $property, $fieldName, $field)
+    {
+        $getter = 'get'.studly_case($property);
+        $setter = 'set'.studly_case($property);
+
+        if (! method_exists($model, $getter) || ! method_exists($model, $setter)) {
+            throw new \Exception('Unexpected missing method on model '.get_class($model));
+        }
+        // Calculate minimum allowed image size.
+        list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
+        // Set dimensions on the model.
+        $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);
+
+        $modelRules = $model->$getter();
+        
+        $restrictions = [];
+        if ($minWidth) {
+            $restrictions[] = 'min_width='.$minWidth;
+        }
+        if ($minHeight) {
+            $restrictions[] = 'min_height='.$minHeight;
+        }
+        // Prepare model rules.
+        if (isset($modelRules[$fieldName])) {
+            $rules = explode('|', $modelRules[$fieldName]);
+            if (strstr('max:', $modelRules[$fieldName]) === false) {
+                $rules[] = 'max:'.config('ignicms.images.max_upload_size');
+                $modelRules[$fieldName] = 'dimensions:'.implode(',', $restrictions).
+                    '|max:'.config('ignicms.images.max_upload_size');
+            }
+            // Check to see for dimensions rule and remove it.
+            if (strstr('dimensions:', $modelRules[$fieldName]) !== false) {
+                foreach ($rules as $key => $rule) {
+                    if (strstr('dimensions:', $rule) !== false) {
+                        unset($rules[$key]);
+                    }
+                }
+            }
+            $rules[] = 'dimensions:'.implode(',', $restrictions);
+            $modelRules[$fieldName] = implode('|', $rules);
+        } else {
+            $modelRules[$fieldName] = 'max:'.config('ignicms.images.max_upload_size').
+                '|dimensions:'.implode(',', $restrictions);
+        }
+        $model->$setter($modelRules);
     }
 
     /**
