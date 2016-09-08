@@ -2,9 +2,6 @@
 
 @section('pageTitle', $pageTitle)
 
-@section('additionalStyles')
-@stop
-
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -120,7 +117,7 @@
     @endif
 @stop
 
-@section('additionalScripts')
+@push('additionalScripts')
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -218,4 +215,4 @@
             }
         });
     </script>
-@stop
+@push

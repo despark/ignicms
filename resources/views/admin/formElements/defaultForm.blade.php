@@ -2,9 +2,6 @@
 
 @section('pageTitle', $pageTitle)
 
-@section('additionalStyles')
-@stop
-
 @section('content')
     <div class="default-form">
         <h3 class="box-title">{{ $pageTitle }} - {{ $actionVerb or 'Edit'  }}</h3>
@@ -23,7 +20,7 @@
     </div>
 @stop
 
-@section('additionalScripts')
+@push('additionalScripts')
     <script src="{{ asset('/admin_assets/plugins/tinymce/tinymce.min.js') }}"></script>
 
     <script type="text/javascript">
@@ -80,4 +77,4 @@
             end_container_on_empty_block: true
         });
     </script>
-@stop
+@endpush

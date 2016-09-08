@@ -10,8 +10,7 @@
 
     <meta name="_token" content="{{ app('Illuminate\Encryption\Encrypter')->encrypt(csrf_token()) }}" />
 
-    @yield('additionalStyles')
-
+    @stack('additionalStyles')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -53,6 +52,8 @@
 
     </div>
 
-    @include('admin.layouts.scripts')
+    <script src="{{ asset('/js/admin.js') }}" type="text/javascript"></script>
+    @stack('additionalScripts')
+
 </body>
 </html>
