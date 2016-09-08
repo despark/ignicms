@@ -21,6 +21,13 @@ return [
                 'iconClass' => 'fa-lock',
                 'permissionsNeeded' => 'manage_users',
             ],
+            'roles' => [
+                'name' => 'Roles',
+                'link' => 'roles.index',
+                'isActive' => false,
+                'iconClass' => 'fa-people',
+                'permissionsNeeded' => 'manage_users',
+            ],
         ],
     ],
     'seo_pages' => [
