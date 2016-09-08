@@ -18,10 +18,18 @@ class PermissionsTableSeeder extends Seeder
             [
                 'name' => 'manage_pages',
             ],
+            [
+                'name' => 'access_admin',
+            ],
         ];
 
+        // Only add new
+        $allPermissions = Permission::all()->pluck('name')->toArray();
+
         foreach ($permissions as $permission) {
-            Permission::create($permission);
+            if (! in_array($permission, $allPermissions)) {
+                Permission::create($permission);
+            }
         }
     }
 }

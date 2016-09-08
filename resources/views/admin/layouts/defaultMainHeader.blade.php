@@ -53,6 +53,7 @@
                             </div> -->
                             <div class="pull-right">
                                 <form method="post" action="{{url('/logout')}}">
+                                    {{csrf_field()}}
                                     <button class="btn btn-default btn-flat">Sign out</button>
                                 </form>
                             </div>

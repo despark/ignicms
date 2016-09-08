@@ -11,14 +11,23 @@ class PermissionRoleTableSeeder extends Seeder
      */
     public function run()
     {
+        // php artisan db:seed --class="PermissionRoleTableSeeder"
         $permissions = Permission::all();
         $adminRole = Role::whereName('admin')->first();
 
         foreach ($permissions as $permission) {
-            $adminRole->givePermissionTo($permission->name);
+            if (! $adminRole->hasPermissionTo($permission)) {
+                $adminRole->givePermissionTo($permission->name);
+            }
         }
+        $rolePermissions = ['manage_pages', 'access_admin'];
 
+        /** @var Role $editorRole */
         $editorRole = Role::whereName('editor')->first();
-        $editorRole->givePermissionTo('manage_pages');
+        foreach ($rolePermissions as $permission) {
+            if (! $editorRole->hasPermissionTo($permission)) {
+                $editorRole->givePermissionTo($permission);
+            }
+        }
     }
 }

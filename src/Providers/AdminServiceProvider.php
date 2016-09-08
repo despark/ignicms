@@ -2,6 +2,8 @@
 
 namespace Despark\Cms\Providers;
 
+use Despark\Cms\Http\Middleware\RedirectIfAdmin;
+use Despark\Cms\Http\Middleware\RoleMiddleware;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
@@ -37,6 +39,8 @@ class AdminServiceProvider extends ServiceProvider
         $router->group(['namespace' => 'Despark\Cms\Http\Controllers'], function ($router) {
             require __DIR__.'/../Http/routes.php';
         });
+        // Route Middleware
+        $router->middleware('role', RoleMiddleware::class);
 
         $this->publishes([
             __DIR__.'/../Http/resourcesRoutes.php' => app_path('Http/resourcesRoutes.php'),

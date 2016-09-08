@@ -37,7 +37,7 @@
         });
 
         $(".datepicker input").datepicker({
-            format: 'yyyy-m-d'
+            format: 'yyyy-mm-dd'
         });
 
         tinymce.init({
