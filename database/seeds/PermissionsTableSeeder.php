@@ -27,7 +27,7 @@ class PermissionsTableSeeder extends Seeder
         $allPermissions = Permission::all()->pluck('name')->toArray();
 
         foreach ($permissions as $permission) {
-            if (! in_array($permission, $allPermissions)) {
+            if (! in_array($permission['name'], $allPermissions)) {
                 Permission::create($permission);
             }
         }
