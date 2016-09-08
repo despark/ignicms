@@ -3,9 +3,9 @@
 namespace Despark\Cms\Admin\Traits;
 
 use Despark\Cms\Admin\Observers\ImageObserver;
+use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Models\AdminModel;
-use Despark\Cms\Models\Image as ImageModel;
 use File;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -42,13 +42,16 @@ trait AdminImage
      */
     public $uploadDir = 'uploads';
 
+
     /**
      * @return mixed
      */
     public function images()
     {
+        $imageModel = app(ImageContract::class);
+
         /* @var Model $this */
-        return $this->morphMany(ImageModel::class, 'image', 'resource_model', 'resource_id');
+        return $this->morphMany(get_class($imageModel), 'image', 'resource_model', 'resource_id');
     }
 
     /**
@@ -165,7 +168,8 @@ trait AdminImage
                 /** @var \Illuminate\Http\File $sourceFile */
                 $sourceFile = $images['original']['source'];
 
-                $imageModel = new ImageModel([
+
+                $imageModel = app(ImageContract::class, [
                     'original_image' => $sourceFile->getFilename(),
                     'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
                     'image_type' => $imageType,

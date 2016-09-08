@@ -2,7 +2,7 @@
 
 namespace Despark\Cms\Admin\Observers;
 
-use Despark\Cms\Models\Image;
+use Despark\Cms\Contracts\ImageContract;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,11 +20,11 @@ class ImageObserver
     }
 
     /**
-     * @param Image|Model $model
+     * @param Model $model
      */
     public function deleted(Model $model)
     {
-        $imageInstance = new Image();
+        $imageInstance = app(ImageContract::class);
         \DB::table($imageInstance->getTable())->where('resource_id', '=', $model->getKey())
            ->delete();
 

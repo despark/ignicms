@@ -2,8 +2,10 @@
 
 namespace Despark\Cms\Providers;
 
+use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Http\Middleware\RedirectIfAdmin;
 use Despark\Cms\Http\Middleware\RoleMiddleware;
+use Despark\Cms\Models\Image;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
@@ -152,5 +154,12 @@ class AdminServiceProvider extends ServiceProvider
          */
         $this->app->bind(Permission::class, \Despark\Cms\Models\Permission::class);
         $this->app->bind(Role::class, \Despark\Cms\Models\Role::class);
+
+        /*
+         * Image contract implementation
+         */
+        $this->app->bind(ImageContract::class, function ($app, $attributes = []) {
+            return new Image($attributes);
+        });
     }
 }

@@ -3,13 +3,14 @@
 namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Observers\ImageModelObserver;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Image.
  */
-class Image extends Model
+class Image extends Model implements ImageContract
 {
     /**
      * @var array Cache of generated thumb paths

@@ -1,31 +1,32 @@
 {
-    "name": "depsarkcms",
-    "version": "1.0.0",
-    "description": "Administrative interface builder for Laravel 5.1",
-    "authors": [
-        "Alexander Stoimenov <astoimenov@despark.com>"
-    ],
-    "license": "MIT",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "vendor/bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "jquery": "~2.1.4",
-        "fastclick": "~1.0.6",
-        "vminpoly": "*",
-        "AdminLTE": "admin-lte#^2.3.3",
-        "font-awesome": "fontawesome#^4.6.2",
-        "datatables": "^1.9.4",
-        "jquery-ui": "^1.11.4",
-        "select2": "^4.0.2",
-        "mjolnic-bootstrap-colorpicker": "bootstrap-colorpicker#^2.3.3",
-        "bootstrap-datepicker": "^1.6.1",
-        "owl.carousel": "~2.0.0-beta.3"
-    },
-    "devDependencies": {}
+  "name": "depsarkcms",
+  "version": "1.0.0",
+  "description": "Administrative interface builder for Laravel 5.1",
+  "authors": [
+    "Alexander Stoimenov <astoimenov@despark.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "fastclick": "~1.0.6",
+    "vminpoly": "*",
+    "AdminLTE": "admin-lte#^2.3.3",
+    "font-awesome": "fontawesome#^4.6.2",
+    "datatables": "^1.9.4",
+    "jquery-ui": "^1.11.4",
+    "select2": "^4.0.2",
+    "mjolnic-bootstrap-colorpicker": "bootstrap-colorpicker#^2.3.3",
+    "bootstrap-datepicker": "^1.6.1",
+    "owl.carousel": "~2.0.0-beta.3",
+    "plupload": "~2.1.9"
+  },
+  "devDependencies": {}
 }

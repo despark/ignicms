@@ -44,5 +44,7 @@ Route::group(['middleware' => ['web']], function () {
         // Authentication Routes...
         Route::get('login', 'Admin\Auth\AdminLoginController@showLoginForm')->name('admin.login');
         Route::post('login', 'Admin\Auth\AdminLoginController@login');
+
+        Route::any('plupload/upload', 'Admin\Image\UploadController@upload')->name('plupload.upload');
     });
 });

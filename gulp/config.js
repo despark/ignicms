@@ -67,6 +67,12 @@ module.exports = {
         ],
         dest: dest + "/js"
     },
+    plupload: {
+        src: [
+            vendors + "/plupload/js/**/*"
+        ],
+        dest: dest + "/js/plupload"
+    },
     js: {
         src: src + "/js/**/*.js",
         dest: dest + "/js"

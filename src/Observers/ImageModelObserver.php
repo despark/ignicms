@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Observers;
 
+use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Models\Image;
 
 /**
@@ -12,7 +13,7 @@ class ImageModelObserver
     /**
      * @param Image $model
      */
-    public function deleted(Image $model)
+    public function deleted(ImageContract $model)
     {
         $imageTypes = $model->getAllImages();
 
