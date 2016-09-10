@@ -41,7 +41,7 @@ module.exports = {
             vendors + "/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css",
             vendors + "/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
         ],
-        sass: src + "/admin/sass/styles.scss",
+        sass: src + "/admin/sass/**/*.{sass,scss}",
         dest: dest + "/css",
         devSettings: {
             includePaths: bourbon.concat(neat),

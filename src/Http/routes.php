@@ -45,6 +45,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('login', 'Admin\Auth\AdminLoginController@showLoginForm')->name('admin.login');
         Route::post('login', 'Admin\Auth\AdminLoginController@login');
 
-        Route::any('plupload/upload', 'Admin\Image\UploadController@upload')->name('plupload.upload');
+        Route::post('file/{file}', 'Admin\FileController@get')->name('file.get');
+        Route::post('file/upload', 'Admin\File\UploadController@upload')->name('file.upload');
+        Route::post('image/upload', 'Admin\Image\ImageUploadController@upload')->name('image.upload');
     });
 });

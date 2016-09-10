@@ -2,9 +2,11 @@
 
 namespace Despark\Cms\Admin\Traits;
 
+use Despark\Cms\Admin\Helpers\FormBuilder;
 use Despark\Cms\Admin\Observers\ImageObserver;
 use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Exceptions\ModelSanityException;
+use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Models\AdminModel;
 use File;
 use Illuminate\Database\Eloquent\Collection;
@@ -42,6 +44,10 @@ trait AdminImage
      */
     public $uploadDir = 'uploads';
 
+    /**
+     * @var
+     */
+    protected $imageFields;
 
     /**
      * @return mixed
@@ -78,6 +84,9 @@ trait AdminImage
         if (! $model instanceof AdminModel) {
             throw new ModelSanityException('Model '.get_class($model).' must be instanceof '.AdminModel::class);
         }
+
+        // Add image model
+        $this->imageModel = app(ImageContract::class);
 
         $imageFields = $model->getImageFields();
 
@@ -307,9 +316,7 @@ trait AdminImage
      */
     protected function sanitizeFilename($filename)
     {
-        $pathParts = pathinfo($filename);
-
-        return str_slug($pathParts['filename']).'.'.filter_var(strtolower($pathParts['extension']));
+        return FileHelper::sanitizeFilename($filename);
     }
 
     /**
@@ -361,7 +368,54 @@ trait AdminImage
      */
     public function getImageFields()
     {
-        return config('admin.'.$this->identifier.'.image_fields');
+        if (! isset($this->imageFields)) {
+            $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
+        }
+
+        return $this->imageFields;
+    }
+
+    /**
+     * @param $imageFieldName
+     * @return array
+     */
+    public function getImageMetaFields($imageFieldName)
+    {
+        $imageField = $this->getImageField($imageFieldName);
+        if ($imageField && isset($imageField['fields'])) {
+            return $imageField['fields'];
+        }
+
+        return [];
+    }
+
+    /**
+     * @param $imageFieldName
+     * @return string
+     */
+    public function getImageMetaFieldsHtml($imageFieldName)
+    {
+        $formBuilder = new FormBuilder();
+        $fields = $this->getImageMetaFields($imageFieldName);
+        $html = '';
+        foreach ($fields as $fieldName => $options) {
+            // We should get this from the model
+            $field = $this->getImageField($imageFieldName);
+          //  $html .= $formBuilder->field($object, $fieldName, $options);
+        }
+
+        return $html;
+    }
+
+    /**
+     * @param $imageFieldName
+     * @return null
+     */
+    public function getImageField($imageFieldName)
+    {
+        $imageFields = $this->getImageFields();
+
+        return isset($imageFields[$imageFieldName]) ? $imageFields[$imageFieldName] : null;
     }
 
     /**

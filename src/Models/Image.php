@@ -44,6 +44,17 @@ class Image extends Model implements ImageContract
         'image_type',
         'original_image',
         'retina_factor',
+        'order',
+        'meta',
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'meta' => 'array',
     ];
 
     /**
@@ -70,6 +81,18 @@ class Image extends Model implements ImageContract
         return $this->morphTo('image', 'resource_name', 'resource_id');
     }
 
+    /**
+     * @param $value
+     */
+    public function getMetaAttribute($value)
+    {
+        dd($value);
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function getAllImages()
     {
         $images = [];
