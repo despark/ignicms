@@ -19,3 +19,27 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $faker) {
+    /**
+     * CREATE TABLE `images` (
+     * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+     * `resource_id` int(11) NOT NULL,
+     * `resource_model` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+     * `image_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+     * `original_image` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+     * `retina_factor` smallint(5) unsigned DEFAULT NULL,
+     * `created_at` timestamp NULL DEFAULT NULL,
+     * `updated_at` timestamp NULL DEFAULT NULL,
+     * PRIMARY KEY (`id`)
+     * ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+     */
+    return [
+        'resource_id' => 0,
+        'resource_model' => '\Test\Class',
+        'image_type' => 'test',
+        'original_image' => $faker->image('/tmp', 640, 480, 'cats', false),
+        'retina_factor' => rand(1, 4),
+        'meta' => null,
+    ];
+});
