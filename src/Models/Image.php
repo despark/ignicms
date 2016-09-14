@@ -75,6 +75,9 @@ class Image extends Model implements ImageContract
      */
     protected $dbColumns;
     
+    /**
+     * @var string
+     */
     protected $cacheKey = 'igni_image';
     
     /**
@@ -108,7 +111,6 @@ class Image extends Model implements ImageContract
             'retina' => $this->getRetinaImagePath(),
             'original' => $this->getOriginalImagePath(),
         ];
-        
         
         $imageFields = $this->getResourceModel()->getImageFields();
         
@@ -257,14 +259,26 @@ class Image extends Model implements ImageContract
             }
             
             // Check if fields don't intersect with main model.
-            if ($intersect = array_intersect($this->getDBColumns(), array_keys($attributes['meta']))) {
-                throw new ImageFieldCollisionException('Image metadata field/s ('.implode(', ', $intersect).
-                    ') intersects with main model');
-            }
+            $this->checkMetaFieldCollision(array_keys($attributes['meta']));
             foreach ($attributes['meta'] as $key => $attribute) {
                 $this->meta[$key] = $attribute;
             }
         }
+    }
+    
+    /**
+     * @param array $fields
+     * @return bool
+     * @throws ImageFieldCollisionException
+     */
+    public function checkMetaFieldCollision(array $fields)
+    {
+        if ($intersect = array_intersect($this->getDBColumns(), $fields)) {
+            throw new ImageFieldCollisionException('Image metadata field/s ('.implode(', ', $intersect).
+                ') intersects with main model');
+        }
+        
+        return false;
     }
     
     /**
@@ -277,7 +291,7 @@ class Image extends Model implements ImageContract
             if ($dbColumns = \Cache::get($this->cacheKey.'_db_columns')) {
                 $this->dbColumns = $dbColumns;
             } else {
-                $this->dbColumns = \Schema::getColumnListing($this->table);
+                $this->dbColumns = \Schema::getColumnListing($this->getTable());
                 \Cache::put($this->cacheKey.'_db_columns', \Schema::getColumnListing($this->table), 10080);
             }
         }

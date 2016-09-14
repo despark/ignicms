@@ -2,7 +2,10 @@
 
 namespace Despark\Cms\Providers;
 
+use Despark\Cms\Assets\AssetManager;
+use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Http\Middleware\RedirectIfAdmin;
 use Despark\Cms\Http\Middleware\RoleMiddleware;
 use Despark\Cms\Listeners\ArtisanStartingListener;
@@ -144,6 +147,11 @@ class AdminServiceProvider extends ServiceProvider
         $loader->alias('Agent', 'Jenssegers\Agent\Facades\Agent');
         
         /*
+         * Assets manager
+         */
+        $this->app->singleton(AssetsContract::class, AssetManager::class);
+        
+        /*
          * Manually register Mailchimp
          */
         $this->app->singleton('Mailchimp', function ($app) {
@@ -164,5 +172,20 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ImageContract::class, function ($app, $attributes = []) {
             return new Image($attributes);
         });
+        
+        /*
+         * Flowjs
+         */
+        $this->app->bind(\Flow\File::class, function () {
+            $config = new \Flow\Config([
+                'tempDir' => FileHelper::getTempDirectory(),
+            ]);
+            
+            return new \Flow\File($config);
+        });
+        
+        //        $this->app->bind(\Flow\Request::class, function () {
+        //           return new \Flow\Request(\Request::all(), \Request::allFiles())
+        //        });
     }
 }

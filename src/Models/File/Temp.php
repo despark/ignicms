@@ -15,35 +15,35 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Temp extends Model
 {
-
+    
     /**
      * @var string
      */
     protected $table = 'temp_files';
-
+    
     /**
      * @var array
      */
     protected $fillable = ['filename', 'temp_filename', 'file_type'];
-
+    
     protected $file;
-
+    
     /**
-     * @param UploadedFile $file
+     * @param $path
      * @param $filename
      * @return static
      */
-    public static function createFromFile(File $file, $filename)
+    public static function createFromFile($path, $filename)
     {
         $model = new static;
-
+        
         return $model->create([
             'filename' => $filename,
-            'temp_filename' => $file->getFilename(),
-            'file_type' => $file->getMimeType(),
+            'temp_filename' => \File::basename($path),
+            'file_type' => \File::mimeType($path),
         ]);
     }
-
+    
     /**
      * @return mixed|File
      * @throws FileNotFoundException
@@ -51,10 +51,18 @@ class Temp extends Model
     public function getFile()
     {
         if (! isset($this->file)) {
-            $this->file = new File(FileHelper::getTempDirectory().$this->temp_filename);
+            $this->file = new File($this->getTempPath());
         }
-
+        
         return $this->file;
     }
-
+    
+    /**
+     * @return string
+     */
+    public function getTempPath()
+    {
+        return FileHelper::getTempDirectory().DIRECTORY_SEPARATOR.$this->temp_filename;
+    }
+    
 }

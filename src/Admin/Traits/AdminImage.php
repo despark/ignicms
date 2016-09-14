@@ -4,6 +4,7 @@ namespace Despark\Cms\Admin\Traits;
 
 use Despark\Cms\Admin\Helpers\FormBuilder;
 use Despark\Cms\Admin\Observers\ImageObserver;
+use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Helpers\FileHelper;
@@ -55,6 +56,11 @@ trait AdminImage
     protected $imageModel;
     
     /**
+     * @var array
+     */
+    protected $uploadTypes = ['file', 'plupload'];
+    
+    /**
      * @return mixed
      */
     public function images()
@@ -72,6 +78,12 @@ trait AdminImage
     {
         // Observer for the model
         static::observe(ImageObserver::class);
+        
+        // Add Assets
+        $assetManager = app(AssetsContract::class);
+        $assetManager->addJs('js/flow.js/flow.min.js');
+        $assetManager->addJs('js/sortable/Sortable.min.js');
+        
         // We need to listen for booted event and modify the model.
         \Event::listen('eloquent.booted: '.static::class, [new self, 'bootstrapModel']);
     }
@@ -129,6 +141,9 @@ trait AdminImage
         if (! method_exists($model, $getter) || ! method_exists($model, $setter)) {
             throw new \Exception('Unexpected missing method on model '.get_class($model));
         }
+        // We require upload_type
+        $modelRules['upload_type'] = 'required,in:'.implode(',', $this->uploadTypes);
+        
         // Calculate minimum allowed image size.
         list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
         // Set dimensions on the model.
@@ -173,6 +188,7 @@ trait AdminImage
      */
     public function saveImages()
     {
+        dd($this->files);
         $imageFields = $this->getImageFields();
         
         foreach ($imageFields as $imageType => $options) {
@@ -411,8 +427,13 @@ trait AdminImage
         $fields = $this->getImageMetaFields($imageFieldName);
         $html = '';
         $imageModel = $this->getImageModel()->newInstance();
+        
+        
+        // Check for collisions
+        $imageModel->checkMetaFieldCollision(array_keys(($fields)));
+        
         foreach ($fields as $fieldName => $options) {
-            $exactFieldName = 'file[:fileId:][meta]['.$fieldName.']';
+            $exactFieldName = 'files['.$imageFieldName.'][:fileId:][meta]['.$fieldName.']';
             $html .= $formBuilder->field($imageModel, $exactFieldName, $options)->render();
         }
         

@@ -13,13 +13,13 @@ class ImageUploadRequest extends FileUploadRequest
     {
         $rules = parent::rules();
 
-        // We need to get the dimensions
-
-        $rules = array_merge($rules, [
-            'file' => 'required|image|',
-            'fieldName' => 'required',
-            'modelClass' => 'required',
-        ]);
+//        // We need to get the dimensions
+//
+//        $rules = array_merge($rules, [
+//            'file' => 'required|image|',
+//            'fieldName' => 'required',
+//            'modelClass' => 'required',
+//        ]);
 
         return $rules;
 

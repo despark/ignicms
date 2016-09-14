@@ -26,7 +26,8 @@
     "mjolnic-bootstrap-colorpicker": "bootstrap-colorpicker#^2.3.3",
     "bootstrap-datepicker": "^1.6.1",
     "owl.carousel": "~2.0.0-beta.3",
-    "plupload": "~2.1.9"
+    "flow.js": "~2",
+    "Sortable": "sortablejs#~1.4.2"
   },
   "devDependencies": {}
 }

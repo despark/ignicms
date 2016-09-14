@@ -23,7 +23,8 @@
         "rutorika/sortable": "^2.3",
         "jenssegers/agent": "^2.3",
         "spatie/laravel-permission": "^1.4",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "flowjs/flow-php-server": "^1.0"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.2",

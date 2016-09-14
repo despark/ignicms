@@ -54,6 +54,27 @@ module.exports = {
             indentedSyntax: false,
         }
     },
+    flowjs: {
+        src: [
+            vendors + "/flow.js/dist/*"
+        ],
+        dest: dest + "/js/flow.js"
+    },
+    // todo!!
+    // gallery: {
+    //     src: [
+    //         vendors + "/flow.js/dist/flow.js",
+    //         src + "/js/igni_gallery.js"
+    //     ],
+    //     dest: dest + "/js/igni_gallery.js"
+    // },
+    sortable: {
+        src: [
+            vendors + "/Sortable/Sortable.js",
+            vendors + "/Sortable/Sortable.min.js"
+        ],
+        dest: dest + "/js/sortable"
+    },
     jsAdmin: {
         src: [
             vendors + "/jquery/dist/jquery.js",
@@ -66,12 +87,6 @@ module.exports = {
             src + "/admin/js/**/*.js"
         ],
         dest: dest + "/js"
-    },
-    plupload: {
-        src: [
-            vendors + "/plupload/js/**/*"
-        ],
-        dest: dest + "/js/plupload"
     },
     js: {
         src: src + "/js/**/*.js",
