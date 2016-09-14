@@ -17,7 +17,7 @@ abstract class AdminModel extends Model
 
         $this->adminColumns = config('admin.'.$this->identifier.'.adminColumns');
 
-        $this->saving(function ($model) {
+        $this->saved(function ($model) {
             if ($model->getImageFields()) {
                 $this->saveImages();
             }

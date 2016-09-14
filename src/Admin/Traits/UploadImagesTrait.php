@@ -43,14 +43,15 @@ trait UploadImagesTrait
 
                     $thumbnailPath = $this->getThumbnailPath($thumbnailName);
 
-                    if (!File::isDirectory($thumbnailPath)) {
-                        File::makeDirectory($thumbnailPath);
+                    if (!File::isDirectory($thumbnailPath.$this->id)) {
+                        File::makeDirectory($thumbnailPath.$this->id);
                     }
 
-                    $image->save($thumbnailPath.$filename);
+                    $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$filename);
                 }
 
-                $this->attributes[$imageFieldName] = $filename;
+                $this->attributes[$imageFieldName] = $this->id.DIRECTORY_SEPARATOR.$filename;
+                $this->save();
             } elseif ($this->original) {
                 $this->attributes[$imageFieldName] = $this->original[$imageFieldName];
             }

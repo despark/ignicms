@@ -23,6 +23,7 @@ trait UploadFilesTrait
                 $file->move($fileSavePath, $filename);
 
                 $this->attributes[$fieldName] = $fileSavePath.$filename;
+                $this->save();
             }
         }
     }
