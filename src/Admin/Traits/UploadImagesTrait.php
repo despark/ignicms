@@ -44,7 +44,7 @@ trait UploadImagesTrait
                     $thumbnailPath = $this->getThumbnailPath($thumbnailName);
 
                     if (!File::isDirectory($thumbnailPath.$this->id)) {
-                        File::makeDirectory($thumbnailPath.$this->id);
+                        File::makeDirectory($thumbnailPath.$this->id, 0755, true);
                     }
 
                     $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$filename);
