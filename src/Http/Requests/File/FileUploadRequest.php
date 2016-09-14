@@ -13,17 +13,20 @@ use Illuminate\Http\Response;
  */
 class FileUploadRequest extends FormRequest
 {
-
+    
     /**
      * @return array
      */
     public function rules()
     {
-        return [
-            'file' => 'required|file',
-        ];
+        $rules = [];
+        if ($this->getMethod() == 'POST') {
+            $rules['file'] = 'required|file';
+        }
+        
+        return $rules;
     }
-
+    
     /**
      * @param array $errors
      * @return JsonResponse
@@ -34,10 +37,10 @@ class FileUploadRequest extends FormRequest
         foreach ($errors as $error) {
             $messages[] = implode(PHP_EOL, $error);
         }
-
+        
         return new JsonResponse($messages, Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-
+    
     /**
      * @return bool
      */
@@ -45,5 +48,5 @@ class FileUploadRequest extends FormRequest
     {
         return true;
     }
-
+    
 }

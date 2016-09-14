@@ -47,34 +47,37 @@ class AdminModel extends Model
         // First fill the image and file attributes so they don't need to be guarded??
         if ($this instanceof UploadImageInterface) {
             // Check if we have upload type
-            if (isset($attributes['upload_type'])) {
-                // Save the upload type to the model and remove it from attributes.
-                $this->uploadType = $attributes['upload_type'];
-                unset($attributes['upload_type']);
-                
-                switch ($attributes['upload_type']) {
-                    case 'file':
-                        foreach (array_keys($this->getImageFields()) as $imageFieldName) {
-                            // Check for direct upload
-                            if (array_key_exists($imageFieldName, $attributes)) {
-                                $this->addFile($imageFieldName, $attributes[$imageFieldName]);
-                                unset($attributes[$imageFieldName]);
-                            }
-                        }
-                        break;
-                    case 'plupload':
-                        foreach (array_keys($this->getImageFields()) as $imageFieldName) {
-                            
-                        }
-                        break;
-                    
-                    default:
-                        throw new \Exception('Unknown upload type');
-                        break;
-                }
-                
-                
+            
+            // Save the upload type to the model and remove it from attributes.
+            
+            //get all uploaded files
+            if (isset($attributes['_files'])) {
+                $this->files = $attributes['_files'];
+                unset($attributes['_files']);
             }
+            
+            //            switch ($attributes['upload_type']) {
+            //                case 'file':
+            //                    foreach (array_keys($this->getImageFields()) as $imageFieldName) {
+            //                        // Check for direct upload
+            //                        if (array_key_exists($imageFieldName, $attributes)) {
+            //                            $this->addFile($imageFieldName, $attributes[$imageFieldName]);
+            //                            unset($attributes[$imageFieldName]);
+            //                        }
+            //                    }
+            //                    break;
+            //                case 'plupload':
+            //                    foreach (array_keys($this->getImageFields()) as $imageFieldName) {
+            //
+            //                    }
+            //                    break;
+            //
+            //                default:
+            //                    throw new \Exception('Unknown upload type');
+            //                    break;
+            //            }
+            
+            
         }
         
         return parent::fill($attributes);
@@ -95,14 +98,6 @@ class AdminModel extends Model
         return $dirty;
     }
     
-    /**
-     * @param $fileId
-     * @param File $file
-     */
-    public function addFile($fileId, File $file)
-    {
-        $this->files[$fileId] = $file;
-    }
     
     /**
      * @return mixed

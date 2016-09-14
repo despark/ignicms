@@ -9,11 +9,13 @@ use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Models\AdminModel;
-use File;
+use Despark\Cms\Models\File\Temp;
+use File as FileFacade;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Image;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminImage.
@@ -188,19 +190,28 @@ trait AdminImage
      */
     public function saveImages()
     {
-        dd($this->files);
+        $fileIds = [];
+        
+        foreach ($this->files as $files) {
+            foreach ($files as $fileId => $file) {
+                $fileIds[] = $fileId;
+            }
+        }
+        
+        $collection = Temp::whereIn('id', $fileIds)->get()->keyBy('id');
+        
         $imageFields = $this->getImageFields();
         
-        foreach ($imageFields as $imageType => $options) {
-            if ($file = array_get($this->files, $imageType)) {
+        foreach ($this->files as $fileField => $files) {
+            if (! isset($imageFields[$fileField])) {
+                throw new \Exception('Configuration not found for file/image field '.$fileField);
+            }
+            
+            foreach ($files as $fileId => $fileData) {
+                //get the actual file
+                $file = $collection->get($fileId);
                 
-                // First delete unused images
-                foreach ($this->getImagesOfType($imageType) as $image) {
-                    $image->delete();
-                }
-                
-                $images = $this->manipulateImage($file, $options);
-                
+                $images = $this->manipulateImage($file, $imageFields[$fileField]);
                 // We will save just the source one as a relation.
                 /** @var \Illuminate\Http\File $sourceFile */
                 $sourceFile = $images['original']['source'];
@@ -209,29 +220,59 @@ trait AdminImage
                 $imageModel = app(ImageContract::class, [
                     'original_image' => $sourceFile->getFilename(),
                     'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
-                    'image_type' => $imageType,
+                    'image_type' => $fileField,
+                    'order' => isset($fileData['order']) ? $fileData['order'] : 0,
+                    'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
                 ]);
-                unset($this->attributes[$imageType]);
+                
                 $this->images()->save($imageModel);
+                // Delete temp file
+                $file->delete();
             }
         }
+        
+        
+        //        foreach ($imageFields as $imageType => $options) {
+        //            if ($file = array_get($this->files, $imageType)) {
+        //
+        //                // First delete unused images
+        //                foreach ($this->getImagesOfType($imageType) as $image) {
+        //                    $image->delete();
+        //                }
+        //
+        //                $images = $this->manipulateImage($file, $options);
+        //
+        //                // We will save just the source one as a relation.
+        //                /** @var \Illuminate\Http\File $sourceFile */
+        //                $sourceFile = $images['original']['source'];
+        //
+        //
+        //                $imageModel = app(ImageContract::class, [
+        //                    'original_image' => $sourceFile->getFilename(),
+        //                    'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+        //                    'image_type' => $imageType,
+        //                ]);
+        //                unset($this->attributes[$imageType]);
+        //                $this->images()->save($imageModel);
+        //            }
+        //        }
     }
     
     /**
-     * @param UploadedFile $file
+     * @param Temp $file
      * @param array $options
      * @return array
      */
-    public function manipulateImage(UploadedFile $file, array $options)
+    public function manipulateImage(Temp $file, array $options)
     {
         $images = [];
-        $sanitizedFilename = $this->sanitizeFilename($file->getClientOriginalName());
+        $sanitizedFilename = $this->sanitizeFilename($file->filename);
         $pathParts = pathinfo($sanitizedFilename);
         // Move uploaded file and rename it as source file.
         $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
         // We need to generate unique name if the name is already in use.
         
-        $sourceFile = $file->move($this->getThumbnailPath(), $filename);
+        $sourceFile = $file->getFile()->move($this->getThumbnailPath(), $filename);
         $images['original']['source'] = $sourceFile;
         
         
@@ -239,7 +280,7 @@ trait AdminImage
         if ($this->retinaFactor) {
             // Generate retina image by just copying the source.
             $retinaFilename = $this->generateRetinaName($sanitizedFilename);
-            File::copy($sourceFile->getRealPath(), $this->getThumbnailPath().$retinaFilename);
+            FileFacade::copy($sourceFile->getRealPath(), $this->getThumbnailPath().$retinaFilename);
             $images['original']['retina'] = Image::make($this->getThumbnailPath().$retinaFilename);
             
             // The original image is scaled down version of the source.
@@ -263,8 +304,8 @@ trait AdminImage
             }
         } else {
             // Copy source file.
-            $filename = $this->sanitizeFilename($file->getClientOriginalName());
-            File::copy($sourceFile->getRealPath(), $this->getThumbnailPath().$filename);
+            $filename = $this->sanitizeFilename($file->getFilename());
+            FileFacade::copy($sourceFile->getRealPath(), $this->getThumbnailPath().$filename);
             $images['original']['original_file'] = Image::make($this->getThumbnailPath().$filename);
             
             // Generate thumbs
@@ -316,8 +357,8 @@ trait AdminImage
         
         $thumbnailPath = $this->getThumbnailPath($thumbName);
         
-        if (! File::isDirectory($thumbnailPath)) {
-            File::makeDirectory($thumbnailPath);
+        if (! FileFacade::isDirectory($thumbnailPath)) {
+            FileFacade::makeDirectory($thumbnailPath);
         }
         
         return $image->save($thumbnailPath.$newFileName);
@@ -327,6 +368,7 @@ trait AdminImage
      * @param $type
      * @return Collection
      * @throws \Exception
+     * @deprecated
      */
     public function getImagesOfType($type)
     {
@@ -421,7 +463,7 @@ trait AdminImage
      * @param $imageFieldName
      * @return string
      */
-    public function getImageMetaFieldsHtml($imageFieldName, $imageId = null)
+    public function getImageMetaFieldsHtml($imageFieldName)
     {
         $formBuilder = new FormBuilder();
         $fields = $this->getImageMetaFields($imageFieldName);
@@ -433,7 +475,7 @@ trait AdminImage
         $imageModel->checkMetaFieldCollision(array_keys(($fields)));
         
         foreach ($fields as $fieldName => $options) {
-            $exactFieldName = 'files['.$imageFieldName.'][:fileId:][meta]['.$fieldName.']';
+            $exactFieldName = '_files['.$imageFieldName.'][:fileId:][meta]['.$fieldName.']';
             $html .= $formBuilder->field($imageModel, $exactFieldName, $options)->render();
         }
         
