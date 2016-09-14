@@ -11,49 +11,51 @@ trait UploadImagesTrait
 {
     public $uploadDir = 'uploads';
 
-    public function saveImages(array $options = [])
+    public function saveImages()
     {
         $imageFields = $this->getImageFields();
 
         $currentUploadDir = $this->getCurrentUploadDir();
 
         foreach ($imageFields as $imageFieldName => $options) {
-            if (array_get($this->attributes, $imageFieldName) instanceof UploadedFile) {
-                $file = Request::file($imageFieldName);
-                $filename = $file->getClientOriginalName();
+            if ($file = array_get($this->attributes, $imageFieldName)) {
+                if ($file instanceof UploadedFile) {
+                    $filename = $file->getClientOriginalName();
 
-                $file->move($this->getThumbnailPath('original'), $filename);
+                    $file->move($this->getThumbnailPath('original'), $filename);
 
-                foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
-                    $image = Image::make($this->getThumbnailPath('original').$filename);
+                    foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
+                        $image = Image::make($this->getThumbnailPath('original').$filename);
 
-                    $resizeType = array_get($thumbnailOptions, 'type', 'crop');
+                        $resizeType = array_get($thumbnailOptions, 'type', 'crop');
 
-                    switch ($resizeType) {
-                        case 'crop':
-                            $image->fit($thumbnailOptions['width'], $thumbnailOptions['height']);
-                            break;
+                        switch ($resizeType) {
+                            case 'crop':
+                                $image->fit($thumbnailOptions['width'], $thumbnailOptions['height']);
+                                break;
 
-                        case 'resize':
-                            $image->resize($thumbnailOptions['width'], $thumbnailOptions['height'], function ($constraint) {
-                                $constraint->aspectRatio();
-                            });
-                            break;
+                            case 'resize':
+                                $image->resize($thumbnailOptions['width'], $thumbnailOptions['height'], function ($constraint) {
+                                    $constraint->aspectRatio();
+                                });
+                                break;
+                        }
+
+                        $thumbnailPath = $this->getThumbnailPath($thumbnailName);
+
+                        if (!File::isDirectory($thumbnailPath.$this->id)) {
+                            File::makeDirectory($thumbnailPath.$this->id, 0755, true);
+                        }
+
+                        $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$filename);
                     }
 
-                    $thumbnailPath = $this->getThumbnailPath($thumbnailName);
-
-                    if (!File::isDirectory($thumbnailPath.$this->id)) {
-                        File::makeDirectory($thumbnailPath.$this->id, 0755, true);
-                    }
-
-                    $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$filename);
+                    unset($this->attributes[$imageFieldName]);
+                    unset($this->original[$imageFieldName]);
+                    $this->update([
+                        $imageFieldName => $this->id.DIRECTORY_SEPARATOR.$filename,
+                    ]);
                 }
-
-                $this->attributes[$imageFieldName] = $this->id.DIRECTORY_SEPARATOR.$filename;
-                $this->save();
-            } elseif ($this->original) {
-                $this->attributes[$imageFieldName] = $this->original[$imageFieldName];
             }
         }
     }
