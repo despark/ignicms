@@ -1,14 +1,11 @@
 <?php
 
-
 namespace Despark\Cms\Http\Requests\Image;
-
 
 use Despark\Cms\Http\Requests\File\FileUploadRequest;
 
 class ImageUploadRequest extends FileUploadRequest
 {
-
     public function rules()
     {
         $rules = parent::rules();
@@ -22,7 +19,5 @@ class ImageUploadRequest extends FileUploadRequest
 //        ]);
 
         return $rules;
-
     }
-
 }

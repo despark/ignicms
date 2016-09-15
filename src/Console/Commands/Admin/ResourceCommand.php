@@ -18,24 +18,24 @@ class ResourceCommand extends Command
      * @var string
      */
     protected $name = 'igni:admin:resource';
-    
+
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Create necessary files for CMS resource.';
-    
+
     /**
      * @var
      */
     protected $identifier;
-    
+
     /**
      * @var
      */
     protected $compiler;
-    
+
     /**
      * @var array
      */
@@ -47,7 +47,7 @@ class ResourceCommand extends Command
         'edit' => false,
         'destroy' => false,
     ];
-    
+
     /**
      * Create a new command instance.
      */
@@ -55,31 +55,31 @@ class ResourceCommand extends Command
     {
         parent::__construct();
     }
-    
+
     /**
      * Execute the command.
      */
     public function handle()
     {
         $this->identifier = self::normalize($this->argument('identifier'));
-        
+
         $this->askImageUploads();
         $this->askFileUploads();
         $this->askMigration();
         $this->askActions();
-        
+
         $this->compiler = new ResourceCompiler($this, $this->identifier, $this->resourceOptions);
-        
+
         $this->createResource('config');
         $this->createResource('model');
         $this->createResource('request');
         $this->createResource('controller');
-        
+
         if ($this->resourceOptions['migration']) {
             $this->createResource('migration');
         }
     }
-    
+
     /**
      * @param $type
      */
@@ -91,7 +91,7 @@ class ResourceCommand extends Command
         $filename = $this->{$type.'_name'}().'.php';
         $this->saveResult($template, $path, $filename);
     }
-    
+
     /**
      * @param $str
      * @return mixed|string
@@ -101,43 +101,39 @@ class ResourceCommand extends Command
         return snake_case($str);
         $str[0] = strtolower($str[0]);
         $func = create_function('$c', 'return "_".strtolower($c[1]);');
-        
+
         $snake = preg_replace_callback('/([A-Z])/', $func, $str);
-        
+
         return str_replace(' ', '', $snake);
     }
-    
-    
+
     protected function askImageUploads()
     {
         $answer = $this->confirm('Do you need image uploads?');
-        
+
         $this->resourceOptions['image_uploads'] = $answer;
     }
-    
-    
+
     protected function askFileUploads()
     {
         $answer = $this->confirm('Do you need file uploads?');
-        
+
         $this->resourceOptions['file_uploads'] = $answer;
     }
-    
-    
+
     protected function askMigration()
     {
         $answer = $this->confirm('Do you need migration?');
-        
+
         $this->resourceOptions['migration'] = $answer;
     }
-    
-    
+
     protected function askActions()
     {
         $options = ['create', 'edit', 'destroy'];
         $answer = $this->ask('Which actions do you need? ['.implode(', ', $options).', all]', 'all');
         $answer = str_replace(' ', '', $answer);
-        
+
         if ($answer == 'all') {
             foreach ($options as $action) {
                 $this->resourceOptions[$action] = true;
@@ -152,7 +148,7 @@ class ResourceCommand extends Command
             }
         }
     }
-    
+
     /**
      * @param $type
      * @return string
@@ -161,7 +157,7 @@ class ResourceCommand extends Command
     {
         return file_get_contents(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'stubs'.DIRECTORY_SEPARATOR.$type.'.stub');
     }
-    
+
     /**
      * @param $template
      * @param $path
@@ -176,11 +172,11 @@ class ResourceCommand extends Command
                 return;
             }
         }
-        
+
         File::put($file, $template);
         $this->info('File "'.$filename.'" was created.');
     }
-    
+
     /**
      * @return string
      * @todo this is not needed in the command we should move it into the compiler
@@ -189,7 +185,7 @@ class ResourceCommand extends Command
     {
         return studly_case($this->identifier);
     }
-    
+
     /**
      * @return mixed
      */
@@ -197,7 +193,7 @@ class ResourceCommand extends Command
     {
         return $this->identifier;
     }
-    
+
     /**
      * @return string
      */
@@ -205,7 +201,7 @@ class ResourceCommand extends Command
     {
         return str_plural(studly_case($this->identifier)).'Request';
     }
-    
+
     /**
      * @return string
      */
@@ -213,7 +209,7 @@ class ResourceCommand extends Command
     {
         return str_plural(studly_case($this->identifier)).'Controller';
     }
-    
+
     /**
      * @return string
      */
@@ -221,7 +217,7 @@ class ResourceCommand extends Command
     {
         return date('Y_m_d_His').'_create_'.str_plural($this->identifier).'_table';
     }
-    
+
     /**
      * Get the console command arguments.
      *
@@ -237,7 +233,7 @@ class ResourceCommand extends Command
             ],
         ];
     }
-    
+
     /**
      * Get the console command options.
      *
@@ -246,7 +242,7 @@ class ResourceCommand extends Command
     protected function getOptions()
     {
         return [
-        
+
         ];
     }
 }

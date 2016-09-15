@@ -26,7 +26,7 @@ class FormBuilder
      * @var array
      */
     private $options;
-    
+
     /**
      * @param string $view
      *
@@ -41,7 +41,7 @@ class FormBuilder
             'options' => $this->options,
         ]);
     }
-    
+
     /**
      * @param \Eloquent $model
      * @param string $field
@@ -55,7 +55,7 @@ class FormBuilder
         $this->field = $field;
         $this->options = $options;
         $this->elementName = is_null($elementName) ? $field : $elementName;
-        
+
         return $this->renderInput($this->options['type']);
     }
 }

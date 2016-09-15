@@ -6,27 +6,23 @@ use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use ReflectionClass;
 
 /**
- * Class AbstractTestCase
+ * Class AbstractTestCase.
  */
 abstract class AbstractTestCase extends AbstractPackageTestCase
 {
-    
-    
     /**
      * @var
      */
     protected $migrationPath;
-    
-    /**
-     *
-     */
+
+
     public function setUp()
     {
         parent::setUp();
         $this->migrationPath = realpath(__DIR__.'/migrations');
         $this->withFactories(__DIR__.'/../database/factories');
     }
-    
+
     /**
      * Get the service provider class.
      *
@@ -38,7 +34,7 @@ abstract class AbstractTestCase extends AbstractPackageTestCase
     {
         return \Despark\Cms\Providers\AdminServiceProvider::class;
     }
-    
+
     /**
      * Sets a protected property on a given object via reflection.
      *
@@ -55,8 +51,8 @@ abstract class AbstractTestCase extends AbstractPackageTestCase
         $reflection_property->setAccessible(true);
         $reflection_property->setValue($object, $value);
     }
-    
-    /**
+
+    /*
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application $app

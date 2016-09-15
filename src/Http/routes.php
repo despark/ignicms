@@ -32,19 +32,19 @@ Route::group(['middleware' => ['web']], function () {
     //    // Password reset routes...
     //    Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
     //    Route::post('password/reset', 'Auth\PasswordController@postReset');
-    
-    
+
+
     // Admin
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['middleware' => ['role:,access_admin']], function () {
             Route::get('/', ['as' => 'adminHome', 'uses' => 'Admin\AdminController@adminHome']);
             Route::get('/403', ['as' => 'adminForbidden', 'uses' => 'Admin\AdminController@forbidden']);
         });
-        
+
         // Authentication Routes...
         Route::get('login', 'Admin\Auth\AdminLoginController@showLoginForm')->name('admin.login');
         Route::post('login', 'Admin\Auth\AdminLoginController@login');
-        
+
         Route::post('file/{file}', 'Admin\FileController@get')->name('file.get');
         Route::post('file/upload', 'Admin\File\UploadController@upload')->name('file.upload');
         Route::match(['get', 'post'], 'image/upload', 'Admin\ImageController@upload')->name('image.upload');
