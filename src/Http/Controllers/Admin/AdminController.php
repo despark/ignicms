@@ -51,7 +51,7 @@ class AdminController extends Controller
         $this->viewData['pageTitle'] = Str::studly($this->identifier);
 
         // Fill sidebar
-        View::composer('admin.layouts.sidebar', function ($view) {
+        View::composer('ignicms::admin.layouts.sidebar', function ($view) {
             $view->with('sidebarItems', $this->sidebarItems);
         });
     }
@@ -71,7 +71,7 @@ class AdminController extends Controller
      */
     public function adminHome()
     {
-        return view('admin.pages.home');
+        return view('ignicms::admin.pages.home');
     }
 
     /**

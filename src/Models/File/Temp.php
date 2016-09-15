@@ -26,6 +26,9 @@ class Temp extends Model
      */
     protected $fillable = ['filename', 'temp_filename', 'file_type'];
     
+    /**
+     * @var File
+     */
     protected $file;
     
     /**
@@ -62,7 +65,15 @@ class Temp extends Model
      */
     public function getTempPath()
     {
-        return FileHelper::getTempDirectory().DIRECTORY_SEPARATOR.$this->temp_filename;
+        return self::getTempDirectory().DIRECTORY_SEPARATOR.$this->temp_filename;
+    }
+    
+    /**
+     * @return mixed
+     */
+    public static function getTempDirectory()
+    {
+        return FileHelper::getTempDirectory();
     }
     
 }

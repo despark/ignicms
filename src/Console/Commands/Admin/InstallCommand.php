@@ -1,18 +1,18 @@
 <?php
 
-namespace Despark\Cms\Console\Commands;
+namespace Despark\Cms\Console\Commands\Admin;
 
 use Illuminate\Console\Command;
 use File;
 
-class AdminInstallCommand extends Command
+class InstallCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'admin:install';
+    protected $name = 'igni:admin:install';
 
     /**
      * The console command description.
@@ -34,7 +34,7 @@ class AdminInstallCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         if (env('CACHE_DRIVER') !== 'array') {
             $path = base_path('.env');

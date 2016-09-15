@@ -2,24 +2,31 @@
 
 namespace Despark\Cms\Admin\Helpers;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class FormBuilder.
+ * TODO: Make form builder more abstract.
  */
 class FormBuilder
 {
     /**
-     * @var \Eloquent
+     * @var string
      */
-    private $model;
+    protected $elementName;
+    /**
+     * @var Model
+     */
+    protected $model;
     /**
      * @var string
      */
-    private $field;
+    protected $field;
     /**
      * @var array
      */
     private $options;
-
+    
     /**
      * @param string $view
      *
@@ -27,21 +34,28 @@ class FormBuilder
      */
     public function renderInput($view)
     {
-        return view('admin.formElements.'.$view, ['record' => $this->model, 'fieldName' => $this->field, 'options' => $this->options]);
+        return view('ignicms::admin.formElements.'.$view, [
+            'record' => $this->model,
+            'fieldName' => $this->field,
+            'elementName' => $this->elementName,
+            'options' => $this->options,
+        ]);
     }
-
+    
     /**
      * @param \Eloquent $model
-     * @param string    $field
+     * @param string $field
      * @param           $options
+     * @param null $elementName
      * @return \Illuminate\View\View
      */
-    public function field($model, $field, $options)
+    public function field($model, $field, $options, $elementName = null)
     {
         $this->model = $model;
         $this->field = $field;
         $this->options = $options;
-
+        $this->elementName = is_null($elementName) ? $field : $elementName;
+        
         return $this->renderInput($this->options['type']);
     }
 }

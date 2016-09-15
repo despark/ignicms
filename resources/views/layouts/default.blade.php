@@ -58,11 +58,11 @@
 
     <body>
 
-        @include('layouts.defaultHeader')
+        @include('ignicms::layouts.defaultHeader')
 
         @yield('content')
 
-        @include('layouts.defaultFooter')
+        @include('ignicms::layouts.defaultFooter')
 
         <script type="text/javascript">
             var currentRoute = '{{ Route::currentRouteName() }}';

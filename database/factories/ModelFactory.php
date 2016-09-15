@@ -21,7 +21,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $faker) {
-    /**
+    /*
      * CREATE TABLE `images` (
      * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
      * `resource_id` int(11) NOT NULL,
@@ -41,5 +41,23 @@ $factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $fak
         'original_image' => $faker->image('/tmp', 640, 480, 'cats', false),
         'retina_factor' => rand(1, 4),
         'meta' => null,
+    ];
+});
+
+$factory->define(\Despark\Cms\Models\File\Temp::class, function (Faker\Generator $faker) {
+    /*
+     * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+     * `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+     * `temp_filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+     * `file_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+     * `created_at` timestamp NULL DEFAULT NULL,
+     * `updated_at` timestamp NULL DEFAULT NULL,
+     */
+    $image = $faker->image(\Despark\Cms\Models\File\Temp::getTempDirectory(), 10, 10, 'cats', false);
+    
+    return [
+        'filename' => $image,
+        'temp_filename' => $image,
+        'file_type' => $faker->mimeType,
     ];
 });

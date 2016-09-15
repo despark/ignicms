@@ -19,7 +19,7 @@
             @else
                 <div role="tabpanel" class="tab-pane" id="{{$i18n->id}}">
             @endif
-                @include('admin.'.$model->getTable().'.form', array('model' => $model->translate((int) $i18n->id), 'i18n' => $i18n))
+                @include('ignicms::i18n.'.$model->getTable().'.form', array('model' => $model->translate((int) $i18n->id), 'i18n' => $i18n))
                 </div>
         @endforeach
     </div>

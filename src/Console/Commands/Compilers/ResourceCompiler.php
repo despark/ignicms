@@ -6,7 +6,7 @@ use Despark\Cms\Admin\Interfaces\UploadFileInterface;
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Despark\Cms\Admin\Traits\AdminFile;
 use Despark\Cms\Admin\Traits\AdminImage;
-use Despark\Cms\Console\Commands\AdminResourceCommand;
+use Despark\Cms\Console\Commands\Admin\ResourceCommand;
 use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
 
@@ -18,7 +18,7 @@ class ResourceCompiler
     use AppNamespaceDetectorTrait;
 
     /**
-     * @var Command|AdminResourceCommand
+     * @var Command|ResourceCommand
      */
     protected $command;
 

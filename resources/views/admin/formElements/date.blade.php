@@ -1,7 +1,7 @@
 <div class="form-group datepicker {{ $errors->has($fieldName) ? 'has-error' : '' }}">
-    {!! Form::label($fieldName, $options['label']) !!}
-    {!! Form::text($fieldName, $record->$fieldName, [
-	    'id' =>  $fieldName,
+    {!! Form::label($elementName, $options['label']) !!}
+    {!! Form::text($elementName, $record->$fieldName, [
+	    'id' =>  $elementName,
 	    'class' => "form-control",
 	    'placeholder' => $options['label'],
 	] ) !!}

@@ -8,11 +8,12 @@ use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Http\Middleware\RedirectIfAdmin;
 use Despark\Cms\Http\Middleware\RoleMiddleware;
+use Despark\Cms\Illuminate\View\View;
 use Despark\Cms\Listeners\ArtisanStartingListener;
 use Despark\Cms\Models\Image;
 use Illuminate\Console\AppNamespaceDetectorTrait;
-use Illuminate\Console\Events\ArtisanStarting;
-use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
@@ -27,15 +28,14 @@ class AdminServiceProvider extends ServiceProvider
     use AppNamespaceDetectorTrait;
     
     /**
-     * The Artisan commands provided by starter kit.
+     * Artisan commands
      *
      * @var array
      */
     protected $commands = [
-        'Despark\Cms\Console\Commands\AdminInstallCommand',
-        'Despark\Cms\Console\Commands\AdminUpdateCommand',
-        'Despark\Cms\Console\Commands\AdminUpdateProdCommand',
-        'Despark\Cms\Console\Commands\AdminResourceCommand',
+        \Despark\Cms\Console\Commands\Admin\InstallCommand::class,
+        \Despark\Cms\Console\Commands\Admin\ResourceCommand::class,
+        \Despark\Cms\Console\Commands\File\ClearTemp::class,
     ];
     
     /**
@@ -43,6 +43,12 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+        // Schedule commands after boot
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule->command('igni:file:clear')->weeklyOn(6);
+        });
+        
         // Routes
         $router->group(['namespace' => 'Despark\Cms\Http\Controllers'], function ($router) {
             require __DIR__.'/../Http/routes.php';
@@ -67,11 +73,12 @@ class AdminServiceProvider extends ServiceProvider
             });
         
         // Register Assets
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'views');
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'ignicms');
         $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'lang');
         
         // Register the application commands
         $this->commands($this->commands);
+        
         
         // Publish the Resources
         // Migrations
@@ -88,15 +95,25 @@ class AdminServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/' => config_path(),
         ], 'config');
+        // Resources
         $this->publishes([
-            __DIR__.'/../../resources/' => base_path('/resources'),
+            __DIR__.'/../../resources/assets' => base_path('/resources/assets'),
         ], 'resources');
+        $this->publishes([
+            __DIR__.'/../../resources/lang' => base_path('/resources/lang'),
+        ], 'resources');
+        $this->publishes([
+            __DIR__.'/../../resources/icomoon.json' => base_path('/resources'),
+        ], 'resources');
+        // Gulp
         $this->publishes([
             __DIR__.'/../../gulp/' => base_path('/gulp'),
         ], 'gulp');
+        // Public
         $this->publishes([
             __DIR__.'/../../public/' => public_path(),
         ], 'public');
+        // App
         $this->publishes([
             __DIR__.'/../../app/' => base_path('/app'),
         ], 'app');
@@ -184,8 +201,39 @@ class AdminServiceProvider extends ServiceProvider
             return new \Flow\File($config);
         });
         
-        //        $this->app->bind(\Flow\Request::class, function () {
-        //           return new \Flow\Request(\Request::all(), \Request::allFiles())
-        //        });
+        /*
+         * Switch View implementation
+         */
+        $this->app->bind(ViewContract::class, View::class);
+        
+        $this->registerFactory();
+    }
+    
+    /**
+     * Register the view environment.
+     *
+     * @return void
+     */
+    public function registerFactory()
+    {
+        $this->app->singleton('view', function ($app) {
+            // Next we need to grab the engine resolver instance that will be used by the
+            // environment. The resolver will be used by an environment to get each of
+            // the various engine implementations such as plain PHP or Blade engine.
+            $resolver = $app['view.engine.resolver'];
+            
+            $finder = $app['view.finder'];
+            
+            $env = new \Despark\Cms\Illuminate\View\Factory($resolver, $finder, $app['events']);
+            
+            // We will also set the container instance on this view environment since the
+            // view composers may be classes registered in the container, which allows
+            // for great testable, flexible composers for the application developer.
+            $env->setContainer($app);
+            
+            $env->share('app', $app);
+            
+            return $env;
+        });
     }
 }

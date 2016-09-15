@@ -200,9 +200,13 @@ class Image extends Model implements ImageContract
     
     /**
      * @return array|mixed|string
+     * @throws \Exception
      */
     public function getCurrentUploadDir()
     {
+        if (! $this->resource_model) {
+            throw new \Exception('Missing resource model for model '.$this->getKey());
+        }
         if (! isset($this->currentUploadDir)) {
             $modelDir = explode('Models', $this->resource_model);
             $modelDir = str_replace('\\', '_', $modelDir[1]);
@@ -241,6 +245,8 @@ class Image extends Model implements ImageContract
     public function setRawAttributes(array $attributes, $sync = false)
     {
         $this->attachMetaAttributes($attributes);
+        parent::setRawAttributes($attributes, $sync);
+        
         
         return $this;
     }
@@ -256,6 +262,10 @@ class Image extends Model implements ImageContract
             // add meta attributes.
             if (is_string($attributes['meta'])) {
                 $attributes['meta'] = json_decode($attributes['meta'], true);
+            }
+            
+            if (! is_array($attributes['meta']) && is_null($attributes['meta'])) {
+                $attributes['meta'] = [];
             }
             
             // Check if fields don't intersect with main model.
@@ -309,6 +319,7 @@ class Image extends Model implements ImageContract
     }
     
     /**
+     * Override getter so we can fetch metadata from properties.
      * @param string $key
      * @return mixed
      */

@@ -1,6 +1,6 @@
 {{-- Image --}}
 <div class="form-group {{ $errors->has($fieldName) ? 'has-error' : '' }}">
-    {!! Form::label($fieldName, $options['label']) !!}
+    {!! Form::label($elementName, $options['label']) !!}
 
     @if($image = $record->imageFileByOrientation($options['orientation']))
         <div class="form-group">
@@ -8,8 +8,8 @@
         </div>
     @endif
 
-    {!! Form::file($fieldName,  [
-        'id' => $fieldName,
+    {!! Form::file($elementName,  [
+        'id' => $elementName,
         'class' => "form-control",
         'placeholder' => $options['label'],
     ] ) !!}

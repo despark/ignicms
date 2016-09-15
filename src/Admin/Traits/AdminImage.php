@@ -70,7 +70,8 @@ trait AdminImage
         $imageModel = app(ImageContract::class);
         
         /* @var Model $this */
-        return $this->morphMany(get_class($imageModel), 'image', 'resource_model', 'resource_id');
+        return $this->morphMany(get_class($imageModel), 'image', 'resource_model', 'resource_id')
+                    ->orderBy('order', 'ASC');
     }
     
     /**
@@ -191,8 +192,11 @@ trait AdminImage
     public function saveImages()
     {
         $fileIds = [];
+        $newFiles = array_get($this->files, 'new', []);
+        $existingFiles = array_except($this->files, 'new');
         
-        foreach ($this->files as $files) {
+        // Firsta add new files
+        foreach ($newFiles as $files) {
             foreach ($files as $fileId => $file) {
                 $fileIds[] = $fileId;
             }
@@ -202,13 +206,13 @@ trait AdminImage
         
         $imageFields = $this->getImageFields();
         
-        foreach ($this->files as $fileField => $files) {
+        foreach ($newFiles as $fileField => $files) {
             if (! isset($imageFields[$fileField])) {
                 throw new \Exception('Configuration not found for file/image field '.$fileField);
             }
             
             foreach ($files as $fileId => $fileData) {
-                //get the actual file
+                //get the temp file
                 $file = $collection->get($fileId);
                 
                 $images = $this->manipulateImage($file, $imageFields[$fileField]);
@@ -231,31 +235,24 @@ trait AdminImage
             }
         }
         
+        // Process existing
+        // Get existing ids
+        $imageIds = [];
+        foreach ($existingFiles as $files) {
+            foreach ($files as $fileId => $file) {
+                $imageIds[] = $fileId;
+            }
+        }
+        $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
         
-        //        foreach ($imageFields as $imageType => $options) {
-        //            if ($file = array_get($this->files, $imageType)) {
-        //
-        //                // First delete unused images
-        //                foreach ($this->getImagesOfType($imageType) as $image) {
-        //                    $image->delete();
-        //                }
-        //
-        //                $images = $this->manipulateImage($file, $options);
-        //
-        //                // We will save just the source one as a relation.
-        //                /** @var \Illuminate\Http\File $sourceFile */
-        //                $sourceFile = $images['original']['source'];
-        //
-        //
-        //                $imageModel = app(ImageContract::class, [
-        //                    'original_image' => $sourceFile->getFilename(),
-        //                    'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
-        //                    'image_type' => $imageType,
-        //                ]);
-        //                unset($this->attributes[$imageType]);
-        //                $this->images()->save($imageModel);
-        //            }
-        //        }
+        foreach ($existingFiles as $fileField => $files) {
+            foreach ($files as $fileId => $fileData) {
+                $image = $collection->get($fileId);
+                $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
+                $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
+                $image->save();
+            }
+        }
     }
     
     /**
@@ -439,7 +436,20 @@ trait AdminImage
     public function getImageFields()
     {
         if (! isset($this->imageFields)) {
+            $adminField = [
+                'admin' => [
+                    'width' => config('ignicms.images.admin_thumb_width'),
+                    'height' => config('ignicms.images.admin_thumb_height'),
+                    'type' => 'crop',
+                ],
+            ];
             $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
+            foreach ($this->imageFields as &$imageField) {
+                if (! array_key_exists('admin', $imageField['thumbnails'])) {
+                    $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminField);
+                }
+            }
+            
         }
         
         return $this->imageFields;
@@ -463,20 +473,29 @@ trait AdminImage
      * @param $imageFieldName
      * @return string
      */
-    public function getImageMetaFieldsHtml($imageFieldName)
+    public function getImageMetaFieldsHtml($imageFieldName, ImageContract $imageModel = null)
     {
         $formBuilder = new FormBuilder();
         $fields = $this->getImageMetaFields($imageFieldName);
         $html = '';
-        $imageModel = $this->getImageModel()->newInstance();
         
+        
+        if (is_null($imageModel)) {
+            $imageModel = $this->getImageModel()->newInstance();
+            $fileId = ':fileId:';
+            $isNew = true;
+        } else {
+            $fileId = $imageModel->getKey();
+            $isNew = false;
+        }
         
         // Check for collisions
         $imageModel->checkMetaFieldCollision(array_keys(($fields)));
         
         foreach ($fields as $fieldName => $options) {
-            $exactFieldName = '_files['.$imageFieldName.'][:fileId:][meta]['.$fieldName.']';
-            $html .= $formBuilder->field($imageModel, $exactFieldName, $options)->render();
+            $new = $isNew ? '[new]' : '';
+            $elementName = '_files'.$new.'['.$imageFieldName.']['.$fileId.'][meta]['.$fieldName.']';
+            $html .= $formBuilder->field($imageModel, $fieldName, $options, $elementName)->render();
         }
         
         return $html;

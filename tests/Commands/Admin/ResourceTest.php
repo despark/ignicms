@@ -1,8 +1,8 @@
 <?php
 
-namespace Despark\Tests\Cms\Commands;
+namespace Despark\Tests\Cms\Commands\Admin;
 
-use Despark\Cms\Console\Commands\AdminResourceCommand;
+use Despark\Cms\Console\Commands\Admin\ResourceCommand;
 use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
 use Despark\Tests\Cms\AbstractTestCase;
 use Mockery\Mock;
@@ -19,7 +19,7 @@ class ResourceTest extends AbstractTestCase
         \Route::shouldReceive('has')
               ->andReturnUsing([$this, 'hasRoute']);
 
-        $command = \Mockery::mock(AdminResourceCommand::class)->makePartial();
+        $command = \Mockery::mock(ResourceCommand::class)->makePartial();
 
         $this->setProtectedProperty($command, 'identifier', 'test_resource');
 

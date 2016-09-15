@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+@extends('ignicms::admin.layouts.default')
 
 @section('pageTitle', $pageTitle)
 
@@ -215,4 +215,4 @@
             }
         });
     </script>
-@push
+@endpush

@@ -1,7 +1,7 @@
 <div class="form-group {{ $errors->has($fieldName) ? 'has-error' : '' }}">
-    {!! Form::label($fieldName, $options['label']) !!}
-    {!! Form::textarea($fieldName, $record->$fieldName, [
-        'id' =>  $fieldName,
+    {!! Form::label($elementName, $options['label']) !!}
+    {!! Form::textarea($elementName, $record->$fieldName, [
+        'id' =>  $elementName,
         'class' => "form-control wysiwyg",
         'placeholder' => $options['label'],
     ] ) !!}

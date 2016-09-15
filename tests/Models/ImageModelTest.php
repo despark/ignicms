@@ -25,16 +25,16 @@ class ImageModelTest extends AbstractTestCase
     ];
     
     protected $imageFields = [
-        "id",
-        "resource_id",
-        "resource_model",
-        "image_type",
-        "original_image",
-        "retina_factor",
-        "order",
-        "meta",
-        "created_at",
-        "updated_at",
+        'id',
+        'resource_id',
+        'resource_model',
+        'image_type',
+        'original_image',
+        'retina_factor',
+        'order',
+        'meta',
+        'created_at',
+        'updated_at',
     ];
     
     /**
@@ -69,7 +69,6 @@ class ImageModelTest extends AbstractTestCase
      * @group image
      * @group models
      * @group meta
-     * @group debug
      */
     public function testMetaCollision()
     {
