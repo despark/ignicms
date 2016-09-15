@@ -14,7 +14,7 @@ class CreateImages extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            /**
+            /*
              * CREATE TABLE `images` (
              * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
              * `resource_id` int(11) NOT NULL,
@@ -40,7 +40,7 @@ class CreateImages extends Migration
             $table->nullableTimestamps();
         });
     }
-    
+
     /**
      * Reverse the migrations.
      *

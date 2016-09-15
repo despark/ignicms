@@ -1,19 +1,16 @@
 <?php
 
-
 namespace Despark\Cms\Http\Requests\File;
-
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 /**
- * Class FileUploadRequest
+ * Class FileUploadRequest.
  */
 class FileUploadRequest extends FormRequest
 {
-    
     /**
      * @return array
      */
@@ -23,10 +20,10 @@ class FileUploadRequest extends FormRequest
         if ($this->getMethod() == 'POST') {
             $rules['file'] = 'required|file';
         }
-        
+
         return $rules;
     }
-    
+
     /**
      * @param array $errors
      * @return JsonResponse
@@ -37,10 +34,10 @@ class FileUploadRequest extends FormRequest
         foreach ($errors as $error) {
             $messages[] = implode(PHP_EOL, $error);
         }
-        
+
         return new JsonResponse($messages, Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-    
+
     /**
      * @return bool
      */
@@ -48,5 +45,4 @@ class FileUploadRequest extends FormRequest
     {
         return true;
     }
-    
 }

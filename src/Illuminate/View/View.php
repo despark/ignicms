@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Despark\Cms\Illuminate\View;
-
 
 use Despark\Cms\Helpers\ExceptionHelper;
 use Symfony\Component\Debug\ExceptionHandler;
 
 class View extends \Illuminate\View\View
 {
-    
     public function __toString()
     {
         try {
@@ -20,5 +17,4 @@ class View extends \Illuminate\View\View
             die($eh->getHtml($exc));
         }
     }
-    
 }

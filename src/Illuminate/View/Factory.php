@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Despark\Cms\Illuminate\View;
 
-
 /**
- * Class Factory
+ * Class Factory.
  */
 class Factory extends \Illuminate\View\Factory
 {
@@ -14,15 +12,15 @@ class Factory extends \Illuminate\View\Factory
         if (isset($this->aliases[$view])) {
             $view = $this->aliases[$view];
         }
-        
+
         $view = $this->normalizeName($view);
-        
+
         $path = $this->finder->find($view);
-        
+
         $data = array_merge($mergeData, $this->parseData($data));
-        
+
         $this->callCreator($view = new View($this, $this->getEngineFromPath($path), $view, $path, $data));
-        
+
         return $view;
     }
 }

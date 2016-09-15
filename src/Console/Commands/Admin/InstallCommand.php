@@ -3,7 +3,6 @@
 namespace Despark\Cms\Console\Commands\Admin;
 
 use Illuminate\Console\Command;
-use File;
 
 class InstallCommand extends Command
 {

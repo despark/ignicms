@@ -1,22 +1,19 @@
 <?php
 
-
 namespace Despark\Cms\Assets;
-
 
 use Despark\Cms\Contracts\AssetsContract;
 
 /**
- * Class AssetManager
+ * Class AssetManager.
  */
 class AssetManager implements AssetsContract
 {
-    
     /**
      * @var array
      */
     protected $assets = ['js' => [], 'css' => []];
-    
+
     /**
      * AssetManager constructor.
      */
@@ -35,8 +32,7 @@ class AssetManager implements AssetsContract
             }
         }
     }
-    
-    
+
     /**
      * @param $path
      * @param int $order
@@ -50,7 +46,7 @@ class AssetManager implements AssetsContract
             ];
         }
     }
-    
+
     /**
      * @param $path
      * @param int $order
@@ -64,28 +60,27 @@ class AssetManager implements AssetsContract
             ];
         }
     }
-    
+
     /**
      * @return array
      */
     public function getJs()
     {
         usort($this->assets['js'], [$this, 'orderAssetsArray']);
-        
+
         return $this->assets['js'];
     }
-    
+
     /**
      * @return array
      */
     public function getCss()
     {
         usort($this->assets['css'], [$this, 'orderAssetsArray']);
-        
+
         return $this->assets['css'];
-        
     }
-    
+
     /**
      * @return array
      */
@@ -93,16 +88,15 @@ class AssetManager implements AssetsContract
     {
         return $this->assets;
     }
-    
-    
+
     /**
-     * TODO
+     * TODO.
      */
     public function modifyAsset()
     {
         // todo
     }
-    
+
     /**
      * @param $path
      * @return mixed
@@ -116,7 +110,7 @@ class AssetManager implements AssetsContract
             return $this->assets['js'][$path];
         }
     }
-    
+
     /**
      * @param $a
      * @param $b
@@ -127,8 +121,7 @@ class AssetManager implements AssetsContract
         if ($a['order'] == $b['order']) {
             return 0;
         }
-        
+
         return ($a['order'] < $b['order']) ? -1 : 1;
     }
-    
 }

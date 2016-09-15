@@ -1,21 +1,15 @@
 <?php
 
-
 namespace Despark\Cms\Http\Controllers;
 
-
 use Despark\Cms\Models\File\Temp;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * Class FileController
+ * Class FileController.
  */
 class FileController extends Controller
 {
-
-
     /**
      * @param $fileId
      * @param Temp $temp
@@ -42,7 +36,5 @@ class FileController extends Controller
      */
     public function getFileFormHtml($fileId, $fieldName, $modelClass)
     {
-
     }
-
 }

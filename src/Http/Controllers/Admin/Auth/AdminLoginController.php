@@ -3,10 +3,8 @@
 namespace Despark\Cms\Http\Controllers\Admin\Auth;
 
 use Despark\Cms\Http\Controllers\Controller;
-use Illuminate\Auth\SessionGuard;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminLoginController extends Controller
 {
@@ -38,7 +36,6 @@ class AdminLoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
-
 
     /**
      * Handle a login request to the application.

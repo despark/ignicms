@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ImageObserver
 {
-
     /**
      * @param Model $model
      */

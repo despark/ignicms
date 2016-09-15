@@ -54,7 +54,7 @@ $factory->define(\Despark\Cms\Models\File\Temp::class, function (Faker\Generator
      * `updated_at` timestamp NULL DEFAULT NULL,
      */
     $image = $faker->image(\Despark\Cms\Models\File\Temp::getTempDirectory(), 10, 10, 'cats', false);
-    
+
     return [
         'filename' => $image,
         'temp_filename' => $image,

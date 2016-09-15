@@ -9,7 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 /**
- * Class Controller
+ * Class Controller.
  */
 abstract class Controller extends BaseController
 {
@@ -17,7 +17,7 @@ abstract class Controller extends BaseController
      * @var AssetsContract
      */
     protected $assetManager;
-    
+
     /**
      * Controller constructor.
      * @param AssetsContract $assetManager
@@ -26,6 +26,6 @@ abstract class Controller extends BaseController
     {
         $this->assetManager = $assetManager;
     }
-    
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

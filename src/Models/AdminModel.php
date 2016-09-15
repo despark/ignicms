@@ -16,27 +16,27 @@ class AdminModel extends Model
      * @var UploadedFile[] Files to save.
      */
     protected $files = [];
-    
+
     /**
      * @var array
      */
     protected $dirtyFiles = [];
-    
+
     /**
      * @var array
      */
     protected $rules = [];
-    
+
     /**
      * @var array
      */
     protected $rulesUpdate = [];
-    
+
     /**
      * @var string
      */
     protected $uploadType;
-    
+
     /**
      * @param array $attributes
      * @return Model
@@ -47,15 +47,15 @@ class AdminModel extends Model
         // First fill the image and file attributes so they don't need to be guarded??
         if ($this instanceof UploadImageInterface) {
             // Check if we have upload type
-            
+
             // Save the upload type to the model and remove it from attributes.
-            
+
             //get all uploaded files
             if (isset($attributes['_files'])) {
                 $this->files = $attributes['_files'];
                 unset($attributes['_files']);
             }
-            
+
             //            switch ($attributes['upload_type']) {
             //                case 'file':
             //                    foreach (array_keys($this->getImageFields()) as $imageFieldName) {
@@ -76,13 +76,11 @@ class AdminModel extends Model
             //                    throw new \Exception('Unknown upload type');
             //                    break;
             //            }
-            
-            
         }
-        
+
         return parent::fill($attributes);
     }
-    
+
     /**
      * Override is dirty so we can trigger update if we have dirty images.
      * @return array
@@ -94,11 +92,10 @@ class AdminModel extends Model
             // We just set the ID to the same value to trigger the update.
             $dirty[$this->getKeyName()] = $this->getKey();
         }
-        
+
         return $dirty;
     }
-    
-    
+
     /**
      * @return mixed
      */
@@ -106,7 +103,7 @@ class AdminModel extends Model
     {
         return $this->files;
     }
-    
+
     /**
      * @return bool
      */
@@ -114,7 +111,7 @@ class AdminModel extends Model
     {
         return $this instanceof UploadImageInterface && $this->images()->exists();
     }
-    
+
     /**
      * @return array
      */
@@ -122,7 +119,7 @@ class AdminModel extends Model
     {
         return $this->rules;
     }
-    
+
     /**
      * @param array $rules
      * @return AdminModel
@@ -130,10 +127,10 @@ class AdminModel extends Model
     public function setRules($rules)
     {
         $this->rules = $rules;
-        
+
         return $this;
     }
-    
+
     /**
      * @return array
      */
@@ -141,7 +138,7 @@ class AdminModel extends Model
     {
         return array_merge($this->rules, $this->rulesUpdate);
     }
-    
+
     /**
      * @param array $rulesUpdate
      * @return AdminModel
@@ -149,9 +146,7 @@ class AdminModel extends Model
     public function setRulesUpdate($rulesUpdate)
     {
         $this->rulesUpdate = $rulesUpdate;
-        
+
         return $this;
     }
-    
-    
 }
