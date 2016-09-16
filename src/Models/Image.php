@@ -152,7 +152,6 @@ class Image extends Model implements ImageContract
         $this->resourceModelInstance = $resourceModelInstance;
     }
 
-
     /**
      * @return string
      */

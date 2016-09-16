@@ -4,7 +4,6 @@ namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -150,6 +149,4 @@ class AdminModel extends Model
     {
         return $this->identifier;
     }
-
-
 }
