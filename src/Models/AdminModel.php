@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class AdminModel extends Model
 {
     /**
-     * @var UploadedFile[] Files to save.
+     * @var array Files to save.
      */
     protected $files = [];
 
@@ -50,32 +50,20 @@ class AdminModel extends Model
 
             // Save the upload type to the model and remove it from attributes.
 
-            //get all uploaded files
+            //get all uploaded files to temp
             if (isset($attributes['_files'])) {
                 $this->files = $attributes['_files'];
                 unset($attributes['_files']);
             }
 
-            //            switch ($attributes['upload_type']) {
-            //                case 'file':
-            //                    foreach (array_keys($this->getImageFields()) as $imageFieldName) {
-            //                        // Check for direct upload
-            //                        if (array_key_exists($imageFieldName, $attributes)) {
-            //                            $this->addFile($imageFieldName, $attributes[$imageFieldName]);
-            //                            unset($attributes[$imageFieldName]);
-            //                        }
-            //                    }
-            //                    break;
-            //                case 'plupload':
-            //                    foreach (array_keys($this->getImageFields()) as $imageFieldName) {
-            //
-            //                    }
-            //                    break;
-            //
-            //                default:
-            //                    throw new \Exception('Unknown upload type');
-            //                    break;
-            //            }
+            // Get single uploads.
+            foreach (array_keys($this->getImageFields()) as $imageFieldName) {
+                // Check for direct upload
+                if (array_key_exists($imageFieldName, $attributes)) {
+                    $this->files['_single'][$imageFieldName] = $attributes[$imageFieldName];
+                    unset($attributes[$imageFieldName]);
+                }
+            }
         }
 
         return parent::fill($attributes);

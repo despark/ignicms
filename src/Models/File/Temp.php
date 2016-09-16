@@ -71,4 +71,23 @@ class Temp extends Model
     {
         return FileHelper::getTempDirectory();
     }
+
+    /**
+     * File move wrapper
+     * @param $directory
+     * @param null $name
+     * @return File
+     */
+    public function move($directory, $name = null)
+    {
+        return $this->getFile()->move($directory, $name);
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getFileName()
+    {
+        return $this->filename;
+    }
 }

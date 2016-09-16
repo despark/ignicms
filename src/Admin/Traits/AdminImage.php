@@ -13,6 +13,7 @@ use Despark\Cms\Models\File\Temp;
 use File as FileFacade;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Image;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -55,11 +56,6 @@ trait AdminImage
      * @var ImageContract|\Despark\Cms\Models\Image
      */
     protected $imageModel;
-
-    /**
-     * @var array
-     */
-    protected $uploadTypes = ['file', 'plupload'];
 
     /**
      * @return mixed
@@ -142,8 +138,6 @@ trait AdminImage
         if (! method_exists($model, $getter) || ! method_exists($model, $setter)) {
             throw new \Exception('Unexpected missing method on model '.get_class($model));
         }
-        // We require upload_type
-        $modelRules['upload_type'] = 'required,in:'.implode(',', $this->uploadTypes);
 
         // Calculate minimum allowed image size.
         list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
@@ -191,7 +185,7 @@ trait AdminImage
     {
         $fileIds = [];
         $newFiles = array_get($this->files, 'new', []);
-        $existingFiles = array_except($this->files, 'new');
+        $existingFiles = array_except($this->files, ['new', '_single']);
 
         // Firsta add new files
         foreach ($newFiles as $files) {
@@ -251,23 +245,63 @@ trait AdminImage
                 $image->save();
             }
         }
+
+        // Now we process single files
+        if (isset($this->files['_single']) && $files = $this->files['_single']) {
+            $imageFields = $this->getImageFields();
+
+            foreach ($imageFields as $imageType => $options) {
+                if ($file = array_get($files, $imageType)) {
+
+                    // First delete unused images
+                    foreach ($this->getImagesOfType($imageType) as $image) {
+                        $image->delete();
+                    }
+
+                    $images = $this->manipulateImage($file, $options);
+
+                    // We will save just the source one as a relation.
+                    /** @var \Illuminate\Http\File $sourceFile */
+                    $sourceFile = $images['original']['source'];
+
+
+                    $imageModel = app(ImageContract::class, [
+                        'original_image' => $sourceFile->getFilename(),
+                        'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+                        'image_type' => $imageType,
+                    ]);
+                    unset($this->attributes[$imageType]);
+                    $this->images()->save($imageModel);
+                }
+
+            }
+        }
     }
 
     /**
      * @param Temp $file
      * @param array $options
      * @return array
+     * @throws \Exception
      */
-    public function manipulateImage(Temp $file, array $options)
+    public function manipulateImage($file, array $options)
     {
+        // Detect file type
+        if ($file instanceof Temp) {
+            $sanitizedFilename = $this->sanitizeFilename($file->filename);
+        } elseif ($file instanceof UploadedFile) {
+            $sanitizedFilename = $this->sanitizeFilename($file->getClientOriginalName());
+        } else {
+            throw new \Exception('Unexpected file of class '.get_class($file));
+        }
+
         $images = [];
-        $sanitizedFilename = $this->sanitizeFilename($file->filename);
         $pathParts = pathinfo($sanitizedFilename);
         // Move uploaded file and rename it as source file.
         $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
         // We need to generate unique name if the name is already in use.
 
-        $sourceFile = $file->getFile()->move($this->getThumbnailPath(), $filename);
+        $sourceFile = $file->move($this->getThumbnailPath(), $filename);
         $images['original']['source'] = $sourceFile;
 
 
@@ -363,7 +397,6 @@ trait AdminImage
      * @param $type
      * @return Collection
      * @throws \Exception
-     * @deprecated
      */
     public function getImagesOfType($type)
     {
@@ -571,7 +604,7 @@ trait AdminImage
             return $this->images()->where('image_type', '=', $type)->exists();
         }
 
-        return (bool) count($this->images);
+        return (bool)count($this->images);
     }
 
     /**
@@ -597,7 +630,7 @@ trait AdminImage
             // we try to build it.
             //  Get image fields from the model
             $imageFields = $this->getImageFields();
-            $imageField = array_get($imageFields, (string) $field);
+            $imageField = array_get($imageFields, (string)$field);
             if ($imageField) {
                 list($minDimensions['width'], $minDimensions['height']) = $this->getMinAllowedImageSize($imageField);
                 // Cache it.
@@ -608,7 +641,7 @@ trait AdminImage
         }
         if ($asString) {
             if ($minDimensions) {
-                if (isset($this->minDimensions['width']) && $minDimensions['width']
+                if (isset($minDimensions['width']) && $minDimensions['width']
                     && isset($minDimensions['height']) && $minDimensions['height']
                 ) {
                     return $minDimensions['width'].'x'.$minDimensions['height'];
