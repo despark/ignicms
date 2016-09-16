@@ -1,0 +1,15 @@
+// Igni Gallery
+.file-widget {
+  .file-list {
+    li {
+      list-style: none;
+      .image-item {
+        padding: 10px;
+      }
+      .gallery-image {
+        text-align: center;
+        background: #ffffff;
+      }
+    }
+  }
+}
