@@ -2,7 +2,7 @@
 
 return [
     'projectName' => 'Despark',
-    'defaultFormView' => 'admin.formElements.defaultForm',
+    'defaultFormView' => 'ignicms::admin.formElements.defaultForm',
     'paginateLimit' => 15,
     'paths' => [
         'model' => app_path('Models'),
