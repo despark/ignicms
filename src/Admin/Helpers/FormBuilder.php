@@ -42,10 +42,10 @@ class FormBuilder
         if ($this->model instanceof AdminModel && $identifier = $this->model->getIdentifier()) {
             // First check if there is a rewrite on specific field type
             $field = str_slug($this->field);
-            if (\View::exists('resources.'.$identifier.'.admin.formElements.'.$field)) {
-                $viewName = 'resources.'.$identifier.'.admin.formElements.'.$field;
-            } elseif (\View::exists('resources.'.$identifier.'.admin.formElements.'.$view)) {
-                $viewName = 'resources.'.$identifier.'.admin.formElements.'.$view;
+            if (\View::exists('resources.'.$identifier.'.formElements.'.$field)) {
+                $viewName = 'resources.'.$identifier.'.formElements.'.$field;
+            } elseif (\View::exists('resources.'.$identifier.'.formElements.'.$view)) {
+                $viewName = 'resources.'.$identifier.'.formElements.'.$view;
             }
 
         }
