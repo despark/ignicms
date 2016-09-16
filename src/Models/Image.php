@@ -24,7 +24,7 @@ class Image extends Model implements ImageContract
     protected $imageBaseName;
 
     /**
-     * @var Model|UploadImageInterface
+     * @var AdminModel|UploadImageInterface
      */
     protected $resourceModelInstance;
 
@@ -127,12 +127,12 @@ class Image extends Model implements ImageContract
     }
 
     /**
-     * @return Model|UploadImageInterface
+     * @return AdminModel|UploadImageInterface
      * @throws \Exception
      */
     public function getResourceModel()
     {
-        if (! isset($this->resourceModelInstance)) {
+        if (! isset($this->resourceModelInstance) && $this->resource_model) {
             $class = $this->getActualClassNameForMorph($this->resource_model);
             $this->resourceModelInstance = new $class;
 
@@ -143,6 +143,15 @@ class Image extends Model implements ImageContract
 
         return $this->resourceModelInstance;
     }
+
+    /**
+     * @param UploadImageInterface|AdminModel $resourceModelInstance
+     */
+    public function setResourceModel(AdminModel $resourceModelInstance)
+    {
+        $this->resourceModelInstance = $resourceModelInstance;
+    }
+
 
     /**
      * @return string
@@ -318,6 +327,15 @@ class Image extends Model implements ImageContract
     }
 
     /**
+     * Get resource model identifier.
+     * Used to bridge calls to the resource model method.
+     */
+    public function getIdentifier()
+    {
+        $this->getResourceModel()->getIdentifier();
+    }
+
+    /**
      * Override getter so we can fetch metadata from properties.
      * @param string $key
      * @return mixed
@@ -325,6 +343,14 @@ class Image extends Model implements ImageContract
     public function __get($key)
     {
         $value = parent::__get($key);
+
+        // Get identifier for the resource model.
+        //        if ($key == 'identifier' && is_null($value)) {
+        //            $resourceModel = $this->getResourceModel();
+        //            if ($resourceModel && $resourceModel instanceof AdminModel) {
+        //                return $resourceModel->getIdentifier();
+        //            }
+        //        }
 
         // If we don't have a value try to find it in metadata
         if (is_null($value) && $key != 'meta') {
@@ -334,5 +360,29 @@ class Image extends Model implements ImageContract
         }
 
         return $value;
+    }
+
+    /**
+     * Override magic isset so we can check for identifier metadata and properties.
+     * @param string $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        $result = parent::__isset($key);
+        if ($result) {
+            return $result;
+        }
+        //        if (! $result && $key == 'identifier') {
+        //            $resourceModel = $this->getResourceModel();
+        //            if ($resourceModel && $resourceModel instanceof AdminModel) {
+        //                return ! is_null($resourceModel->getIdentifier());
+        //            }
+        //        }
+
+        // If we don't have a value try to find it in metadata
+        if (! $result && $key != 'meta') {
+            return isset($this->meta[$key]);
+        }
     }
 }

@@ -512,6 +512,7 @@ trait AdminImage
 
         if (is_null($imageModel)) {
             $imageModel = $this->getImageModel()->newInstance();
+
             $fileId = ':fileId:';
             $isNew = true;
         } else {
@@ -521,6 +522,8 @@ trait AdminImage
 
         // Check for collisions
         $imageModel->checkMetaFieldCollision(array_keys(($fields)));
+
+        $imageModel->setResourceModel($this);
 
         foreach ($fields as $fieldName => $options) {
             $new = $isNew ? '[new]' : '';

@@ -35,6 +35,11 @@ class AdminModel extends Model
     /**
      * @var string
      */
+    protected $identifier;
+
+    /**
+     * @var string
+     */
     protected $uploadType;
 
     /**
@@ -137,4 +142,14 @@ class AdminModel extends Model
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+
 }

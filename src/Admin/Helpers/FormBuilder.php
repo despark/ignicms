@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Admin\Helpers;
 
+use Despark\Cms\Models\AdminModel;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,7 +35,22 @@ class FormBuilder
      */
     public function renderInput($view)
     {
-        return view('ignicms::admin.formElements.'.$view, [
+        // First check if there isn't a model view.
+
+        $viewName = 'ignicms::admin.formElements.'.$view;
+
+        if ($this->model instanceof AdminModel && $identifier = $this->model->getIdentifier()) {
+            // First check if there is a rewrite on specific field type
+            $field = str_slug($this->field);
+            if (\View::exists('resources.'.$identifier.'.admin.formElements.'.$field)) {
+                $viewName = 'resources.'.$identifier.'.admin.formElements.'.$field;
+            } elseif (\View::exists('resources.'.$identifier.'.admin.formElements.'.$view)) {
+                $viewName = 'resources.'.$identifier.'.admin.formElements.'.$view;
+            }
+
+        }
+
+        return view($viewName, [
             'record' => $this->model,
             'fieldName' => $this->field,
             'elementName' => $this->elementName,
