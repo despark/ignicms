@@ -400,6 +400,4 @@ class Image extends Model implements ImageContract
             return isset($this->meta[$key]);
         }
     }
-
-
 }
