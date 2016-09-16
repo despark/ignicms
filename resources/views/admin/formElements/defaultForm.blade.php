@@ -49,9 +49,11 @@
             menubar: false,
             toolbar: "code undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image jbimages | media",
             image_advtab: true,
-            relative_urls: false,
+            relative_urls : false,
+            remove_script_host : false,
+            convert_urls : true,
             height: 500,
-            imagetools_cors_hosts: ['despark.app', 'despark.com', '2015.despark.com'],
+            imagetools_cors_hosts: ['{{env('APP_URL')}}'],
             external_filemanager_path: "/plugins/filemanager/",
             filemanager_title: "Responsive Filemanager",
             external_plugins: {
