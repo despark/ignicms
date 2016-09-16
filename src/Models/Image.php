@@ -41,6 +41,11 @@ class Image extends Model implements ImageContract
     /**
      * @var array
      */
+    protected $imageAttributeFields = ['alt', 'title'];
+
+    /**
+     * @var array
+     */
     protected $fillable = [
         'image_type',
         'original_image',
@@ -290,7 +295,10 @@ class Image extends Model implements ImageContract
      */
     public function checkMetaFieldCollision(array $fields)
     {
-        if ($intersect = array_intersect($this->getDBColumns(), $fields)) {
+        // Do not check for fields that are excluded for collision.
+        $fieldsToCheck = array_diff($fields, $this->imageAttributeFields);
+
+        if ($intersect = array_intersect($this->getDBColumns(), $fieldsToCheck)) {
             throw new ImageFieldCollisionException('Image metadata field/s ('.implode(', ', $intersect).
                 ') intersects with main model');
         }
@@ -332,6 +340,14 @@ class Image extends Model implements ImageContract
     public function getIdentifier()
     {
         $this->getResourceModel()->getIdentifier();
+    }
+
+    /**
+     * @return array
+     */
+    public function getImageAttributeFields()
+    {
+        return $this->imageAttributeFields;
     }
 
     /**
@@ -384,4 +400,6 @@ class Image extends Model implements ImageContract
             return isset($this->meta[$key]);
         }
     }
+
+
 }

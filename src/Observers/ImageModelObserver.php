@@ -11,7 +11,25 @@ use Despark\Cms\Models\Image;
 class ImageModelObserver
 {
     /**
-     * @param Image $model
+     * @param ImageContract|Image $model
+     */
+    public function saving(ImageContract $model)
+    {
+        // Extract image attributes from model
+        if (! empty($meta = $model->getAttribute('meta'))) {
+            foreach ($model->getImageAttributeFields() as $fieldName) {
+                if (array_key_exists($fieldName, $meta)) {
+                    $model->setAttribute($fieldName, $meta[$fieldName]);
+                    $model->$fieldName = $model->meta[$fieldName];
+                    unset($meta[$fieldName]);
+                }
+            }
+            $model->setAttribute('meta', $meta);
+        }
+    }
+
+    /**
+     * @param ImageContract|Image $model
      */
     public function deleted(ImageContract $model)
     {

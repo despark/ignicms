@@ -491,11 +491,24 @@ trait AdminImage
     public function getImageMetaFields($imageFieldName)
     {
         $imageField = $this->getImageField($imageFieldName);
+
+        // We will always provide alt and title. Unless disabled in config
+        $defaultFields = [
+            'alt' => [
+                'type' => 'text',
+                'label' => 'Alternate text',
+            ],
+            'title' => [
+                'type' => 'text',
+                'label' => 'Image title',
+            ],
+        ];
+        $fields = [];
         if ($imageField && isset($imageField['fields'])) {
-            return $imageField['fields'];
+            $fields = $imageField['fields'];
         }
 
-        return [];
+        return array_merge($defaultFields, $fields);
     }
 
     /**

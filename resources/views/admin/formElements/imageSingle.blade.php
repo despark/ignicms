@@ -6,8 +6,9 @@
         <div class="form-group">
             @foreach($record->getImages($fieldName) as $image)
                 <div class="image-row">
-                    {!! Html::image($image->getOriginalImagePath('admin')) !!}
+                    {!! Html::image($image->getOriginalImagePath('admin'), $image->alt, ['title' => $image->title]) !!}
                 </div>
+                {!! $record->getImageMetaFieldsHtml($fieldName, $image) !!}
             @endforeach
         </div>
     @endif
