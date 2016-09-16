@@ -1,17 +1,14 @@
 <?php
 
-
 namespace Despark\Cms\Traits;
-
 
 use Despark\Cms\Contracts\AssetsContract;
 
 /**
- * Trait ManagesAssets
+ * Trait ManagesAssets.
  */
 trait ManagesAssets
 {
-
     /**
      * @param $path
      * @param int $order
@@ -31,7 +28,7 @@ trait ManagesAssets
     }
 
     /**
-     * Get all registered javascript assets
+     * Get all registered javascript assets.
      */
     public function getJs()
     {
@@ -39,7 +36,7 @@ trait ManagesAssets
     }
 
     /**
-     * Get all registered CSS assets
+     * Get all registered CSS assets.
      */
     public function getCss()
     {
@@ -47,11 +44,10 @@ trait ManagesAssets
     }
 
     /**
-     * Get all assets
+     * Get all assets.
      */
     public function getAssets()
     {
         app(AssetsContract::class)->getAssets();
     }
-
 }

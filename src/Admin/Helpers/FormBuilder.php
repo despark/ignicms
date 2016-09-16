@@ -47,7 +47,6 @@ class FormBuilder
             } elseif (\View::exists('resources.'.$identifier.'.admin.formElements.'.$view)) {
                 $viewName = 'resources.'.$identifier.'.admin.formElements.'.$view;
             }
-
         }
 
         return view($viewName, [
