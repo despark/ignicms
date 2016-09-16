@@ -73,7 +73,7 @@ class Temp extends Model
     }
 
     /**
-     * File move wrapper
+     * File move wrapper.
      * @param $directory
      * @param null $name
      * @return File

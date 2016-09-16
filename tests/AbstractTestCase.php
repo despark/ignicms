@@ -15,7 +15,6 @@ abstract class AbstractTestCase extends AbstractPackageTestCase
      */
     protected $migrationPath;
 
-
     public function setUp()
     {
         parent::setUp();
