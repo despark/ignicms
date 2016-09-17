@@ -51,7 +51,7 @@ For Laravel versions 5.2 use branch v2.0
 3. Run this command in the terminal (it'll set all necessary resources to use the CMS. _To complete this step you should have **composer**, **npm** & **bower**, installed globally_):
 
   ```
-    php artisan admin:install
+    php artisan igni:admin:install
   ```
 
 4. Run the database seeder to populate the database with default user, permissions and roles:
@@ -64,7 +64,7 @@ For Laravel versions 5.2 use branch v2.0
 
 ## Additional commands
 
-- Use the command `php artisan admin:resource` to create all necessary files for manipulating resources. You should specify the resource name (in title case).
+- Use the command `php artisan igni:admin:resource` to create all necessary files for manipulating resources. You should specify the resource name (in title case).
 
   **Example**
 
@@ -72,9 +72,9 @@ For Laravel versions 5.2 use branch v2.0
     php artisan admin:resource "Blog Post"
   ```
 
-- The command `php artisan admin:update` will update composer dependencies, it'll clear the autoload and it'll run any new migrations.
+- The command `php artisan igni:admin:update` will update composer dependencies, it'll clear the autoload and it'll run any new migrations.
 
-- You can run `php artisan admin:prod` on your production server, after deploy. It will install all dependencies according to your composer.lock file, run new migrations and optimize the autoload.
+- You can run `php artisan igni:admin:prod` on your production server, after deploy. It will install all dependencies according to your composer.lock file, run new migrations and optimize the autoload.
 
 ## Copyright and License
 
