@@ -69,7 +69,7 @@ For Laravel versions 5.2 use branch v2.0
   **Example**
 
   ```
-    php artisan admin:resource "Blog Post"
+    php artisan igni:admin:resource "Blog Post"
   ```
 
 - The command `php artisan igni:admin:update` will update composer dependencies, it'll clear the autoload and it'll run any new migrations.
