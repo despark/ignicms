@@ -101,7 +101,7 @@ class AdminServiceProvider extends ServiceProvider
             __DIR__.'/../../resources/lang' => base_path('/resources/lang'),
         ], 'resources');
         $this->publishes([
-            __DIR__.'/../../resources/icomoon.json' => base_path('/resources'),
+            __DIR__.'/../../resources/icomoon.json' => base_path('/resources/icomoon.json'),
         ], 'resources');
         // Gulp
         $this->publishes([
