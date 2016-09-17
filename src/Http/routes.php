@@ -45,8 +45,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('login', 'Admin\Auth\AdminLoginController@showLoginForm')->name('admin.login');
         Route::post('login', 'Admin\Auth\AdminLoginController@login');
 
-        Route::post('file/{file}', 'Admin\FileController@get')->name('file.get');
-        Route::post('file/upload', 'Admin\File\UploadController@upload')->name('file.upload');
+        Route::post('file/{file}', 'FileController@get')->name('file.get');
+        Route::post('file/upload', 'File\UploadController@upload')->name('file.upload');
         Route::match(['get', 'post'], 'image/upload', 'Admin\ImageController@upload')->name('image.upload');
         Route::get('image/preview/{temp_image?}', 'Admin\ImageController@preview')->name('image.preview');
     });
