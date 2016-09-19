@@ -47,7 +47,7 @@ class PermissionsController extends AdminController
         $this->viewData['model'] = $this->permissions;
         $this->viewData['records'] = $records;
 
-        return view('admin.layouts.list', $this->viewData);
+        return view('ignicms::admin.layouts.list', $this->viewData);
     }
 
     /**

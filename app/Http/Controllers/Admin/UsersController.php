@@ -42,7 +42,7 @@ class UsersController extends AdminController
         $this->viewData['model'] = $model;
         $this->viewData['records'] = $records;
 
-        return view('admin.layouts.list', $this->viewData);
+        return view('ignicms::admin.layouts.list', $this->viewData);
     }
 
     /**

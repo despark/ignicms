@@ -41,7 +41,7 @@ class RolesController extends AdminController
         $this->viewData['model'] = $this->model;
         $this->viewData['records'] = $records;
 
-        return view('admin.layouts.list', $this->viewData);
+        return view('ignicms::admin.layouts.list', $this->viewData);
     }
 
     /**

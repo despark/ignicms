@@ -37,4 +37,8 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+    
+    public function showLoginForm(){
+        return view('ignicms::auth.login');
+    }
 }
