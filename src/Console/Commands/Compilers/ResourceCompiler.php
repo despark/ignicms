@@ -148,7 +148,7 @@ class ResourceCompiler
         }
 
         $route = "Route::resource('$identifierPlural', 'Admin\\".$this->command->controller_name($this->identifier)."'";
-        if (!empty($this->routeNames)) {
+        if (! empty($this->routeNames)) {
             // create the resource names
             $route .= ',['.PHP_EOL."'names' => [".PHP_EOL;
             foreach ($this->routeNames as $action => $name) {
@@ -184,10 +184,10 @@ class ResourceCompiler
         }
         $this->modelReplacements[':uses'] = $usesString;
 
-        $this->modelReplacements[':implementations'] = !empty($this->modelReplacements[':implementations']) ?
+        $this->modelReplacements[':implementations'] = ! empty($this->modelReplacements[':implementations']) ?
             'implements '.implode(', ', $this->modelReplacements[':implementations']) : '';
 
-        $this->modelReplacements[':traits'] = !empty($this->modelReplacements[':traits']) ?
+        $this->modelReplacements[':traits'] = ! empty($this->modelReplacements[':traits']) ?
             'use '.implode(', ', $this->modelReplacements[':traits']).';' : '';
     }
 
@@ -302,7 +302,7 @@ class ResourceCompiler
      */
     public function appendToFile($file, $content)
     {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             throw new \Exception('File is missing');
         }
         file_put_contents($file, $content, FILE_APPEND);
