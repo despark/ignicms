@@ -92,18 +92,18 @@ trait AdminImage
      */
     public function bootstrapModel($model)
     {
-        if (! property_exists($model, 'rules')) {
+        if (!property_exists($model, 'rules')) {
             throw new ModelSanityException('Missing rules property for model '.get_class($model));
         }
 
-        if (! $model instanceof AdminModel) {
+        if (!$model instanceof AdminModel) {
             throw new ModelSanityException('Model '.get_class($model).' must be instanceof '.AdminModel::class);
         }
 
 
         $imageFields = $model->getImageFields();
 
-        if (! is_array($imageFields)) {
+        if (!is_array($imageFields)) {
             throw new ModelSanityException('No Image fields defined in config for model '.get_class($model));
         }
 
@@ -125,9 +125,9 @@ trait AdminImage
 
     /**
      * @param Model $model
-     * @param $property
-     * @param $fieldName
-     * @param $field
+     * @param       $property
+     * @param       $fieldName
+     * @param       $field
      * @throws \Exception
      */
     protected function prepareImageRules(Model $model, $property, $fieldName, $field)
@@ -135,7 +135,7 @@ trait AdminImage
         $getter = 'get'.studly_case($property);
         $setter = 'set'.studly_case($property);
 
-        if (! method_exists($model, $getter) || ! method_exists($model, $setter)) {
+        if (!method_exists($model, $getter) || !method_exists($model, $setter)) {
             throw new \Exception('Unexpected missing method on model '.get_class($model));
         }
 
@@ -199,31 +199,34 @@ trait AdminImage
         $imageFields = $this->getImageFields();
 
         foreach ($newFiles as $fileField => $files) {
-            if (! isset($imageFields[$fileField])) {
+            if (!isset($imageFields[$fileField])) {
                 throw new \Exception('Configuration not found for file/image field '.$fileField);
             }
-
             foreach ($files as $fileId => $fileData) {
                 //get the temp file
                 $file = $collection->get($fileId);
+                // Check if we are not deleting the image
+                if (isset($fileData['delete']) && $fileData['delete']) {
+                    $file->delete();
+                } else {
+                    $images = $this->manipulateImage($file, $imageFields[$fileField]);
+                    // We will save just the source one as a relation.
+                    /** @var \Illuminate\Http\File $sourceFile */
+                    $sourceFile = $images['original']['source'];
 
-                $images = $this->manipulateImage($file, $imageFields[$fileField]);
-                // We will save just the source one as a relation.
-                /** @var \Illuminate\Http\File $sourceFile */
-                $sourceFile = $images['original']['source'];
 
+                    $imageModel = app(ImageContract::class, [
+                        'original_image' => $sourceFile->getFilename(),
+                        'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+                        'image_type' => $fileField,
+                        'order' => isset($fileData['order']) ? $fileData['order'] : 0,
+                        'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
+                    ]);
 
-                $imageModel = app(ImageContract::class, [
-                    'original_image' => $sourceFile->getFilename(),
-                    'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
-                    'image_type' => $fileField,
-                    'order' => isset($fileData['order']) ? $fileData['order'] : 0,
-                    'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
-                ]);
-
-                $this->images()->save($imageModel);
-                // Delete temp file
-                $file->delete();
+                    $this->images()->save($imageModel);
+                    // Delete temp file
+                    $file->delete();
+                }
             }
         }
 
@@ -240,9 +243,14 @@ trait AdminImage
         foreach ($existingFiles as $fileField => $files) {
             foreach ($files as $fileId => $fileData) {
                 $image = $collection->get($fileId);
-                $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
-                $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
-                $image->save();
+                // Check if not for deletion
+                if (isset($fileData['delete']) && $fileData['delete']) {
+                    $image->delete();
+                } else {
+                    $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
+                    $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
+                    $image->save();
+                }
             }
         }
 
@@ -251,34 +259,41 @@ trait AdminImage
             $imageFields = $this->getImageFields();
 
             foreach ($imageFields as $imageType => $options) {
+
                 if ($file = array_get($files, $imageType)) {
+                    // Check if not for deletion and delete it.
+                    if (is_array($file) && isset($file['delete']) && $file['delete']) {
+                        foreach ($this->getImagesOfType($imageType) as $image) {
+                            $image->delete();
+                        }
+                    } else {
+                        // First delete unused images
+                        foreach ($this->getImagesOfType($imageType) as $image) {
+                            $image->delete();
+                        }
 
-                    // First delete unused images
-                    foreach ($this->getImagesOfType($imageType) as $image) {
-                        $image->delete();
+                        $images = $this->manipulateImage($file, $options);
+
+                        // We will save just the source one as a relation.
+                        /** @var \Illuminate\Http\File $sourceFile */
+                        $sourceFile = $images['original']['source'];
+
+
+                        $imageModel = app(ImageContract::class, [
+                            'original_image' => $sourceFile->getFilename(),
+                            'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+                            'image_type' => $imageType,
+                        ]);
+                        unset($this->attributes[$imageType]);
+                        $this->images()->save($imageModel);
                     }
-
-                    $images = $this->manipulateImage($file, $options);
-
-                    // We will save just the source one as a relation.
-                    /** @var \Illuminate\Http\File $sourceFile */
-                    $sourceFile = $images['original']['source'];
-
-
-                    $imageModel = app(ImageContract::class, [
-                        'original_image' => $sourceFile->getFilename(),
-                        'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
-                        'image_type' => $imageType,
-                    ]);
-                    unset($this->attributes[$imageType]);
-                    $this->images()->save($imageModel);
                 }
             }
         }
     }
 
     /**
-     * @param Temp $file
+     * @param Temp  $file
      * @param array $options
      * @return array
      * @throws \Exception
@@ -351,9 +366,9 @@ trait AdminImage
     /**
      * @param string $sourceImagePath Source image path
      * @param string $thumbName Thumbnail name
-     * @param $newFileName
-     * @param null $width Desired width for resize
-     * @param null $height Desired height for resize
+     * @param        $newFileName
+     * @param null   $width Desired width for resize
+     * @param null   $height Desired height for resize
      * @param string $resizeType Resize type
      * @return \Intervention\Image\Image
      */
@@ -367,8 +382,8 @@ trait AdminImage
     ) {
         $image = Image::make($sourceImagePath);
 
-        $width = ! $width ? null : $width;
-        $height = ! $height ? null : $height;
+        $width = !$width ? null : $width;
+        $height = !$height ? null : $height;
 
         switch ($resizeType) {
             case 'crop':
@@ -385,7 +400,7 @@ trait AdminImage
 
         $thumbnailPath = $this->getThumbnailPath($thumbName);
 
-        if (! FileFacade::isDirectory($thumbnailPath)) {
+        if (!FileFacade::isDirectory($thumbnailPath)) {
             FileFacade::makeDirectory($thumbnailPath);
         }
 
@@ -400,7 +415,7 @@ trait AdminImage
     public function getImagesOfType($type)
     {
         // Check to see if type is here.
-        if (! in_array($type, $this->getImageTypes())) {
+        if (!in_array($type, $this->getImageTypes())) {
             throw new \Exception('Type not found in model '.self::class);
         }
 
@@ -433,7 +448,7 @@ trait AdminImage
      */
     public function getThumbnailPath($thumbnailType = 'original')
     {
-        if (! isset($this->thumbnailPaths[$thumbnailType])) {
+        if (!isset($this->thumbnailPaths[$thumbnailType])) {
             $this->thumbnailPaths[$thumbnailType] = $this->getCurrentUploadDir().$thumbnailType.DIRECTORY_SEPARATOR;
         }
 
@@ -449,11 +464,11 @@ trait AdminImage
     {
         $modelImageFields = $this->getImageFields();
 
-        if (! array_key_exists($fieldName, $modelImageFields)) {
+        if (!array_key_exists($fieldName, $modelImageFields)) {
             return false;
         }
 
-        if (! array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
+        if (!array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
             $thumbnailType = 'original';
         }
 
@@ -465,7 +480,7 @@ trait AdminImage
      */
     public function getImageFields()
     {
-        if (! isset($this->imageFields)) {
+        if (!isset($this->imageFields)) {
             $adminField = [
                 'admin' => [
                     'width' => config('ignicms.images.admin_thumb_width'),
@@ -475,7 +490,7 @@ trait AdminImage
             ];
             $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
             foreach ($this->imageFields as &$imageField) {
-                if (! array_key_exists('admin', $imageField['thumbnails'])) {
+                if (!array_key_exists('admin', $imageField['thumbnails'])) {
                     $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminField);
                 }
             }
@@ -597,7 +612,7 @@ trait AdminImage
      */
     public function getCurrentUploadDir()
     {
-        if (! isset($this->currentUploadDir)) {
+        if (!isset($this->currentUploadDir)) {
             $modelDir = explode('Models', get_class($this));
             $modelDir = str_replace('\\', '_', $modelDir[1]);
             $modelDir = ltrim($modelDir, '_');
@@ -693,7 +708,7 @@ trait AdminImage
      */
     public function getImageModel()
     {
-        if (! isset($this->imageModel)) {
+        if (!isset($this->imageModel)) {
             $this->imageModel = app(ImageContract::class);
         }
 

@@ -67,6 +67,15 @@ class AdminModel extends Model
                     $this->files['_single'][$imageFieldName] = $attributes[$imageFieldName];
                     unset($attributes[$imageFieldName]);
                 }
+                
+                // Check for single delete
+                if (array_key_exists($imageFieldName.'_'.'delete', $attributes)
+                    && $attributes[$imageFieldName.'_'.'delete']
+                ) {
+                    // we mark it for delete
+                    $this->files['_single'][$imageFieldName]['delete'] = 1;
+                    unset($attributes[$imageFieldName.'_'.'delete']);
+                }
             }
         }
 
@@ -80,7 +89,7 @@ class AdminModel extends Model
     public function getDirty()
     {
         $dirty = parent::getDirty();
-        if (! empty($this->files)) {
+        if (!empty($this->files)) {
             // We just set the ID to the same value to trigger the update.
             $dirty[$this->getKeyName()] = $this->getKey();
         }

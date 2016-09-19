@@ -11,6 +11,12 @@
                 {!! $record->getImageMetaFieldsHtml($fieldName, $image) !!}
             @endforeach
         </div>
+        <div class="form-group">
+            <label for="{{ $elementName.'_delete' }}">
+                {!! Form::checkbox($elementName.'_delete',1,null,['id' => $elementName.'_delete']) !!}
+                Delete
+            </label>
+        </div>
     @endif
 
     {!! Form::file($elementName,  [

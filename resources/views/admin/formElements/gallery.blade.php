@@ -15,7 +15,9 @@
                         <input type="hidden" name="_files[{{$fieldName}}][{{$image->getKey()}}][id]"
                                value="{{$image->getKey()}}">
                         {!! $record->getImageMetaFieldsHtml($fieldName,$image) !!}
-
+                        <input type="hidden" class="delete-status"
+                               name="_files[{{$fieldName}}][{{$image->getKey()}}][delete]" value="0">
+                        <button type="button" class="btn btn-default btn-block btn-danger delete-image">Delete</button>
                     </div>
                 </li>
             @endforeach
@@ -49,8 +51,7 @@
 
         this.getImagePreview = function (id) {
             var src = this.config.previewUrl + '/' + id;
-            var img = $('<div class="gallery-image"><img src="' + src + '" width="' + this.defaultWidth + '" height="' + this.defaultHeight + '"/></div>');
-            return img;
+            return $('<div class="gallery-image"><img src="' + src + '" width="' + this.defaultWidth + '" height="' + this.defaultHeight + '"/></div>');
         };
 
         this.createSortable = function () {
@@ -59,14 +60,21 @@
                     $('li', evt.srcElement).each(function (i, el) {
                         $('input.file-order', el).val(i);
                     });
-                },
-
+                }
             });
             return this.sortable;
         };
     };
 
     (function ($) {
+        // Attach delete handler
+        $(document).on('click', '.file-widget .delete-image', function (e) {
+            e.preventDefault();
+            var $item = $(this).closest('li');
+            $('input.delete-status', $item).val(1);
+            $item.hide();
+        });
+
         var uploader = new IgniUploader.create({
                     fieldName: '{{$fieldName}}',
                     previewUrl: '{{route('image.preview')}}',
@@ -108,19 +116,24 @@
 
             // Add image preview
             uploader.getImagePreview(file.serverId).appendTo(item);
-
             // Add order field
             $('<input type="hidden" class="file-order" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][order]" value="' + index + '"/>')
                     .appendTo(item);
+            // Add delete fields
+            $('<input type="hidden" class="delete-status" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][delete]" value="0"/>')
+                    .appendTo(item);
+
 
             var fileFieldsHtml = uploader.config.fileFieldsHtml.replace(/:fileId:/g, file.serverId);
             $(fileFieldsHtml).appendTo(item);
-
+            // Add delete button
+            $('<button type="button" class="btn btn-default btn-block btn-danger delete-image">Delete</button>')
+                    .appendTo(item);
             // Add file ids
             $('<input type="hidden" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][id]" value="' + file.serverId + '"/>')
                     .appendTo(item);
 
-        }
+        };
 
         uploader.uploadStartHandler = function () {
             $('.progress-group', uploader.config.$context).show();
@@ -138,7 +151,7 @@
             if (file.file.type.indexOf('image/') !== 0) {
                 return false;
             }
-        }
+        };
 
         uploader.errorHandler = function (message, file, chunk) {
             // todo
