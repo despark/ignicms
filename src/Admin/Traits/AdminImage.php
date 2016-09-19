@@ -92,18 +92,18 @@ trait AdminImage
      */
     public function bootstrapModel($model)
     {
-        if (!property_exists($model, 'rules')) {
+        if (! property_exists($model, 'rules')) {
             throw new ModelSanityException('Missing rules property for model '.get_class($model));
         }
 
-        if (!$model instanceof AdminModel) {
+        if (! $model instanceof AdminModel) {
             throw new ModelSanityException('Model '.get_class($model).' must be instanceof '.AdminModel::class);
         }
 
 
         $imageFields = $model->getImageFields();
 
-        if (!is_array($imageFields)) {
+        if (! is_array($imageFields)) {
             throw new ModelSanityException('No Image fields defined in config for model '.get_class($model));
         }
 
@@ -135,7 +135,7 @@ trait AdminImage
         $getter = 'get'.studly_case($property);
         $setter = 'set'.studly_case($property);
 
-        if (!method_exists($model, $getter) || !method_exists($model, $setter)) {
+        if (! method_exists($model, $getter) || ! method_exists($model, $setter)) {
             throw new \Exception('Unexpected missing method on model '.get_class($model));
         }
 
@@ -199,7 +199,7 @@ trait AdminImage
         $imageFields = $this->getImageFields();
 
         foreach ($newFiles as $fileField => $files) {
-            if (!isset($imageFields[$fileField])) {
+            if (! isset($imageFields[$fileField])) {
                 throw new \Exception('Configuration not found for file/image field '.$fileField);
             }
             foreach ($files as $fileId => $fileData) {
@@ -259,7 +259,6 @@ trait AdminImage
             $imageFields = $this->getImageFields();
 
             foreach ($imageFields as $imageType => $options) {
-
                 if ($file = array_get($files, $imageType)) {
                     // Check if not for deletion and delete it.
                     if (is_array($file) && isset($file['delete']) && $file['delete']) {
@@ -382,8 +381,8 @@ trait AdminImage
     ) {
         $image = Image::make($sourceImagePath);
 
-        $width = !$width ? null : $width;
-        $height = !$height ? null : $height;
+        $width = ! $width ? null : $width;
+        $height = ! $height ? null : $height;
 
         switch ($resizeType) {
             case 'crop':
@@ -400,7 +399,7 @@ trait AdminImage
 
         $thumbnailPath = $this->getThumbnailPath($thumbName);
 
-        if (!FileFacade::isDirectory($thumbnailPath)) {
+        if (! FileFacade::isDirectory($thumbnailPath)) {
             FileFacade::makeDirectory($thumbnailPath);
         }
 
@@ -415,7 +414,7 @@ trait AdminImage
     public function getImagesOfType($type)
     {
         // Check to see if type is here.
-        if (!in_array($type, $this->getImageTypes())) {
+        if (! in_array($type, $this->getImageTypes())) {
             throw new \Exception('Type not found in model '.self::class);
         }
 
@@ -448,7 +447,7 @@ trait AdminImage
      */
     public function getThumbnailPath($thumbnailType = 'original')
     {
-        if (!isset($this->thumbnailPaths[$thumbnailType])) {
+        if (! isset($this->thumbnailPaths[$thumbnailType])) {
             $this->thumbnailPaths[$thumbnailType] = $this->getCurrentUploadDir().$thumbnailType.DIRECTORY_SEPARATOR;
         }
 
@@ -464,11 +463,11 @@ trait AdminImage
     {
         $modelImageFields = $this->getImageFields();
 
-        if (!array_key_exists($fieldName, $modelImageFields)) {
+        if (! array_key_exists($fieldName, $modelImageFields)) {
             return false;
         }
 
-        if (!array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
+        if (! array_key_exists($thumbnailType, $modelImageFields[$fieldName]['thumbnails'])) {
             $thumbnailType = 'original';
         }
 
@@ -480,7 +479,7 @@ trait AdminImage
      */
     public function getImageFields()
     {
-        if (!isset($this->imageFields)) {
+        if (! isset($this->imageFields)) {
             $adminField = [
                 'admin' => [
                     'width' => config('ignicms.images.admin_thumb_width'),
@@ -490,7 +489,7 @@ trait AdminImage
             ];
             $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
             foreach ($this->imageFields as &$imageField) {
-                if (!array_key_exists('admin', $imageField['thumbnails'])) {
+                if (! array_key_exists('admin', $imageField['thumbnails'])) {
                     $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminField);
                 }
             }
@@ -612,7 +611,7 @@ trait AdminImage
      */
     public function getCurrentUploadDir()
     {
-        if (!isset($this->currentUploadDir)) {
+        if (! isset($this->currentUploadDir)) {
             $modelDir = explode('Models', get_class($this));
             $modelDir = str_replace('\\', '_', $modelDir[1]);
             $modelDir = ltrim($modelDir, '_');
@@ -708,7 +707,7 @@ trait AdminImage
      */
     public function getImageModel()
     {
-        if (!isset($this->imageModel)) {
+        if (! isset($this->imageModel)) {
             $this->imageModel = app(ImageContract::class);
         }
 
