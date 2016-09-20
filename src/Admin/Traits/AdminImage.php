@@ -13,9 +13,9 @@ use Despark\Cms\Models\File\Temp;
 use File as FileFacade;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Image;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminImage.
@@ -58,7 +58,7 @@ trait AdminImage
     protected $imageModel;
 
     /**
-     * @return mixed
+     * @return MorphMany
      */
     public function images()
     {
