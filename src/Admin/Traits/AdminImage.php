@@ -6,6 +6,7 @@ use Despark\Cms\Admin\Helpers\FormBuilder;
 use Despark\Cms\Admin\Observers\ImageObserver;
 use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Exceptions\ModelNotPersistedException;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Models\AdminModel;
@@ -608,16 +609,21 @@ trait AdminImage
 
     /**
      * @return array|mixed|string
+     * @throws ModelNotPersistedException
      */
     public function getCurrentUploadDir()
     {
+        if(!$this->exists){
+            throw new ModelNotPersistedException();
+        }
+
         if (! isset($this->currentUploadDir)) {
             $modelDir = explode('Models', get_class($this));
             $modelDir = str_replace('\\', '_', $modelDir[1]);
             $modelDir = ltrim($modelDir, '_');
             $modelDir = strtolower($modelDir);
 
-            $this->currentUploadDir = $this->uploadDir.DIRECTORY_SEPARATOR.$modelDir.
+            $this->currentUploadDir = public_path($this->uploadDir).DIRECTORY_SEPARATOR.$modelDir.
                 DIRECTORY_SEPARATOR.$this->getKey().DIRECTORY_SEPARATOR;
         }
 
