@@ -292,7 +292,7 @@ trait AdminImage
     }
 
     /**
-     * @param Temp  $file
+     * @param Temp|UploadedFile $file
      * @param array $options
      * @return array
      * @throws \Exception
@@ -366,8 +366,8 @@ trait AdminImage
      * @param string $sourceImagePath Source image path
      * @param string $thumbName Thumbnail name
      * @param        $newFileName
-     * @param null   $width Desired width for resize
-     * @param null   $height Desired height for resize
+     * @param null $width Desired width for resize
+     * @param null $height Desired height for resize
      * @param string $resizeType Resize type
      * @return \Intervention\Image\Image
      */

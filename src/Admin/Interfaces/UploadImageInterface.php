@@ -2,7 +2,9 @@
 
 namespace Despark\Cms\Admin\Interfaces;
 
+use Despark\Cms\Models\File\Temp;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Interface UploadImageInterface
@@ -32,7 +34,7 @@ interface UploadImageInterface
     public function images();
 
     /**
-     * @param       $file
+     * @param Temp|UploadedFile $file
      * @param array $options
      * @return mixed
      */
