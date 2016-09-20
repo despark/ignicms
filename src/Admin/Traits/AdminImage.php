@@ -613,10 +613,6 @@ trait AdminImage
      */
     public function getCurrentUploadDir()
     {
-        if(!$this->exists){
-            throw new ModelNotPersistedException();
-        }
-
         if (! isset($this->currentUploadDir)) {
             $modelDir = explode('Models', get_class($this));
             $modelDir = str_replace('\\', '_', $modelDir[1]);
