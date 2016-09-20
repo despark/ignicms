@@ -21,6 +21,12 @@ interface UploadImageInterface
     public function getImageFields();
 
     /**
+     * @param $imageFieldName
+     * @return mixed
+     */
+    public function getImageField($imageFieldName);
+
+    /**
      * @return MorphMany
      */
     public function images();
