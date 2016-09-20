@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class AdminModel.
  */
-class AdminModel extends Model
+abstract class AdminModel extends Model
 {
     /**
      * @var array Files to save.
@@ -103,6 +103,11 @@ class AdminModel extends Model
     public function getFiles()
     {
         return $this->files;
+    }
+
+    public function setFiles($files)
+    {
+        $this->files = $files;
     }
 
     /**
