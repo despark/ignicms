@@ -1,6 +1,6 @@
 <div class="form-group {{ $errors->has($options['validateName']) ? 'has-error' : '' }}">
     {!! Form::label($elementName, $options['label']) !!}
-    {!! Form::select($elementName, $record->{$options['select_options']}(), $record->{$options['relationMethod']}->pluck($options['selectedKey'])->all(), [
+    {!! Form::select($elementName, $sourceModel->toOptionsArray(), $record->{$options['relationMethod']}->pluck($options['selectedKey'])->all(), [
             'class' => 'form-control select2 '.array_get($options, "additionalClass"),
             'multiple' => 'multiple',
         ]) !!}
