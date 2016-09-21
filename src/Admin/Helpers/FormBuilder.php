@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Admin\Helpers;
 
+use Despark\Cms\Contracts\SourceModel;
 use Despark\Cms\Models\AdminModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,11 @@ class FormBuilder
      * @var string
      */
     protected $field;
+
+    /**
+     * @var SourceModel
+     */
+    protected $sourceModel;
     /**
      * @var array
      */
@@ -54,6 +60,7 @@ class FormBuilder
             'fieldName' => $this->field,
             'elementName' => $this->elementName,
             'options' => $this->options,
+            'sourceModel' => $this->sourceModel,
         ]);
     }
 
@@ -68,6 +75,10 @@ class FormBuilder
     {
         $this->model = $model;
         $this->field = $field;
+        // Check for source model
+        if (isset($options['sourceModel']) && is_a($options['sourceModel'], SourceModel::class, true)) {
+            $this->sourceModel = app($options['sourceModel']);
+        }
         $this->options = $options;
         $this->elementName = is_null($elementName) ? $field : $elementName;
 
