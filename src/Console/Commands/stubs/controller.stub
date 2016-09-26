@@ -142,27 +142,4 @@ class :controller_name extends AdminController
 
         return redirect()->back();
     }
-
-    public function deleteFile($id, $fileFieldName)
-    {
-        $record = :model_name::findOrFail($id);
-
-        $filePath = public_path($record->{$fileFieldName});
-
-        if (\File::exists($filePath)) {
-            \File::delete($filePath);
-        }
-
-        $record->{$fileFieldName} = null;
-
-        $record->save();
-
-        $this->notify([
-            'type' => 'danger',
-            'title' => 'Successful delete!',
-            'description' => 'The file is deleted successfully.',
-        ]);
-
-        return redirect()->back();
-    }
 }
