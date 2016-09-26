@@ -2,10 +2,8 @@
 
 namespace Despark\Cms\Contracts;
 
-
 /**
- * Interface SourceModel
- * @package Despark\Cms\Contracts
+ * Interface SourceModel.
  */
 interface SourceModel
 {
