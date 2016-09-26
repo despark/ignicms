@@ -2,11 +2,9 @@
 
 namespace Despark\Cms\Exceptions;
 
-
 /**
- * Class ModelNotPersistedException
+ * Class ModelNotPersistedException.
  */
 class ModelNotPersistedException extends \Exception
 {
-
 }

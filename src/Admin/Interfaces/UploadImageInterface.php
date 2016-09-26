@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Interface UploadImageInterface
- * @package Despark\Cms\Admin\Interfaces
+ * Interface UploadImageInterface.
  */
 interface UploadImageInterface
 {
