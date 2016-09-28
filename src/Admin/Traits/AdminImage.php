@@ -218,7 +218,7 @@ trait AdminImage
 
                     $imageModel = app(ImageContract::class, [
                         'original_image' => $sourceFile->getFilename(),
-                        'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+                        'retina_factor' => $this->getRetinaFactor() === false ? null : $this->getRetinaFactor(),
                         'image_type' => $fileField,
                         'order' => isset($fileData['order']) ? $fileData['order'] : 0,
                         'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
@@ -281,7 +281,7 @@ trait AdminImage
 
                         $imageModel = app(ImageContract::class, [
                             'original_image' => $sourceFile->getFilename(),
-                            'retina_factor' => $this->retinaFactor === false ? null : $this->retinaFactor,
+                            'retina_factor' => $this->getRetinaFactor() === false ? null : $this->getRetinaFactor(),
                             'image_type' => $imageType,
                         ]);
                         unset($this->attributes[$imageType]);
@@ -320,7 +320,7 @@ trait AdminImage
 
 
         // If we have retina factor
-        if ($this->retinaFactor) {
+        if ($this->getRetinaFactor()) {
             // Generate retina image by just copying the source.
             $retinaFilename = $this->generateRetinaName($sanitizedFilename);
             FileFacade::copy($sourceFile->getRealPath(), $this->getThumbnailPath().$retinaFilename);
@@ -328,8 +328,8 @@ trait AdminImage
 
             // The original image is scaled down version of the source.
             $originalImage = Image::make($sourceFile->getRealPath());
-            $width = round($originalImage->getWidth() / $this->retinaFactor);
-            $height = round($originalImage->getHeight() / $this->retinaFactor);
+            $width = round($originalImage->getWidth() / $this->getRetinaFactor());
+            $height = round($originalImage->getHeight() / $this->getRetinaFactor());
             $originalImage->resize($width, $height);
             $images['original']['original_file'] = $originalImage->save($this->getThumbnailPath().$sanitizedFilename);
 
@@ -338,7 +338,8 @@ trait AdminImage
                 // Create retina thumb
                 $images['thumbnails'][$thumbnailName]['retina'] = $this->createThumbnail($sourceFile->getRealPath(),
                     $thumbnailName, $this->generateRetinaName($sanitizedFilename),
-                    $thumbnailOptions['width'] * $this->retinaFactor, $thumbnailOptions['height'] * $this->retinaFactor,
+                    $thumbnailOptions['width'] * $this->getRetinaFactor(),
+                    $thumbnailOptions['height'] * $this->getRetinaFactor(),
                     $thumbnailOptions['type']);
                 // Create original thumb
                 $images['thumbnails'][$thumbnailName]['original'] = $this->createThumbnail($sourceFile->getRealPath(),
@@ -602,7 +603,7 @@ trait AdminImage
             $minHeight = $thumbnail['height'] > $minHeight ? $thumbnail['height'] : $minHeight;
         }
 
-        $factor = $this->retinaFactor ? $this->retinaFactor : 1;
+        $factor = $this->getRetinaFactor() ? $this->getRetinaFactor() : 1;
 
         return [$minWidth * $factor, $minHeight * $factor];
     }
