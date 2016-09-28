@@ -9,9 +9,11 @@ use :app_namespaceHttp\Requests\Admin\:request_name;
 
 class :controller_name extends AdminController
 {
-    public function __construct()
+    public function __construct(:model_name $model)
     {
         $this->identifier = ':identifier';
+
+        $this->model = $model;
 
         parent::__construct();
 
@@ -28,10 +30,10 @@ class :controller_name extends AdminController
      */
     public function index()
     {
-        $model = new :model_name();
-        $records = $model->get();
 
-        $this->viewData['model'] = $model;
+        $records = $this->model->get();
+
+        $this->viewData['model'] = $this->model;
         $this->viewData['records'] = $records;
 
         return view('ignicms::admin.layouts.list', $this->viewData);
@@ -44,9 +46,7 @@ class :controller_name extends AdminController
      */
     public function create()
     {
-        $model = new :model_name();
-
-        $this->viewData['record'] = $model;
+        $this->viewData['record'] = $this->model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
@@ -66,9 +66,7 @@ class :controller_name extends AdminController
     {
         $input = $request->all();
 
-        $model = new :model_name();
-
-        $record = $model->create($input);
+        $record = $this->model->create($input);
 
         $this->notify([
             'type' => 'success',
@@ -88,7 +86,7 @@ class :controller_name extends AdminController
      */
     public function edit($id)
     {
-        $record = :model_name::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $this->viewData['record'] = $record;
 
@@ -110,7 +108,7 @@ class :controller_name extends AdminController
     {
         $input = $request->all();
 
-        $record = :model_name::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $record->update($input);
 
@@ -132,7 +130,7 @@ class :controller_name extends AdminController
      */
     public function destroy($id)
     {
-        :model_name::findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',
