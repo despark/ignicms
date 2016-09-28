@@ -22,12 +22,12 @@ module.exports = {
         devSettings: {
             includePaths: bourbon.concat(neat),
             outputStyle: "expanded",
-            indentedSyntax: false, // Enable .sass syntax!
+            indentedSyntax: false // Enable .sass syntax!
         },
         prodSettings: {
             includePaths: bourbon.concat(neat),
             outputStyle: "compressed",
-            indentedSyntax: false,
+            indentedSyntax: false
         }
     },
     admin: {
@@ -39,19 +39,19 @@ module.exports = {
             vendors + "/datatables/media/css/dataTables.bootstrap.css",
             vendors + "/select2/dist/css/select2.css",
             vendors + "/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css",
-            vendors + "/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css",
+            vendors + "/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
         ],
         sass: src + "/admin/sass/**/*.{sass,scss}",
         dest: dest + "/css",
         devSettings: {
             includePaths: bourbon.concat(neat),
             outputStyle: "expanded",
-            indentedSyntax: false, // Enable .sass syntax!
+            indentedSyntax: false // Enable .sass syntax!
         },
         prodSettings: {
             includePaths: bourbon.concat(neat),
             outputStyle: "compressed",
-            indentedSyntax: false,
+            indentedSyntax: false
         }
     },
     flowjs: {
@@ -82,8 +82,9 @@ module.exports = {
             vendors + "/datatables/media/js/dataTables.bootstrap.min.js",
             vendors + "/jquery-ui/jquery-ui.min.js",
             vendors + "/select2/dist/js/select2.full.min.js",
+            vendors + "/moment/min/moment.min.js",
             vendors + "/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js",
-            vendors + "/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js",
+            vendors + "/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
             src + "/admin/js/**/*.js"
         ],
         dest: dest + "/js"
@@ -99,7 +100,7 @@ module.exports = {
     fonts: {
         src: [
             src + "/fonts/**",
-            vendors + "/font-awesome/fonts/**",
+            vendors + "/font-awesome/fonts/**"
         ],
         dest: dest + "/fonts"
     },
