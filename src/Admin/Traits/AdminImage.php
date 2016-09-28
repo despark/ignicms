@@ -726,4 +726,12 @@ trait AdminImage
 
         return $this;
     }
+
+    /**
+     * @return false|int|null
+     */
+    public function getRetinaFactor()
+    {
+        return $this->retinaFactor;
+    }
 }
