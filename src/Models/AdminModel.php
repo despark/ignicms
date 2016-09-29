@@ -163,4 +163,28 @@ abstract class AdminModel extends Model
     {
         return $this->identifier;
     }
+
+    /**
+     * @param $input
+     * @param $attribute
+     * @return array|int|mixed
+     */
+    public static function createIfMissing($input, $attribute)
+    {
+        if (is_array($input) && ! empty($input)) {
+            $items = [];
+            foreach ($input as $item) {
+                // recurse
+                $items[] = static::createIfMissing($item);
+            }
+
+            return $items;
+        } elseif (filter_var($input, FILTER_VALIDATE_INT) === false) {
+            $industry = static::firstOrCreate([$attribute => trim($input)]);
+
+            return $industry->getKey();
+        } else {
+            return $input;
+        }
+    }
 }
