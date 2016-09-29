@@ -16,7 +16,7 @@
         "barryvdh/laravel-ide-helper": "^2.1",
         "laravelcollective/html": "5.3.*@dev",
         "intervention/image": "^2.3",
-        "cviebrock/eloquent-sluggable": "^3.0",
+        "cviebrock/eloquent-sluggable": "^4.1",
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "mailchimp/mailchimp": "~2.0",
         "roumen/sitemap": "^2.5",
