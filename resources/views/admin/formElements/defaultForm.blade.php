@@ -24,7 +24,7 @@
 <script src="{{ asset('/admin_assets/plugins/tinymce/tinymce.min.js') }}"></script>
 
 <script type="text/javascript">
-    $(".select2").select2();
+    $(".select2:not(.select2-tags)").select2();
     $(".select2-tags").select2({
         tags: true,
     });
