@@ -167,20 +167,22 @@ abstract class AdminModel extends Model
     /**
      * @param $input
      * @param $attribute
+     * @param array $additional Additonal data to be written to the new record.
      * @return array|int|mixed
      */
-    public static function createIfMissing($input, $attribute)
+    public static function createIfMissing($input, $attribute, array $additional = [])
     {
         if (is_array($input) && ! empty($input)) {
             $items = [];
             foreach ($input as $item) {
                 // recurse
-                $items[] = static::createIfMissing($item);
+                $items[] = static::createIfMissing($item, $attribute, $additional);
             }
 
             return $items;
         } elseif (filter_var($input, FILTER_VALIDATE_INT) === false) {
-            $industry = static::firstOrCreate([$attribute => trim($input)]);
+            $attributes = array_merge($additional, [$attribute => trim($input)]);
+            $industry = static::firstOrCreate($attributes);
 
             return $industry->getKey();
         } else {
