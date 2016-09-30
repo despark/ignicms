@@ -10,10 +10,6 @@ trait ModelWithSlug
 
     public function sluggable()
     {
-        return [
-            config('admin.'.$this->identifier.'.sluggable.save_to') => [
-                'source' => config('admin.'.$this->identifier.'.sluggable.build_from'),
-            ],
-        ];
+        return config('admin.'.$this->identifier.'.sluggable', []);
     }
 }
