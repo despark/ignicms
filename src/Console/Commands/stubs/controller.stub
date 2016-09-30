@@ -58,7 +58,7 @@ class :controller_name extends AdminController
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param :request_name $request
      *
      * @return Response
      */
@@ -99,7 +99,7 @@ class :controller_name extends AdminController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param :request_name $request
      * @param int     $id
      *
      * @return Response
