@@ -172,7 +172,7 @@ abstract class AdminModel extends Model
      */
     public static function createIfMissing($input, $attribute, array $additional = [])
     {
-        if (is_array($input) && ! empty($input)) {
+        if (is_array($input)) {
             $items = [];
             foreach ($input as $item) {
                 // recurse
