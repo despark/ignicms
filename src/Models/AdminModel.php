@@ -182,9 +182,9 @@ abstract class AdminModel extends Model
             return $items;
         } elseif (filter_var($input, FILTER_VALIDATE_INT) === false) {
             $attributes = array_merge($additional, [$attribute => trim($input)]);
-            $industry = static::firstOrCreate($attributes);
+            $model = static::firstOrCreate($attributes);
 
-            return $industry->getKey();
+            return $model->getKey();
         } else {
             return $input;
         }
