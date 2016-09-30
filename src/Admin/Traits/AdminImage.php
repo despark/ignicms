@@ -188,7 +188,7 @@ trait AdminImage
         $newFiles = array_get($this->files, 'new', []);
         $existingFiles = array_except($this->files, ['new', '_single']);
 
-        // Firsta add new files
+        // First add new files
         foreach ($newFiles as $files) {
             foreach ($files as $fileId => $file) {
                 $fileIds[] = $fileId;
@@ -528,13 +528,13 @@ trait AdminImage
     }
 
     /**
-     * @param $imageFieldName
+     * @param $fieldName
      * @return string
      */
-    public function getImageMetaFieldsHtml($imageFieldName, ImageContract $imageModel = null)
+    public function getImageMetaFieldsHtml($fieldName, ImageContract $imageModel = null)
     {
         $formBuilder = new FormBuilder();
-        $fields = $this->getImageMetaFields($imageFieldName);
+        $fields = $this->getImageMetaFields($fieldName);
         $html = '';
 
 
@@ -553,10 +553,10 @@ trait AdminImage
 
         $imageModel->setResourceModel($this);
 
-        foreach ($fields as $fieldName => $options) {
+        foreach ($fields as $metaFieldName => $options) {
             $new = $isNew ? '[new]' : '';
-            $elementName = '_files'.$new.'['.$imageFieldName.']['.$fileId.'][meta]['.$fieldName.']';
-            $html .= $formBuilder->field($imageModel, $fieldName, $options, $elementName)->render();
+            $elementName = '_files'.$new.'[image]['.$fieldName.']['.$fileId.'][meta]['.$metaFieldName.']';
+            $html .= $formBuilder->field($imageModel, $metaFieldName, $options, $elementName)->render();
         }
 
         return $html;

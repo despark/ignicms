@@ -56,8 +56,26 @@ $factory->define(\Despark\Cms\Models\File\Temp::class, function (Faker\Generator
     $image = $faker->image(\Despark\Cms\Models\File\Temp::getTempDirectory(), 10, 10, 'cats', false);
 
     return [
-        'filename' => $image,
+        'filename' => $faker->name,
         'temp_filename' => $image,
         'file_type' => $faker->mimeType,
+    ];
+});
+$factory->define(\Despark\Cms\Models\Video::class, function (Faker\Generator $faker) {
+    /*
+     * `resource_id` int(10) unsigned NOT NULL,
+     * `resource_model` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+     * `field` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+     * `provider` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+     * `video_id` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+     * `config` json NOT NULL,
+     */
+    return [
+        'resource_id' => 0,
+        'resource_model' => 0,
+        'field' => 'field',
+        'provider' => 'youtube',
+        'video_id' => 'C0DPdy98e4c',
+        'config' => ['width' => 300, 'height' => 150],
     ];
 });
