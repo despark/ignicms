@@ -185,8 +185,8 @@ trait AdminImage
     public function saveImages()
     {
         $fileIds = [];
-        $newFiles = array_get($this->files, 'new', []);
-        $existingFiles = array_except($this->files, ['new', '_single']);
+        $newFiles = array_get($this->files, 'new.image', []);
+        $existingFiles = array_get($this->files, 'image', []);
 
         // First add new files
         foreach ($newFiles as $files) {
@@ -199,10 +199,23 @@ trait AdminImage
 
         $imageFields = $this->getImageFields();
 
-        foreach ($newFiles as $fileField => $files) {
+        foreach ($newFiles as $fieldName => $files) {
+            // view widget config to see if it is a gallery
+            if (! $widgetConfig = $this->getAdminFormField($fieldName)) {
+                throw new \Exception('Configuration not found for field '.$fieldName);
+            }
+            // Check for file field config and apply it.
+            // If no image_field specified default to fieldName.
+            if (isset($widgetConfig['image_field'])) {
+                $fileField = $widgetConfig['image_field'];
+            } else {
+                $fileField = $fieldName;
+            }
+
             if (! isset($imageFields[$fileField])) {
                 throw new \Exception('Configuration not found for file/image field '.$fileField);
             }
+
             foreach ($files as $fileId => $fileData) {
                 //get the temp file
                 $file = $collection->get($fileId);
@@ -219,7 +232,7 @@ trait AdminImage
                     $imageModel = app(ImageContract::class, [
                         'original_image' => $sourceFile->getFilename(),
                         'retina_factor' => $this->getRetinaFactor() === false ? null : $this->getRetinaFactor(),
-                        'image_type' => $fileField,
+                        'image_type' => $fieldName,
                         'order' => isset($fileData['order']) ? $fileData['order'] : 0,
                         'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
                     ]);
@@ -241,7 +254,7 @@ trait AdminImage
         }
         $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
 
-        foreach ($existingFiles as $fileField => $files) {
+        foreach ($existingFiles as $fieldName => $files) {
             foreach ($files as $fileId => $fileData) {
                 $image = $collection->get($fileId);
                 // Check if not for deletion

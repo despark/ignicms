@@ -217,6 +217,19 @@ trait AdminModelTrait
     }
 
     /**
+     * @param $fieldName
+     * @return null
+     */
+    public function getAdminFormField($fieldName)
+    {
+        if (isset($this->getFormFields()[$fieldName])) {
+            return $this->getFormFields()[$fieldName];
+        }
+
+        return null;
+    }
+
+    /**
      * @return mixed
      */
     public function getRules()

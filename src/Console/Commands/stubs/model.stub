@@ -9,7 +9,6 @@ use Despark\Cms\Admin\Traits\AdminModelTrait;
 
 class :model_name extends AdminModel :implementations
 {
-    use AdminModelTrait;
     :traits
 
     protected $table = ':table_name';

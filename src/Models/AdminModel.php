@@ -3,14 +3,20 @@
 namespace Despark\Cms\Models;
 
 use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Despark\Cms\Admin\Traits\AdminModelTrait;
+use Despark\Cms\Observers\AdminModelObserver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminModel.
+ * @method MorphMany videos();
  */
 abstract class AdminModel extends Model
 {
+    use AdminModelTrait;
+
     /**
      * @var array Files to save.
      */
@@ -40,6 +46,20 @@ abstract class AdminModel extends Model
      * @var string
      */
     protected $uploadType;
+
+    /**
+     * @var bool
+     */
+    protected $videoSupport;
+
+    /**
+     *
+     */
+    public static function boot()
+    {
+        parent::boot();
+        static::observe(AdminModelObserver::class, - 10);
+    }
 
     /**
      * @param array $attributes
@@ -188,5 +208,41 @@ abstract class AdminModel extends Model
         } else {
             return $input;
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function allowsVideo()
+    {
+        if (! isset($this->videoSupport)) {
+            $this->videoSupport = false;
+            $fields = $this->getFormFields();
+            foreach ($fields as $fieldName => $options) {
+                if ($options['type'] == 'gallery') {
+                    if (isset($options['video_field'])) {
+                        $this->videoSupport = true;
+                    }
+                }
+            }
+        }
+
+        return $this->videoSupport;
+    }
+
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        // We will check if the method has video relation and create relationship dynamically
+        if ($method == 'videos' && $this->allowsVideo()) {
+            return $this->morphMany(Video::class, 'video', 'resource_model', 'resource_id')
+                        ->orderBy('order', 'ASC');
+        }
+
+        return parent::__call($method, $parameters);
     }
 }
