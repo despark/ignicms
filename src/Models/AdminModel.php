@@ -52,7 +52,6 @@ abstract class AdminModel extends Model
      */
     protected $videoSupport;
 
-
     public static function boot()
     {
         parent::boot();
