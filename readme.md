@@ -30,7 +30,7 @@ For Laravel versions 5.2 use branch v2.0
 
   Or `composer require despark/ignicms`
 
-2. After composer update, insert service provider `Despark\Providers\AdminServiceProvider::class,` before the _application service providers_ to the `config/app.php`
+2. After composer update, insert service providers `Despark\Providers\AdminServiceProvider::class,` `Despark\Cms\Providers\FieldServiceProvider::class,` before the _application service providers_ to the `config/app.php`
 
   **Example**
 
@@ -40,6 +40,7 @@ For Laravel versions 5.2 use branch v2.0
     * Despark CMS Service Provider
     */
      Despark\Cms\Providers\AdminServiceProvider::class,
+     Despark\Cms\Providers\FieldServiceProvider::class,
 
    /*
     * Application Service Providers...
