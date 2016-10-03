@@ -2,15 +2,10 @@
 
 namespace Despark\Cms\Video\Contracts;
 
-use Despark\Cms\Models\Video;
-
-
 /**
- * Class VideoProviderContract
+ * Class VideoProviderContract.
  */
 interface VideoProviderContract
 {
-
     public function getModel();
-
 }

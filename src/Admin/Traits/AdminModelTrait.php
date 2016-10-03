@@ -225,8 +225,6 @@ trait AdminModelTrait
         if (isset($this->getFormFields()[$fieldName])) {
             return $this->getFormFields()[$fieldName];
         }
-
-        return null;
     }
 
     /**

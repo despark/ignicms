@@ -3,7 +3,7 @@
 namespace Despark\Cms\Http\Controllers;
 
 /**
- * Class AdminController
+ * Class AdminController.
  * @deprecated
  */
 class AdminController extends Controller

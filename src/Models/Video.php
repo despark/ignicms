@@ -5,13 +5,11 @@ namespace Despark\Cms\Models;
 use Despark\Cms\Video\Providers\YouTube;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
- * Class Video
+ * Class Video.
  */
 class Video extends Model
 {
-
     /**
      * @var array
      */
@@ -47,5 +45,4 @@ class Video extends Model
     {
         return $this->morphTo('video', 'resource_name', 'resource_id');
     }
-
 }
