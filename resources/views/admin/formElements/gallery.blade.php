@@ -2,30 +2,47 @@
     <h3 class="box-title">{{$options['label']}}</h3>
     <div class="files-list-wrapper">
         <ul class="file-list row">
-            @foreach($record->getImages($fieldName) as $image)
+            @foreach($fieldWidget->getGalleryItems() as $item)
+                <?php $itemType = $fieldWidget->getItemType($item); ?>
                 <li class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="image-item info-box">
-                        <div class="gallery-image">
-                            <img src="{{asset($image->getOriginalImagePath('admin'))}}"
-                                 srcset="{{asset($image->getOriginalImagePath('admin'))}} 1x, {{asset($image->getRetinaImagePath('admin'))}} {{$image->retina_factor}}x"/>
-                        </div>
+                    <div class="gallery-item info-box">
+                        @if($itemType == 'image')
+                            <div class="gallery-image">
+                                <img src="{{asset($item->getOriginalImagePath('admin'))}}"
+                                     srcset="{{asset($item->getOriginalImagePath('admin'))}} 1x, {{asset($item->getRetinaImagePath('admin'))}} {{$item->retina_factor}}x"/>
+                            </div>
+                            {!! $record->getImageMetaFieldsHtml($fieldName,$item) !!}
+                        @endif
+                        @if($itemType == 'video')
+                            <div class="gallery-video">
+                                <img src="http://img.youtube.com/vi/{{$item->video_id}}/0.jpg" width="200"/>
+                            </div>
+                            {!! Form::label($fieldName.$item->getKey(), 'Video ID') !!}
+                            {!! Form::text("_files[{$itemType}][{$fieldName}][{$item->getKey()}][video_id]", $item->video_id, [
+                                'id' =>  $fieldName.$item->getKey(),
+                                'class' => "form-control",
+                            ] ) !!}
+                        @endif
                         <input type="hidden" class="file-order"
-                               name="_files[{{$fieldName}}][{{$image->getKey()}}][order]"
-                               value="{{$image->order}}">
-                        <input type="hidden" name="_files[{{$fieldName}}][{{$image->getKey()}}][id]"
-                               value="{{$image->getKey()}}">
-                        {!! $record->getImageMetaFieldsHtml($fieldName,$image) !!}
+                               name="_files[{{$itemType}}][{{$fieldName}}][{{$item->getKey()}}][order]"
+                               value="{{$item->order}}">
+                        <input type="hidden" name="_files[{{$itemType}}][{{$fieldName}}][{{$item->getKey()}}][id]"
+                               value="{{$item->getKey()}}">
+
                         <input type="hidden" class="delete-status"
-                               name="_files[{{$fieldName}}][{{$image->getKey()}}][delete]" value="0">
-                        <button type="button" class="btn btn-default btn-block btn-danger delete-image">Delete</button>
+                               name="_files[{{$itemType}}][{{$fieldName}}][{{$item->getKey()}}][delete]" value="0">
                     </div>
+                    <button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>
                 </li>
             @endforeach
         </ul>
     </div>
     <div class="file-upload-widget">
         <div class="uploader">
-            <span class="pickfiles btn btn-default">Add files</span>
+            <span class="pick-images btn btn-default"><i class="fa fa-picture-o"></i>&nbsp;Add images</span>
+            @if($videosAllowed)
+                <span class="add-video btn btn-default"><i class="fa fa-video-camera"></i>&nbsp;Add video</span>
+            @endif
         </div>
         <br/>
         <div class="progress-group" style="display: none">
@@ -40,49 +57,90 @@
 
 @push('additionalScripts')
 <script type="text/javascript">
-    var IgniUploader = IgniUploader || {};
+    var IgniGallery = IgniGallery || {};
 
-    IgniUploader.create = function (config, flowjs) {
-        this.config = config;
-        this.flowjs = flowjs;
-        this.weight = 0;
-        this.defaultWidth = '{{config('ignicms.images.admin_thumb_width',200)}}';
-        this.defaultHeight = '{{config('ignicms.images.admin_thumb_height',200)}}';
-
-        this.getImagePreview = function (id) {
-            var src = this.config.previewUrl + '/' + id;
-            return $('<div class="gallery-image"><img src="' + src + '" width="' + this.defaultWidth + '" height="' + this.defaultHeight + '"/></div>');
-        };
-
-        this.createSortable = function () {
-            this.sortable = Sortable.create(this.config.$fileList[0], {
-                onSort: function (evt) {
-                    $('li', evt.srcElement).each(function (i, el) {
-                        $('input.file-order', el).val(i);
-                    });
-                }
-            });
-            return this.sortable;
-        };
-    };
 
     (function ($) {
         // Attach delete handler
-        $(document).on('click', '.file-widget .delete-image', function (e) {
+        $(document).on('click', '.file-widget .delete-item', function (e) {
             e.preventDefault();
             var $item = $(this).closest('li');
             $('input.delete-status', $item).val(1);
-            $item.hide();
+            $item.fadeOut('slow');
         });
 
-        var uploader = new IgniUploader.create({
+        IgniGallery.create = function (config, flowjs) {
+            this.config = config;
+            this.flowjs = flowjs;
+            this.weight = 0;
+            this.defaultWidth = '{{config('ignicms.images.admin_thumb_width',200)}}';
+            this.defaultHeight = '{{config('ignicms.images.admin_thumb_height',200)}}';
+
+            this.addVideoButton = $('#file-widget-' + config.fieldName + ' .add-video');
+
+            this.addVideoButton.on('click', null, this.config, function (e) {
+                console.log(e.data);
+                var elementType = 'video';
+                var li = $('<li class="col-md-3 col-sm-6 col-xs-12"></li>').appendTo(uploader.config.$fileList);
+                var item = $('<div class="gallery-item video-item info-box"></div>').appendTo(li);
+                var index = li.index();
+
+                // Add video id field
+                var name = '_files[new][' + elementType + '][' + e.data.fieldName + '][video_id][]'
+                uploader.addField('text', 'video_id', name, '', item, 'Video ID');
+                // Add order field
+                name = '_files[new][' + elementType + '][' + e.data.fieldName + '][order][]';
+                uploader.addField('hidden', 'file-order', name, index, item);
+
+                // Add video id field
+                name = '_files[new][' + elementType + '][' + e.data.fieldName + '][delete][]';
+                uploader.addField('hidden', 'delete-status', name, 0, item);
+
+                // Add delete button
+                $('<button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>')
+                        .appendTo(li);
+
+            });
+
+            this.getImagePreview = function (id) {
+                var src = this.config.previewUrl + '/' + id;
+                return $('<div class="gallery-image"><img src="' + src + '" width="' + this.defaultWidth + '" height="' + this.defaultHeight + '"/></div>');
+            };
+
+            this.createSortable = function () {
+                this.sortable = Sortable.create(this.config.$fileList[0], {
+                    onSort: function (evt) {
+                        $('li', evt.srcElement).each(function (i, el) {
+                            $('input.file-order', el).val(i);
+                        });
+                    }
+                });
+                return this.sortable;
+            };
+
+            this.addField = function (type, className, name, value, appendTo, label) {
+                className += ' form-control';
+                if (typeof label != 'undefined') {
+                    var group = $('<div class="form-group"/>').appendTo(appendTo);
+                    $('<label>' + label + '</label>').appendTo(group);
+                    $('<input type="' + type + '" class="' + className + '" name="' + name + '" value="' + value + '"/>')
+                            .appendTo(group);
+                } else {
+                    $('<input type="' + type + '" class="' + className + '" name="' + name + '" value="' + value + '"/>')
+                            .appendTo(appendTo);
+                }
+            };
+        };
+
+
+        var uploader = new IgniGallery.create({
                     fieldName: '{{$fieldName}}',
                     previewUrl: '{{route('image.preview')}}',
-                    fileFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($fieldName)) !!},
+                    imageFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($fieldName)) !!},
                     $context: $('#file-widget-{{$fieldName}}'),
                     $formContainer: $('#file-widget-{{$fieldName}} .uploaded-images'),
                     $fileList: $('#file-widget-{{$fieldName}} .file-list'),
-                    browseButton: $('#file-widget-{{$fieldName}} .pickfiles')[0],
+                    browseButton: $('#file-widget-{{$fieldName}} .pick-images')[0],
                     dropZone: $('#file-widget-{{$fieldName}} .uploader')[0]
                 },
                 new Flow({
@@ -106,32 +164,35 @@
 
         uploader.fileSuccessHandler = function (file, message, chunk) {
             var jsonResponse = $.parseJSON(message);
+            var elementType = 'image';
             file.serverId = jsonResponse.id;
-
             // Add file to the list.
             var li = $('<li class="col-md-3 col-sm-6 col-xs-12"></li>').appendTo(uploader.config.$fileList);
             var index = li.index();
 
-            var item = $('<div class="image-item info-box"></div>').appendTo(li);
+            var item = $('<div class="gallery-item image-item info-box"></div>').appendTo(li);
 
             // Add image preview
             uploader.getImagePreview(file.serverId).appendTo(item);
+
             // Add order field
-            $('<input type="hidden" class="file-order" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][order]" value="' + index + '"/>')
-                    .appendTo(item);
+            var name = '_files[new][' + elementType + '][' + uploader.config.fieldName + '][' + file.serverId + '][order]';
+            uploader.addField('hidden', 'file-order', name, index, item);
+
             // Add delete fields
-            $('<input type="hidden" class="delete-status" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][delete]" value="0"/>')
-                    .appendTo(item);
+            name = '_files[new][' + elementType + '][' + uploader.config.fieldName + '][' + file.serverId + '][delete]';
+            uploader.addField('hidden', 'delete-status', name, 0, item);
 
+            var imageFieldsHtml = uploader.config.imageFieldsHtml.replace(/:fileId:/g, file.serverId);
+            $(imageFieldsHtml).appendTo(item);
 
-            var fileFieldsHtml = uploader.config.fileFieldsHtml.replace(/:fileId:/g, file.serverId);
-            $(fileFieldsHtml).appendTo(item);
             // Add delete button
-            $('<button type="button" class="btn btn-default btn-block btn-danger delete-image">Delete</button>')
-                    .appendTo(item);
+            $('<button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>')
+                    .appendTo(li);
+
             // Add file ids
-            $('<input type="hidden" name="_files[new][' + uploader.config.fieldName + '][' + file.serverId + '][id]" value="' + file.serverId + '"/>')
-                    .appendTo(item);
+            name = '_files[new][' + elementType + '][' + uploader.config.fieldName + '][' + file.serverId + '][id]';
+            uploader.addField('hidden', 'uploaded-ids', name, file.serverId, item);
 
         };
 

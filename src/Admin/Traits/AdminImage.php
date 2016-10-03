@@ -185,10 +185,10 @@ trait AdminImage
     public function saveImages()
     {
         $fileIds = [];
-        $newFiles = array_get($this->files, 'new', []);
-        $existingFiles = array_except($this->files, ['new', '_single']);
+        $newFiles = array_get($this->files, 'new.image', []);
+        $existingFiles = array_get($this->files, 'image', []);
 
-        // Firsta add new files
+        // First add new files
         foreach ($newFiles as $files) {
             foreach ($files as $fileId => $file) {
                 $fileIds[] = $fileId;
@@ -199,10 +199,23 @@ trait AdminImage
 
         $imageFields = $this->getImageFields();
 
-        foreach ($newFiles as $fileField => $files) {
+        foreach ($newFiles as $fieldName => $files) {
+            // view widget config to see if it is a gallery
+            if (! $widgetConfig = $this->getAdminFormField($fieldName)) {
+                throw new \Exception('Configuration not found for field '.$fieldName);
+            }
+            // Check for file field config and apply it.
+            // If no image_field specified default to fieldName.
+            if (isset($widgetConfig['image_field'])) {
+                $fileField = $widgetConfig['image_field'];
+            } else {
+                $fileField = $fieldName;
+            }
+
             if (! isset($imageFields[$fileField])) {
                 throw new \Exception('Configuration not found for file/image field '.$fileField);
             }
+
             foreach ($files as $fileId => $fileData) {
                 //get the temp file
                 $file = $collection->get($fileId);
@@ -219,7 +232,7 @@ trait AdminImage
                     $imageModel = app(ImageContract::class, [
                         'original_image' => $sourceFile->getFilename(),
                         'retina_factor' => $this->getRetinaFactor() === false ? null : $this->getRetinaFactor(),
-                        'image_type' => $fileField,
+                        'image_type' => $fieldName,
                         'order' => isset($fileData['order']) ? $fileData['order'] : 0,
                         'meta' => isset($fileData['meta']) ? $fileData['meta'] : null,
                     ]);
@@ -241,7 +254,7 @@ trait AdminImage
         }
         $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
 
-        foreach ($existingFiles as $fileField => $files) {
+        foreach ($existingFiles as $fieldName => $files) {
             foreach ($files as $fileId => $fileData) {
                 $image = $collection->get($fileId);
                 // Check if not for deletion
@@ -528,13 +541,13 @@ trait AdminImage
     }
 
     /**
-     * @param $imageFieldName
+     * @param $fieldName
      * @return string
      */
-    public function getImageMetaFieldsHtml($imageFieldName, ImageContract $imageModel = null)
+    public function getImageMetaFieldsHtml($fieldName, ImageContract $imageModel = null)
     {
         $formBuilder = new FormBuilder();
-        $fields = $this->getImageMetaFields($imageFieldName);
+        $fields = $this->getImageMetaFields($fieldName);
         $html = '';
 
 
@@ -553,10 +566,10 @@ trait AdminImage
 
         $imageModel->setResourceModel($this);
 
-        foreach ($fields as $fieldName => $options) {
+        foreach ($fields as $metaFieldName => $options) {
             $new = $isNew ? '[new]' : '';
-            $elementName = '_files'.$new.'['.$imageFieldName.']['.$fileId.'][meta]['.$fieldName.']';
-            $html .= $formBuilder->field($imageModel, $fieldName, $options, $elementName)->render();
+            $elementName = '_files'.$new.'[image]['.$fieldName.']['.$fileId.'][meta]['.$metaFieldName.']';
+            $html .= $formBuilder->field($imageModel, $metaFieldName, $options, $elementName)->render();
         }
 
         return $html;

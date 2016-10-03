@@ -55,6 +55,7 @@ class FormBuilder
             }
         }
 
+
         return view($viewName, [
             'record' => $this->model,
             'fieldName' => $this->field,
@@ -73,15 +74,26 @@ class FormBuilder
      */
     public function field($model, $field, $options, $elementName = null)
     {
-        $this->model = $model;
-        $this->field = $field;
-        // Check for source model
-        if (isset($options['sourceModel']) && is_a($options['sourceModel'], SourceModel::class, true)) {
-            $this->sourceModel = app($options['sourceModel']);
-        }
-        $this->options = $options;
-        $this->elementName = is_null($elementName) ? $field : $elementName;
+        $fieldProvider = $options['type'].'_field';
+        if (\App::bound($fieldProvider)) {
+            return \App::make($fieldProvider, [
+                'model' => $model,
+                'field' => $field,
+                'options' => $options,
+                'element_name' => $elementName,
+            ]);
+        } else {
+            $this->model = $model;
+            $this->field = $field;
+            // Check for source model
+            if (isset($options['sourceModel']) && is_a($options['sourceModel'], SourceModel::class, true)) {
+                $this->sourceModel = app($options['sourceModel']);
+            }
+            $this->options = $options;
+            $this->elementName = is_null($elementName) ? $field : $elementName;
 
-        return $this->renderInput($this->options['type']);
+
+            return $this->renderInput($this->options['type']);
+        }
     }
 }

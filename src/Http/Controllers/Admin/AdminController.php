@@ -4,7 +4,6 @@ namespace Despark\Cms\Http\Controllers\Admin;
 
 use Despark\Cms\Http\Controllers\Controller;
 use Despark\Cms\Models\AdminModel;
-use Illuminate\Database\Eloquent\Model;
 use View;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
@@ -107,6 +106,4 @@ class AdminController extends Controller
     {
         session()->flash('notification', $notificationInfo);
     }
-
-
 }
