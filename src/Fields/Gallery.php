@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
- * Class Gallery
+ * Class Gallery.
  */
 class Gallery extends Field
 {
     protected $galleryItems;
-
 
     /**
      * @return string
@@ -53,9 +52,10 @@ class Gallery extends Field
                     foreach ($videos as $video) {
                         $collection->push($video);
                     }
-                    $this->galleryItems = $collection->sortBy(function ($item) { return $item->order; });
+                    $this->galleryItems = $collection->sortBy(function ($item) {
+                        return $item->order;
+                    });
                 }
-
             }
         }
 

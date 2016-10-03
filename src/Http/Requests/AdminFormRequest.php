@@ -28,7 +28,7 @@ class AdminFormRequest extends Request
     }
 
     /**
-     * Override all method
+     * Override all method.
      */
     public function all()
     {

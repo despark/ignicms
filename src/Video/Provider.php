@@ -5,13 +5,11 @@ namespace Despark\Cms\Video;
 use Despark\Cms\Models\Video;
 use Despark\Cms\Video\Contracts\VideoProviderContract;
 
-
 /**
- * Class Provider
+ * Class Provider.
  */
 abstract class Provider implements VideoProviderContract
 {
-
     /**
      * @var Video
      */
@@ -26,5 +24,4 @@ abstract class Provider implements VideoProviderContract
     {
         return $this->model;
     }
-
 }

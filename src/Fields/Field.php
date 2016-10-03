@@ -7,13 +7,11 @@ use Despark\Cms\Exceptions\Fields\FieldViewNotFoundException;
 use Despark\Cms\Models\AdminModel;
 use Symfony\Component\Debug\ExceptionHandler;
 
-
 /**
- * Class Field
+ * Class Field.
  */
 abstract class Field implements FieldContract
 {
-
     /**
      * @var AdminModel
      */
@@ -116,15 +114,17 @@ abstract class Field implements FieldContract
         return $html;
     }
 
-    /**
-     *
-     */
-    protected function beforeToHtml() { }
+
+    protected function beforeToHtml()
+    {
+    }
 
     /**
      * @param $html
      * @return mixed
      */
-    protected function afterToHtml($html) { return $html; }
-
+    protected function afterToHtml($html)
+    {
+        return $html;
+    }
 }
