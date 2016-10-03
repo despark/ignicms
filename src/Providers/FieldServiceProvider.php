@@ -22,7 +22,6 @@ class FieldServiceProvider extends ServiceProvider
         'gallery' => Gallery::class,
     ];
 
-
     public function register()
     {
         foreach ($this->fields as $field => $class) {
@@ -31,7 +30,6 @@ class FieldServiceProvider extends ServiceProvider
             });
         }
     }
-
 
     public function provides()
     {

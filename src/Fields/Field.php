@@ -114,7 +114,6 @@ abstract class Field implements FieldContract
         return $html;
     }
 
-
     protected function beforeToHtml()
     {
     }
