@@ -48,9 +48,6 @@
 
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <!-- <div class="pull-left">
-                                <a href="{{ route('admin.profile.edit') }}" class="btn btn-default btn-flat">Profile</a>
-                            </div> -->
                             <div class="pull-right">
                                 <form method="post" action="{{url('/logout')}}">
                                     {{csrf_field()}}
