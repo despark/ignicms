@@ -13,17 +13,15 @@ use Despark\Tests\Cms\AbstractTestCase;
 class VideoModelTest extends AbstractTestCase
 {
 
+    /**
+     * @group debug
+     */
     public function testProviders()
     {
         /** @var Video $video */
         $video = factory(Video::class)->make(['provider' => 'youtube']);
 
         $this->assertTrue($video->provider instanceof YouTube);
-
-        $video->provider->test = true;
-
-        $this->assertTrue($video->provider->test);
-
     }
 
 }
