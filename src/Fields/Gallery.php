@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Fields;
 
+use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Models\Image;
 use Despark\Cms\Models\Video;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,27 @@ use Illuminate\Support\Collection;
  */
 class Gallery extends Field
 {
+    /**
+     * @var Collection|\Illuminate\Database\Eloquent\Collection
+     */
     protected $galleryItems;
+
+    /**
+     * Gallery constructor.
+     * @param AdminModel $model
+     * @param $fieldName
+     * @param array $options
+     * @param null $elementName
+     * @throws \Exception
+     */
+    public function __construct(AdminModel $model, $fieldName, array $options, $elementName = null)
+    {
+        // Make a check for options existence
+        if (! isset($options['image_field'])) {
+            throw new \Exception('Missing gallery image field in config.');
+        }
+        parent::__construct($model, $fieldName, $options, $elementName);
+    }
 
     /**
      * @return string
@@ -22,6 +43,7 @@ class Gallery extends Field
         // Prepare options
         return view($this->getViewName(), [
             'fieldWidget' => $this,
+            'imageFieldName' => $this->options['image_field'],
             'videosAllowed' => $this->model->allowsVideo(),
             'record' => $this->model,
             'fieldName' => $this->fieldName,

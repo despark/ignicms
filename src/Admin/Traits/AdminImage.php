@@ -202,14 +202,15 @@ trait AdminImage
         foreach ($newFiles as $fieldName => $files) {
             // view widget config to see if it is a gallery
             if (! $widgetConfig = $this->getAdminFormField($fieldName)) {
-                throw new \Exception('Configuration not found for field '.$fieldName);
-            }
-            // Check for file field config and apply it.
-            // If no image_field specified default to fieldName.
-            if (isset($widgetConfig['image_field'])) {
-                $fileField = $widgetConfig['image_field'];
-            } else {
                 $fileField = $fieldName;
+            } else {
+                // Check for file field config and apply it.
+                // If no image_field specified default to fieldName.
+                if (isset($widgetConfig['image_field'])) {
+                    $fileField = $widgetConfig['image_field'];
+                } else {
+                    $fileField = $fieldName;
+                }
             }
 
             if (! isset($imageFields[$fileField])) {
@@ -542,14 +543,20 @@ trait AdminImage
 
     /**
      * @param $fieldName
+     * @param ImageContract $imageModel
+     * @param null $actualFieldName
      * @return string
+     * @todo improve this and remove actualFieldName so we can relieve the problem with different configs..
      */
-    public function getImageMetaFieldsHtml($fieldName, ImageContract $imageModel = null)
+    public function getImageMetaFieldsHtml($fieldName, ImageContract $imageModel = null, $actualFieldName = null)
     {
         $formBuilder = new FormBuilder();
         $fields = $this->getImageMetaFields($fieldName);
         $html = '';
 
+        if (is_null($actualFieldName)) {
+            $actualFieldName = $fieldName;
+        }
 
         if (is_null($imageModel)) {
             $imageModel = $this->getImageModel()->newInstance();
@@ -568,7 +575,7 @@ trait AdminImage
 
         foreach ($fields as $metaFieldName => $options) {
             $new = $isNew ? '[new]' : '';
-            $elementName = '_files'.$new.'[image]['.$fieldName.']['.$fileId.'][meta]['.$metaFieldName.']';
+            $elementName = '_files'.$new.'[image]['.$actualFieldName.']['.$fileId.'][meta]['.$metaFieldName.']';
             $html .= $formBuilder->field($imageModel, $metaFieldName, $options, $elementName)->render();
         }
 

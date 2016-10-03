@@ -11,7 +11,7 @@
                                 <img src="{{asset($item->getOriginalImagePath('admin'))}}"
                                      srcset="{{asset($item->getOriginalImagePath('admin'))}} 1x, {{asset($item->getRetinaImagePath('admin'))}} {{$item->retina_factor}}x"/>
                             </div>
-                            {!! $record->getImageMetaFieldsHtml($fieldName,$item) !!}
+                            {!! $record->getImageMetaFieldsHtml($imageFieldName,$item, $fieldName) !!}
                         @endif
                         @if($itemType == 'video')
                             <div class="gallery-video">
@@ -136,7 +136,7 @@
         var uploader = new IgniGallery.create({
                     fieldName: '{{$fieldName}}',
                     previewUrl: '{{route('image.preview')}}',
-                    imageFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($fieldName)) !!},
+                    imageFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($imageFieldName, null, $fieldName)) !!},
                     $context: $('#file-widget-{{$fieldName}}'),
                     $formContainer: $('#file-widget-{{$fieldName}} .uploaded-images'),
                     $fileList: $('#file-widget-{{$fieldName}} .file-list'),
