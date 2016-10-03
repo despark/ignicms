@@ -52,13 +52,11 @@ abstract class AdminModel extends Model
      */
     protected $videoSupport;
 
-    /**
-     *
-     */
+
     public static function boot()
     {
         parent::boot();
-        static::observe(AdminModelObserver::class, - 10);
+        static::observe(AdminModelObserver::class, -10);
     }
 
     /**

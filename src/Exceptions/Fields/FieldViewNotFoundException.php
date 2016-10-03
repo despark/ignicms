@@ -2,11 +2,9 @@
 
 namespace Despark\Cms\Exceptions\Fields;
 
-
 /**
- * Class FieldViewNotFoundException
+ * Class FieldViewNotFoundException.
  */
 class FieldViewNotFoundException extends \Exception
 {
-
 }

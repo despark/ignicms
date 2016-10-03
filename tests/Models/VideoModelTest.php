@@ -6,16 +6,11 @@ use Despark\Cms\Models\Video;
 use Despark\Cms\Video\Providers\YouTube;
 use Despark\Tests\Cms\AbstractTestCase;
 
-
 /**
- * Class VideoModelTest
+ * Class VideoModelTest.
  */
 class VideoModelTest extends AbstractTestCase
 {
-
-    /**
-     * @group debug
-     */
     public function testProviders()
     {
         /** @var Video $video */
@@ -23,5 +18,4 @@ class VideoModelTest extends AbstractTestCase
 
         $this->assertTrue($video->provider instanceof YouTube);
     }
-
 }

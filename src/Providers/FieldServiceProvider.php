@@ -5,13 +5,11 @@ namespace Despark\Cms\Providers;
 use Despark\Cms\Fields\Gallery;
 use Illuminate\Support\ServiceProvider;
 
-
 /**
- * Class FieldServiceProvider
+ * Class FieldServiceProvider.
  */
 class FieldServiceProvider extends ServiceProvider
 {
-
     /**
      * @var bool
      */
@@ -24,9 +22,7 @@ class FieldServiceProvider extends ServiceProvider
         'gallery' => Gallery::class,
     ];
 
-    /**
-     *
-     */
+
     public function register()
     {
         foreach ($this->fields as $field => $class) {
@@ -36,13 +32,11 @@ class FieldServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     *
-     */
+
     public function provides()
     {
-        return array_map(function ($field) { return $field.'_field'; }, array_keys($this->fields));
-
+        return array_map(function ($field) {
+            return $field.'_field';
+        }, array_keys($this->fields));
     }
-
 }

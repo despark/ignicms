@@ -7,13 +7,11 @@ use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Models\Video;
 use Illuminate\Database\Eloquent\Collection;
 
-
 /**
- * Class AdminModelObserver
+ * Class AdminModelObserver.
  */
 class AdminModelObserver
 {
-
     /**
      * @param AdminModel $model
      */

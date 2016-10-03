@@ -2,11 +2,8 @@
 
 namespace Despark\Cms\Contracts;
 
-use Despark\Cms\Models\AdminModel;
-
-
 /**
- * Class FieldContract
+ * Class FieldContract.
  */
 interface FieldContract
 {
