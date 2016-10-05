@@ -199,7 +199,7 @@ trait AdminModelTrait
     public function getFormFields()
     {
         if (! isset($this->adminFormFields)) {
-            $this->adminFormFields = config('admin.'.$this->getIdentifier().'.adminFormFields');
+            $this->adminFormFields = config('admin.'.$this->getIdentifier().'.adminFormFields', []);
         }
 
         return $this->adminFormFields;
