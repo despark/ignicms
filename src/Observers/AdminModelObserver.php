@@ -79,7 +79,9 @@ class AdminModelObserver
      */
     public function deleted(AdminModel $model)
     {
-        $model->videos()->delete();
+        if ($model->allowsVideo()) {
+            $model->videos()->delete();
+        }
     }
 
     /**
