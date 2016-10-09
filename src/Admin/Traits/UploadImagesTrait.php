@@ -30,7 +30,7 @@ trait UploadImagesTrait
                     File::copy($file, $originalThumbnailPath.$filename);
 
                     foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
-                        $image = Image::make($this->getThumbnailPath('original').$filename);
+                        $image = Image::make($originalThumbnailPath.$filename);
 
                         $resizeType = array_get($thumbnailOptions, 'type', 'crop');
 
