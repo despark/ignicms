@@ -44,6 +44,11 @@ trait UploadImagesTrait
                                     $constraint->aspectRatio();
                                 });
                                 break;
+                            case 'seo':
+                                $image->resize($thumbnailOptions['width'], $thumbnailOptions['height'], function ($constraint) {
+                                    $constraint->aspectRatio();
+                                })->resizeCanvas($thumbnailOptions['width'], $thumbnailOptions['height'], 'center', false, 'ffffff');
+                                break;
                         }
 
                         $thumbnailPath = $this->getThumbnailPath($thumbnailName);
