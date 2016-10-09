@@ -5,7 +5,6 @@ namespace Despark\Cms\Admin\Traits;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\Facades\Image;
 use File;
-use Illuminate\Support\Facades\Request;
 
 trait UploadImagesTrait
 {
@@ -21,8 +20,14 @@ trait UploadImagesTrait
             if ($file = array_get($this->attributes, $imageFieldName)) {
                 if ($file instanceof UploadedFile) {
                     $filename = $file->getClientOriginalName();
+                    $extension = '.'.$file->getClientOriginalExtension();
 
-                    $file->move($this->getThumbnailPath('original'), $filename);
+                    $originalThumbnailPath = $this->getThumbnailPath('original').$this->id.DIRECTORY_SEPARATOR;
+                    if (!File::isDirectory($originalThumbnailPath)) {
+                        File::makeDirectory($originalThumbnailPath, 0755, true);
+                    }
+
+                    File::copy($file, $originalThumbnailPath.$filename);
 
                     foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
                         $image = Image::make($this->getThumbnailPath('original').$filename);
@@ -47,13 +52,14 @@ trait UploadImagesTrait
                             File::makeDirectory($thumbnailPath.$this->id, 0755, true);
                         }
 
-                        $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$filename);
+                        $newName = str_slug(str_replace($extension, '', $filename)).$extension;
+                        $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$newName);
                     }
 
                     unset($this->attributes[$imageFieldName]);
                     unset($this->original[$imageFieldName]);
                     $this->update([
-                        $imageFieldName => $this->id.DIRECTORY_SEPARATOR.$filename,
+                        $imageFieldName => $this->id.DIRECTORY_SEPARATOR.$newName,
                     ]);
                 }
             }
