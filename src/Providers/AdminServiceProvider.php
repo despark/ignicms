@@ -146,7 +146,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
-        $this->app->register('Cviebrock\EloquentSluggable\ServiceProvider');
+        $this->app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
         $this->app->register('Roumen\Sitemap\SitemapServiceProvider');
         $this->app->register('Rutorika\Sortable\SortableServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
