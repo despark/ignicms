@@ -50,9 +50,7 @@ class AdminImageTest extends AbstractTestCase
     {
         $model = new TestResourceModel();
 
-
         $allRules = $model->getRules();
-
 
         $fields = $model->getImageFields();
 
@@ -69,6 +67,7 @@ class AdminImageTest extends AbstractTestCase
         if ($minHeight) {
             $restrictions[] = 'min_height='.$minHeight;
         }
+
         // assert rules
         $this->assertTrue(isset($allRules['test']));
 

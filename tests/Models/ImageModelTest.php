@@ -82,10 +82,26 @@ class ImageModelTest extends AbstractTestCase
     /**
      * @group image
      * @group html
-     * @group debug
      */
     public function testGetImageHtml()
     {
+        \Config::set('admin.test.image_fields', [
+            'test' => [
+                'thumbnails' => [
+                    'admin' => [
+                        'width' => 100,
+                        'height' => 100,
+                        'type' => 'crop',
+                    ],
+                    'test' => [
+                        'width' => 80,
+                        'height' => 80,
+                        'type' => 'crop',
+                    ],
+                ],
+            ],
+        ]);
+
         \Cache::shouldReceive('remember')
               ->andReturn($this->imageFields);
 
