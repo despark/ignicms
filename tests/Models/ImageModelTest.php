@@ -5,6 +5,7 @@ namespace Despark\Tests\Cms\Models;
 use Despark\Cms\Exceptions\ImageFieldCollisionException;
 use Despark\Cms\Models\Image;
 use Despark\Tests\Cms\AbstractTestCase;
+use Despark\Tests\Cms\Resources\TestResourceModel;
 
 /**
  * Class ImageModelTest.
@@ -27,6 +28,8 @@ class ImageModelTest extends AbstractTestCase
         'image_type',
         'original_image',
         'retina_factor',
+        'alt',
+        'title',
         'order',
         'meta',
         'created_at',
@@ -49,7 +52,7 @@ class ImageModelTest extends AbstractTestCase
      */
     public function testMetaConstruct()
     {
-        \Cache::shouldReceive('get')
+        \Cache::shouldReceive('remember')
               ->andReturn($this->imageFields);
         $model = factory(Image::class)->create(['meta' => $this->metadata]);
 
@@ -69,10 +72,34 @@ class ImageModelTest extends AbstractTestCase
         $this->expectException(ImageFieldCollisionException::class);
 
         $meta = array_merge($this->metadata, ['image_type' => 'image_type_meta']);
-        \Cache::shouldReceive('get')
+        \Cache::shouldReceive('remember')
               ->andReturn($this->imageFields);
         $model = factory(Image::class)->create(['meta' => $meta, 'image_type' => 'image_type_actual']);
 
         $this->assertEquals('image_type_actual', $model->image_type);
+    }
+
+    /**
+     * @group image
+     * @group html
+     * @group debug
+     */
+    public function testGetImageHtml()
+    {
+        \Cache::shouldReceive('remember')
+              ->andReturn($this->imageFields);
+
+        /** @var TestResourceModel $testModel */
+        $testModel = factory(TestResourceModel::class)->create();
+
+        $imageModel = factory(Image::class)->create([
+            'resource_id' => $testModel->getKey(),
+            'resource_model' => $testModel->images()->getMorphClass(),
+            'retina_factor' => $testModel->getRetinaFactor(),
+        ]);
+
+        $testModel = $testModel->fresh('images');
+
+        $view = $testModel->getImageHtml('test', 'test');
     }
 }

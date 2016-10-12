@@ -36,6 +36,8 @@ class CreateImages extends Migration
             $table->string('original_image', 100);
             $table->unsignedSmallInteger('retina_factor');
             $table->smallInteger('order')->default(0);
+            $table->string('alt');
+            $table->string('title');
             $table->json('meta');
             $table->nullableTimestamps();
         });

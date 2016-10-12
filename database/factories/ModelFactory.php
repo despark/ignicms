@@ -21,18 +21,16 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $faker) {
-    /*
-     * CREATE TABLE `images` (
-     * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    /**
      * `resource_id` int(11) NOT NULL,
      * `resource_model` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
      * `image_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
      * `original_image` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
      * `retina_factor` smallint(5) unsigned DEFAULT NULL,
-     * `created_at` timestamp NULL DEFAULT NULL,
-     * `updated_at` timestamp NULL DEFAULT NULL,
-     * PRIMARY KEY (`id`)
-     * ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+     * `order` smallint(6) NOT NULL DEFAULT '0',
+     * `alt` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+     * `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+     * `meta` text COLLATE utf8_unicode_ci,
      */
     return [
         'resource_id' => 0,
@@ -40,7 +38,10 @@ $factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $fak
         'image_type' => 'test',
         'original_image' => $faker->image('/tmp', 640, 480, 'cats', false),
         'retina_factor' => rand(1, 4),
-        'meta' => null,
+        'order' => 0,
+        'alt' => 'Alt',
+        'title' => 'title',
+        'meta' => ['testing' => 1],
     ];
 });
 
@@ -77,5 +78,11 @@ $factory->define(\Despark\Cms\Models\Video::class, function (Faker\Generator $fa
         'provider' => 'youtube',
         'video_id' => 'C0DPdy98e4c',
         'config' => ['width' => 300, 'height' => 150],
+    ];
+});
+
+$factory->define(\Despark\Tests\Cms\Resources\TestResourceModel::class, function (Faker\Generator $faker) {
+    return [
+        'test_field' => $faker->word,
     ];
 });

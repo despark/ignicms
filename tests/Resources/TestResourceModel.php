@@ -19,4 +19,28 @@ class TestResourceModel extends AdminModel
     protected $rules = [];
 
     protected $fillable = ['test_field'];
+
+    /**
+     * @return array|null
+     */
+    public function getImageFields()
+    {
+        return [
+            'test' => [
+                'thumbnails' => [
+                    'admin' => [
+                        'width' => 100,
+                        'height' => 100,
+                        'type' => 'crop',
+                    ],
+                    'test' => [
+                        'width' => 80,
+                        'height' => 80,
+                        'type' => 'crop',
+                    ],
+                ],
+            ],
+
+        ];
+    }
 }

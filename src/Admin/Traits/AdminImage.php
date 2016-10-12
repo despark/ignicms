@@ -108,7 +108,6 @@ trait AdminImage
             throw new ModelSanityException('No Image fields defined in config for model '.get_class($model));
         }
 
-        $imageModel = $this->getImageModel();
         // Check for fields collisions
         foreach ($imageFields as $imageFieldName => $imageField) {
             $imageMetaFields = $this->getImageMetaFields($imageFieldName);
@@ -496,7 +495,7 @@ trait AdminImage
     public function getImageFields()
     {
         if (! isset($this->imageFields)) {
-            $adminField = [
+            $adminThumb = [
                 'admin' => [
                     'width' => config('ignicms.images.admin_thumb_width'),
                     'height' => config('ignicms.images.admin_thumb_height'),
@@ -506,7 +505,7 @@ trait AdminImage
             $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
             foreach ($this->imageFields as &$imageField) {
                 if (! array_key_exists('admin', $imageField['thumbnails'])) {
-                    $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminField);
+                    $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminThumb);
                 }
             }
         }
@@ -584,7 +583,7 @@ trait AdminImage
 
     /**
      * @param $imageFieldName
-     * @return null
+     * @return null|array
      */
     public function getImageField($imageFieldName)
     {
@@ -635,11 +634,7 @@ trait AdminImage
     public function getCurrentUploadDir()
     {
         if (! isset($this->currentUploadDir)) {
-            $modelDir = explode('Models', get_class($this));
-            $modelDir = str_replace('\\', '_', $modelDir[1]);
-            $modelDir = ltrim($modelDir, '_');
-            $modelDir = strtolower($modelDir);
-
+            $modelDir = $this->getIdentifier();
             $this->currentUploadDir = public_path($this->uploadDir).DIRECTORY_SEPARATOR.$modelDir.
                 DIRECTORY_SEPARATOR.$this->getKey().DIRECTORY_SEPARATOR;
         }
@@ -670,6 +665,26 @@ trait AdminImage
         }
 
         return $this->images;
+    }
+
+    /**
+     * @param $type
+     * @param $thumb
+     * @return string
+     */
+    public function getImageHtml($type, $thumb)
+    {
+        $image = $this->getImages($type)->first();
+
+        if (! $imageField = $this->getImageField($type)) {
+            return '';
+        }
+
+        if (! isset($imageField['thumbnails'][$thumb])) {
+            return '';
+        }
+
+        return view('ignicms::image.default', ['image' => $image, 'thumb' => $thumb])->render();
     }
 
     /**

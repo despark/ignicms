@@ -99,7 +99,7 @@ class Image extends Model implements ImageContract
      */
     public function image()
     {
-        return $this->morphTo('image', 'resource_name', 'resource_id');
+        return $this->morphTo('image', 'resource_model', 'resource_id');
     }
 
     /**
@@ -217,14 +217,13 @@ class Image extends Model implements ImageContract
      */
     public function getCurrentUploadDir()
     {
+
         if (! $this->resource_model) {
             throw new \Exception('Missing resource model for model '.$this->getKey());
         }
         if (! isset($this->currentUploadDir)) {
-            $modelDir = explode('Models', $this->resource_model);
-            $modelDir = str_replace('\\', '_', $modelDir[1]);
-            $modelDir = ltrim($modelDir, '_');
-            $modelDir = strtolower($modelDir);
+            $className = $this->getActualClassNameForMorph($this->resource_model);
+            $modelDir = (new $className())->getIdentifier();
 
             $this->currentUploadDir = $this->uploadDir.DIRECTORY_SEPARATOR.$modelDir.
                 DIRECTORY_SEPARATOR.$this->resource_id.DIRECTORY_SEPARATOR;
@@ -312,13 +311,9 @@ class Image extends Model implements ImageContract
     public function getDBColumns()
     {
         if (! isset($this->dbColumns)) {
-            // Check the cache
-            if ($dbColumns = \Cache::get($this->cacheKey.'_db_columns')) {
-                $this->dbColumns = $dbColumns;
-            } else {
-                $this->dbColumns = \Schema::getColumnListing($this->getTable());
-                \Cache::put($this->cacheKey.'_db_columns', \Schema::getColumnListing($this->table), 10080);
-            }
+            $this->dbColumns = \Cache::remember($this->cacheKey.'_db_columns', 10080, function () {
+                return \Schema::getColumnListing($this->getTable());
+            });
         }
 
         return $this->dbColumns;
