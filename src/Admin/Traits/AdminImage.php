@@ -676,6 +676,9 @@ trait AdminImage
     {
         $image = $this->getImages($type)->first();
 
+        if (! $image) {
+            return '';
+        }
         if (! $imageField = $this->getImageField($type)) {
             return '';
         }
