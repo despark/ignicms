@@ -59,6 +59,11 @@ trait AdminImage
     protected $imageModel;
 
     /**
+     * @var Collection[]
+     */
+    protected $imagesOfType;
+
+    /**
      * @return MorphMany
      */
     public function images()
@@ -660,13 +665,18 @@ trait AdminImage
      */
     public function getImages($type = null)
     {
+
         if ($type) {
-            return $this->images()->where('image_type', '=', $type)->get();
+            if (! isset($this->imagesOfType[$type])) {
+                $this->imagesOfType[$type] = $this->images()->where('image_type', '=', $type)->get();
+            }
+
+            return $this->imagesOfType[$type];
         }
 
         return $this->images;
     }
-    
+
 
     /**
      * @return mixed
