@@ -2,12 +2,14 @@
 
 namespace Despark\Tests\Cms\Resources;
 
+use Despark\Cms\Admin\Interfaces\UploadFileInterface;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Despark\Cms\Admin\Traits\AdminFile;
 use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Despark\Cms\Models\AdminModel;
 
-class TestResourceModel extends AdminModel
+class TestResourceModel extends AdminModel implements UploadImageInterface, UploadFileInterface
 {
     use AdminImage, AdminFile, AdminModelTrait;
 

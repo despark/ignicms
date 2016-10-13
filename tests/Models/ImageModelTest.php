@@ -116,6 +116,8 @@ class ImageModelTest extends AbstractTestCase
 
         $testModel = $testModel->fresh('images');
 
-        $view = $testModel->getImageHtml('test', 'test');
+        $image = $testModel->getImages('test')->first();
+
+        $this->assertNotEmpty($image);
     }
 }

@@ -666,29 +666,7 @@ trait AdminImage
 
         return $this->images;
     }
-
-    /**
-     * @param $type
-     * @param $thumb
-     * @return string
-     */
-    public function getImageHtml($type, $thumb)
-    {
-        $image = $this->getImages($type)->first();
-
-        if (! $image) {
-            return '';
-        }
-        if (! $imageField = $this->getImageField($type)) {
-            return '';
-        }
-
-        if (! isset($imageField['thumbnails'][$thumb])) {
-            return '';
-        }
-
-        return view('ignicms::image.default', ['image' => $image, 'thumb' => $thumb])->render();
-    }
+    
 
     /**
      * @return mixed

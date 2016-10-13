@@ -132,6 +132,20 @@ class Image extends Model implements ImageContract
     }
 
     /**
+     * @return array
+     */
+    public function getThumbnails()
+    {
+        $imageFields = $this->getResourceModel()->getImageFields();
+        $thumbnails = [];
+        if (isset($imageFields[$this->image_type]['thumbnails'])) {
+            $thumbnails = array_keys($imageFields[$this->image_type]['thumbnails']);
+        }
+
+        return $thumbnails;
+    }
+
+    /**
      * @return AdminModel|UploadImageInterface
      * @throws \Exception
      */
@@ -343,6 +357,22 @@ class Image extends Model implements ImageContract
     public function getImageAttributeFields()
     {
         return $this->imageAttributeFields;
+    }
+
+    /**
+     * @param $thumb
+     * @return string
+     * @throws \Exception
+     */
+    public function toHtml($thumb)
+    {
+        if ($this->exists) {
+            if (! in_array($thumb, $this->getThumbnails())) {
+                throw new \Exception('Thumbnail '.$thumb.' not defined');
+            }
+
+            return view('ignicms::image.default', ['image' => $this, 'thumb' => $thumb])->render();
+        }
     }
 
     /**
