@@ -358,11 +358,13 @@ trait AdminImage
                     $thumbnailName, $this->generateRetinaName($sanitizedFilename),
                     $thumbnailOptions['width'] * $this->getRetinaFactor(),
                     $thumbnailOptions['height'] * $this->getRetinaFactor(),
-                    $thumbnailOptions['type']);
+                    $thumbnailOptions['type'],
+                    array_get($thumbnailOptions, 'color'));
                 // Create original thumb
                 $images['thumbnails'][$thumbnailName]['original'] = $this->createThumbnail($sourceFile->getRealPath(),
                     $thumbnailName, $sanitizedFilename, $thumbnailOptions['width'],
-                    $thumbnailOptions['height'], $thumbnailOptions['type']);
+                    $thumbnailOptions['height'], $thumbnailOptions['type'],
+                    array_get($thumbnailOptions, 'color'));
             }
         } else {
             // Copy source file.
@@ -397,7 +399,8 @@ trait AdminImage
         $newFileName,
         $width = null,
         $height = null,
-        $resizeType = 'crop'
+        $resizeType = 'crop',
+        $color = 'ffffff'
     ) {
         $image = Image::make($sourceImagePath);
 
@@ -415,6 +418,11 @@ trait AdminImage
                     $constraint->upsize();
                 });
                 break;
+
+            case 'fit':
+                $image->resize($width, $height, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->resizeCanvas($width, $height, 'center', false, $color);
         }
 
         $thumbnailPath = $this->getThumbnailPath($thumbName);
