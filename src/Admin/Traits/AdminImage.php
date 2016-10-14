@@ -665,10 +665,13 @@ trait AdminImage
      */
     public function getImages($type = null)
     {
-
         if ($type) {
             if (! isset($this->imagesOfType[$type])) {
-                $this->imagesOfType[$type] = $this->images()->where('image_type', '=', $type)->get();
+                if (count($this->images)) {
+                    $this->imagesOfType[$type] = $this->images->where('image_type', $type);
+                } else {
+                    $this->imagesOfType[$type] = [];
+                }
             }
 
             return $this->imagesOfType[$type];
