@@ -400,7 +400,7 @@ trait AdminImage
         $width = null,
         $height = null,
         $resizeType = 'crop',
-        $color = 'ffffff'
+        $color = null
     ) {
         $image = Image::make($sourceImagePath);
 
