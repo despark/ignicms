@@ -18,63 +18,17 @@
                         @endif
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="data-table" class="table table-bordered table-striped dataTable" role="grid"
-                                       aria-describedby="data-table_info">
+                                <table id="data-table" class="table table-bordered table-striped dataTable"
+                                        role="grid" aria-describedby="data-table_info">
                                     <thead>
-                                    <tr>
-                                        @foreach($model->getAdminTableColumns() as $col)
-                                            <th class="{{ array_get($col, 'type') }}">{{ $col['name'] }}</th>
-                                        @endforeach
-                                        <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="sortable" data-entityname="{{ strtolower($pageTitle) }}">
-                                    @forelse ($records as $record)
-                                        <tr data-itemId="{{ $record->id }}">
-                                            @foreach($model->getAdminTableColumns() as $col)
-                                                <td data-order="{{ $record->{$col['db_field']} }}">
-                                                    {!! $model->renderTableRow($record, $col) !!}
-                                                </td>
-                                            @endforeach
-                                            <td class="actions-cell">
-                                                @if(isset($editRoute))
-                                                    <a href="{{ route($editRoute, ['id' => $record->id]) }}"
-                                                       class="btn btn-primary">
-                                                        {{ trans('admin.edit') }}
-                                                    </a>
-                                                @endif
-
-                                                @if(isset($deleteRoute))
-                                                    <a href="#"
-                                                       class="js-open-delete-modal btn btn-danger"
-                                                       data-record="{{ json_encode($record->toArray()) }}"
-                                                       data-delete-url="{{ route($deleteRoute, ['id' => $record->id]) }}">
-                                                        {{ trans('admin.delete') }}
-                                                    </a>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @empty
                                         <tr>
-                                            @foreach($model->getAdminTableColumns() as $key => $col)
-                                                @if($key == 0)
-                                                    <td>{{ trans('admin.noData') }}</td>
-                                                @else
-                                                    <td>-</td>
-                                                @endif
+                                            @foreach($model->getAdminTableColumns() as $col)
+                                                <th class="{{ $col }}">{{ $col }}</th>
                                             @endforeach
-                                            <td>-</td>
+                                            <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
                                         </tr>
-                                    @endforelse
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        @foreach($model->getAdminTableColumns() as $col)
-                                            <th>{{ $col['name'] }}</th>
-                                        @endforeach
-                                        <th>{{ trans('admin.actions') }}</th>
-                                    </tr>
-                                    </tfoot>
+                                    </thead>
+
                                 </table>
                             </div>
                         </div>
@@ -181,11 +135,11 @@
         }
 
         // Delete entity
-        $('.js-open-delete-modal').on('click', function (e) {
+        $('body').on('click', '.js-open-delete-modal', function (e) {
             e.preventDefault();
             var that = $(this),
-                    $deleteModal = $('#delete-modal'),
-                    deleteURL = that.data('delete-url');
+                $deleteModal = $('#delete-modal'),
+                deleteURL = that.data('delete-url');
 
             $deleteModal.find('.delete-form').attr('action', deleteURL);
 
@@ -202,6 +156,15 @@
             ordering: isSortable !== false,
             info: false,
             autoWidth: true,
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route(str_plural($model->getIdentifier()).'.index') }}",
+            columns: [
+                @foreach ($model->getAdminTableColumns() as $col)
+                {data: '{{ $col }}', name: '{{ $col }}'},
+                @endforeach
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ],
             columnDefs: [
                 {
                     targets: "no-sort",

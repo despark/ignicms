@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
 use :app_namespaceModels\:model_name;
 use :app_namespaceHttp\Requests\Admin\:request_name;
+use Yajra\Datatables\Facades\Datatables;
 
 class :controller_name extends AdminController
 {
@@ -28,13 +29,20 @@ class :controller_name extends AdminController
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request, Datatables $datatable)
     {
+        if ($request->ajax()) {
+            $records = $this->model->select(array_merge([
+                'id',
+            ], $this->model->getAdminTableColumns()));
 
-        $records = $this->model->get();
+            return $datatable->eloquent($records)
+                ->addColumn('action', function ($record) {
+                    return $this->getActionButtons($record);
+                })->make(true);
+        }
 
         $this->viewData['model'] = $this->model;
-        $this->viewData['records'] = $records;
 
         return view('ignicms::admin.layouts.list', $this->viewData);
     }

@@ -24,7 +24,8 @@
         "jenssegers/agent": "^2.3",
         "spatie/laravel-permission": "^1.4",
         "doctrine/dbal": "^2.5",
-        "flowjs/flow-php-server": "^1.0"
+        "flowjs/flow-php-server": "^1.0",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.2",
