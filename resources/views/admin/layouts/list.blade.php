@@ -14,7 +14,7 @@
                     <div id="data-table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         @if(isset($createRoute))
                             <a href="{{ route($createRoute) }}"
-                               class="btn btn-success pull-left">+ {{ trans('admin.add') }} {{ str_singular($pageTitle) }}</a>
+                               class="btn btn-success pull-left">+ {{ trans('admin.add') }} {{ $pageTitle }}</a>
                         @endif
                         <div class="row">
                             <div class="col-sm-12">
@@ -158,7 +158,7 @@
             autoWidth: true,
             processing: true,
             serverSide: true,
-            ajax: "{{ route(str_plural($model->getIdentifier()).'.index') }}",
+            ajax: "{{ route($model->getIdentifier().'.index') }}",
             columns: [
                 @foreach ($model->getAdminTableColumns() as $col)
                 {data: '{{ $col }}', name: '{{ $col }}'},
