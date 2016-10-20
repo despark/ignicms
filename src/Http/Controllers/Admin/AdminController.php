@@ -106,4 +106,23 @@ class AdminController extends Controller
     {
         session()->flash('notification', $notificationInfo);
     }
+
+    protected function getActionButtons($record)
+    {
+        $editBtn = '';
+        $deleteBtn = '';
+        if (isset($this->viewData['editRoute'])) {
+            $editBtn = '<a href="'.route($this->viewData['editRoute'], ['id' => $record->id]).'" class="btn btn-primary">'.trans('admin.edit').'</a>';
+        }
+
+        if (isset($this->viewData['deleteRoute'])) {
+            $deleteBtn = '<a href="#"  class="js-open-delete-modal btn btn-danger"
+                    data-record="'.json_encode($record->toArray()).'"
+                    data-delete-url="'.route($this->viewData['deleteRoute'], ['id' => $record->id]).'">
+                    '.trans('admin.delete').'
+                </a>';
+        }
+
+        return $editBtn.$deleteBtn;
+    }
 }
