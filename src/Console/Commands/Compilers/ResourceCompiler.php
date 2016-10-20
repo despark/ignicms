@@ -130,24 +130,22 @@ class ResourceCompiler
         $this->modelReplacements[':model_name'] = $this->command->model_name($this->identifier);
         $this->modelReplacements[':identifier'] = $this->identifier;
 
-        $identifierPlural = str_plural($this->identifier);
-
         $this->prepareReplacements();
 
         // Check to see if route is not already used
-        if (\Route::has($identifierPlural.'.index')) {
+        if (\Route::has($this->identifier.'.index')) {
             // Check if admin is also free
-            if (\Route::has('admin.'.$identifierPlural.'.index')) {
+            if (\Route::has('admin.'.$this->identifier.'.index')) {
                 throw new \Exception('Resource `'.$this->identifier.'` already exists');
             }
 
             // We need to append admin
             foreach ($this->routeActions as $action) {
-                $this->routeNames[$action] = 'admin.'.$identifierPlural.'.'.$action;
+                $this->routeNames[$action] = 'admin.'.$this->identifier.'.'.$action;
             }
         }
 
-        $route = "Route::resource('$identifierPlural', 'Admin\\".$this->command->controller_name($this->identifier)."'";
+        $route = "Route::resource('$this->identifier', 'Admin\\".$this->command->controller_name($this->identifier)."'";
         if (! empty($this->routeNames)) {
             // create the resource names
             $route .= ',['.PHP_EOL."'names' => [".PHP_EOL;
@@ -162,7 +160,7 @@ class ResourceCompiler
         }
 
         if ($this->options['file_uploads']) {
-            $route .= "Route::get('$identifierPlural/delete/{fileFieldName}', 'Admin\\".$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
+            $route .= "Route::get('$this->identifier/delete/{fileFieldName}', 'Admin\\".$this->command->controller_name($this->identifier)."@deleteFile');".PHP_EOL;
         }
 
         $this->appendToFile(base_path('routes/resources.php'), $route);

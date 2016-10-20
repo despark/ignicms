@@ -5,8 +5,9 @@ namespace Despark\Cms\Http\Controllers\Admin;
 use Despark\Cms\Http\Controllers\Controller;
 use Despark\Cms\Models\AdminModel;
 use View;
+use Yajra\Datatables\Datatables;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 /**
  * Class AdminController.
@@ -52,7 +53,7 @@ class AdminController extends Controller
         $this->defaultFormView = config('admin.bootstrap.defaultFormView');
 
         $this->viewData['pageTitle'] = 'Admin';
-        $this->viewData['inputs'] = Request::all();
+        $this->viewData['inputs'] = \Request::all();
 
         $this->viewData['pageTitle'] = Str::studly($this->identifier);
 
@@ -60,6 +61,24 @@ class AdminController extends Controller
         View::composer('ignicms::admin.layouts.sidebar', function ($view) {
             $view->with('sidebarItems', $this->sidebarItems);
         });
+    }
+
+    public function index(Request $request, Datatables $datatable)
+    {
+        if ($request->ajax()) {
+            $records = $this->model->select(array_merge([
+                'id',
+            ], $this->model->getAdminTableColumns()));
+
+            return $datatable->eloquent($records)
+                ->addColumn('action', function ($record) {
+                    return $this->getActionButtons($record);
+                })->make(true);
+        }
+
+        $this->viewData['model'] = $this->model;
+
+        return view('ignicms::admin.layouts.list', $this->viewData);
     }
 
     /**
