@@ -136,12 +136,13 @@ class AdminController extends Controller
 
         if (isset($this->viewData['deleteRoute'])) {
             $deleteBtn = '<a href="#"  class="js-open-delete-modal btn btn-danger"
-                    data-record="'.json_encode($record->toArray()).'"
                     data-delete-url="'.route($this->viewData['deleteRoute'], ['id' => $record->id]).'">
                     '.trans('admin.delete').'
                 </a>';
         }
 
-        return $editBtn.$deleteBtn;
+        $container = "<div class='action-btns'>{$editBtn}{$deleteBtn}</div>";
+
+        return $container;
     }
 }
