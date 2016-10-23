@@ -42,8 +42,9 @@
                 vertical-align: middle;
             }
         }
-        & .actions-cell {
-            text-align: center;
+        & .action-btns {
+            display: flex;
+            justify-content: space-around;
             a {
                 text-transform: uppercase;
             }
