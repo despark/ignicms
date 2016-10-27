@@ -36,7 +36,7 @@ class AdminModelObserver
                         'field' => $fieldName,
                         'provider' => 'youtube',
                         'video_id' => $item['video_id'],
-                        'config' => null,
+                        'meta' => null,
                         'order' => $item['order'],
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
