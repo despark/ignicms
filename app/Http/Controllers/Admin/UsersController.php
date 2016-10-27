@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -14,9 +13,11 @@ class UsersController extends AdminController
     /**
      * UsersController constructor.
      */
-    public function __construct()
+    public function __construct(User $model)
     {
         parent::__construct();
+
+        $this->model = $model;
 
         $this->sidebarItems['users']['isActive'] = true;
         if (isset($this->sidebarItems['users']['subMenu']['users_manager'])) {
@@ -24,25 +25,9 @@ class UsersController extends AdminController
         }
 
         $this->viewData['pageTitle'] = 'Users';
-        $this->viewData['editRoute'] = 'admin.users.edit';
-        $this->viewData['createRoute'] = 'admin.users.create';
-        $this->viewData['deleteRoute'] = 'admin.users.destroy';
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        $model = new User();
-        $records = $model->filtering()->paginate($this->paginateLimit);
-
-        $this->viewData['model'] = $model;
-        $this->viewData['records'] = $records;
-
-        return view('ignicms::admin.layouts.list', $this->viewData);
+        $this->viewData['editRoute'] = 'user.edit';
+        $this->viewData['createRoute'] = 'user.create';
+        $this->viewData['deleteRoute'] = 'user.destroy';
     }
 
     /**
@@ -52,13 +37,11 @@ class UsersController extends AdminController
      */
     public function create()
     {
-        $model = new User();
-
-        $this->viewData['record'] = $model;
+        $this->viewData['record'] = $this->model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'admin.users.store';
+        $this->viewData['formAction'] = 'user.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -74,23 +57,17 @@ class UsersController extends AdminController
     {
         $input = $request->except('roles');
 
-        $model = new User();
-
         if ($request->has('password')) {
-            $input['password'] = Hash::make($request->get('password'));
+            $input['password'] = bcrypt($request->password);
         } else {
             unset($input['password']);
         }
 
-        $record = $model->create($input);
+        $record = $this->model->create($input);
 
-        if ($request->has('tags')) {
-            $record->retag($request->get('tags'));
+        if ($request->has('roles')) {
+            $record->syncRoles($request->roles);
         }
-
-        $record->syncRoles($request->roles);
-
-        $record->addImages($input);
 
         $this->notify([
             'type' => 'success',
@@ -98,7 +75,7 @@ class UsersController extends AdminController
             'description' => 'User is created successfully!',
         ]);
 
-        return redirect(route('admin.users.edit', ['id' => $record->id]));
+        return redirect(route('user.edit', ['id' => $record->id]));
     }
 
     /**
@@ -110,12 +87,12 @@ class UsersController extends AdminController
      */
     public function edit($id)
     {
-        $record = User::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'admin.users.update';
+        $this->viewData['formAction'] = 'user.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -133,22 +110,18 @@ class UsersController extends AdminController
         $input = $request->except('roles');
 
         if ($request->has('password')) {
-            $input['password'] = Hash::make($request->get('password'));
+            $input['password'] = bcrypt($request->password);
         } else {
             unset($input['password']);
         }
 
-        $record = User::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
-        if ($request->has('tags')) {
-            $record->retag($request->get('tags'));
+        if ($request->has('roles')) {
+            $record->syncRoles($request->roles);
         }
 
-        $record->syncRoles($request->roles);
-
         $record->update($input);
-
-        $record->addImages($input);
 
         $this->notify([
             'type' => 'success',
@@ -168,7 +141,7 @@ class UsersController extends AdminController
      */
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',

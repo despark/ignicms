@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
-use Spatie\Permission\Contracts\Role;
+use Despark\Cms\Models\Role;
 
 class RolesController extends AdminController
 {
-    protected $model;
-
     /**
      * RolesController constructor.
      */
@@ -18,30 +16,15 @@ class RolesController extends AdminController
     {
         parent::__construct();
 
-        $this->sidebarItems['users']['isActive'] = true;
-        $this->sidebarItems['users']['subMenu']['roles']['isActive'] = true;
+        $this->sidebarItems['user']['isActive'] = true;
+        $this->sidebarItems['user']['subMenu']['role']['isActive'] = true;
 
         $this->viewData['pageTitle'] = 'Roles';
-        $this->viewData['editRoute'] = 'roles.edit';
-        $this->viewData['createRoute'] = 'roles.create';
-        $this->viewData['deleteRoute'] = 'roles.destroy';
+        $this->viewData['editRoute'] = 'role.edit';
+        $this->viewData['createRoute'] = 'role.create';
+        $this->viewData['deleteRoute'] = 'role.destroy';
 
         $this->model = $role;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        $records = $this->model->get();
-
-        $this->viewData['model'] = $this->model;
-        $this->viewData['records'] = $records;
-
-        return view('ignicms::admin.layouts.list', $this->viewData);
     }
 
     /**
@@ -55,7 +38,7 @@ class RolesController extends AdminController
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'roles.store';
+        $this->viewData['formAction'] = 'role.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -81,7 +64,7 @@ class RolesController extends AdminController
             'description' => 'Role is created successfully!',
         ]);
 
-        return redirect(route('roles.edit', ['id' => $record->id]));
+        return redirect(route('role.edit', ['id' => $record->id]));
     }
 
     /**
@@ -98,7 +81,7 @@ class RolesController extends AdminController
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'roles.update';
+        $this->viewData['formAction'] = 'role.update';
 
         return view($this->defaultFormView, $this->viewData);
     }

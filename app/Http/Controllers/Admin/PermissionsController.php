@@ -6,48 +6,28 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Response;
-use Spatie\Permission\Contracts\Permission;
+use Despark\Cms\Models\Permission;
 
 class PermissionsController extends AdminController
 {
-    /**
-     * @var Permission|\Despark\Cms\Models\Permission
-     */
-    protected $permissions;
-
     /**
      * PermissionsController constructor.
      *
      * @param Permission $permission
      */
-    public function __construct(Permission $permission)
+    public function __construct(Permission $model)
     {
         parent::__construct();
 
-        $this->sidebarItems['users']['isActive'] = true;
-        $this->sidebarItems['users']['subMenu']['permissions']['isActive'] = true;
+        $this->sidebarItems['user']['isActive'] = true;
+        $this->sidebarItems['user']['subMenu']['permission']['isActive'] = true;
 
         $this->viewData['pageTitle'] = 'Permissions';
-        $this->viewData['editRoute'] = 'permissions.edit';
-        $this->viewData['createRoute'] = 'permissions.create';
-        $this->viewData['deleteRoute'] = 'permissions.destroy';
+        $this->viewData['editRoute'] = 'permission.edit';
+        $this->viewData['createRoute'] = 'permission.create';
+        $this->viewData['deleteRoute'] = 'permission.destroy';
 
-        $this->permissions = $permission;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        $records = $this->permissions->get();
-
-        $this->viewData['model'] = $this->permissions;
-        $this->viewData['records'] = $records;
-
-        return view('ignicms::admin.layouts.list', $this->viewData);
+        $this->model = $model;
     }
 
     /**
@@ -57,11 +37,11 @@ class PermissionsController extends AdminController
      */
     public function create()
     {
-        $this->viewData['record'] = $this->permissions;
+        $this->viewData['record'] = $this->model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'permissions.store';
+        $this->viewData['formAction'] = 'permission.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -77,7 +57,7 @@ class PermissionsController extends AdminController
     {
         $input = $request->all();
 
-        $record = $this->permissions->create($input);
+        $record = $this->model->create($input);
 
         $this->notify([
             'type' => 'success',
@@ -85,7 +65,7 @@ class PermissionsController extends AdminController
             'description' => 'Permission is created successfully!',
         ]);
 
-        return redirect(route('permissions.edit', ['id' => $record->id]));
+        return redirect(route('permission.edit', ['id' => $record->id]));
     }
 
     /**
@@ -97,12 +77,12 @@ class PermissionsController extends AdminController
      */
     public function edit($id)
     {
-        $record = $this->permissions->findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'permissions.update';
+        $this->viewData['formAction'] = 'permission.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -119,7 +99,7 @@ class PermissionsController extends AdminController
     {
         $input = $request->all();
 
-        $record = $this->permissions->findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $record->update($input);
 
@@ -141,7 +121,7 @@ class PermissionsController extends AdminController
      */
     public function destroy($id)
     {
-        $this->permissions->findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',

@@ -2,39 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Despark\Cms\Models\SeoPage;
 use Illuminate\Http\Request;
-use App\Models\SeoPage;
 use App\Http\Requests\Admin\SeoPagesRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class SeoPagesController extends AdminController
 {
-    public function __construct()
+    public function __construct(SeoPage $model)
     {
         $this->identifier = 'seo_page';
+        $this->model = $model;
 
         parent::__construct();
 
-        $this->sidebarItems['seo_pages']['isActive'] = true;
-        $this->viewData['createRoute'] = 'seo_pages.create';
-        $this->viewData['editRoute'] = 'seo_pages.edit';
-        $this->viewData['deleteRoute'] = 'seo_pages.destroy';
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        $model = new SeoPage();
-        $records = $model->get();
-
-        $this->viewData['model'] = $model;
-        $this->viewData['records'] = $records;
-
-        return view('ignicms::admin.layouts.list', $this->viewData);
+        $this->sidebarItems['seo_page']['isActive'] = true;
+        $this->viewData['createRoute'] = 'seo_page.create';
+        $this->viewData['editRoute'] = 'seo_page.edit';
+        $this->viewData['deleteRoute'] = 'seo_page.destroy';
     }
 
     /**
@@ -44,13 +29,11 @@ class SeoPagesController extends AdminController
      */
     public function create()
     {
-        $model = new SeoPage();
-
-        $this->viewData['record'] = $model;
+        $this->viewData['record'] = $this->model;
 
         $this->viewData['actionVerb'] = 'Create';
         $this->viewData['formMethod'] = 'POST';
-        $this->viewData['formAction'] = 'seo_pages.store';
+        $this->viewData['formAction'] = 'seo_page.store';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -66,9 +49,7 @@ class SeoPagesController extends AdminController
     {
         $input = $request->all();
 
-        $model = new SeoPage();
-
-        $record = $model->create($input);
+        $record = $this->model->create($input);
 
         $this->notify([
             'type' => 'success',
@@ -76,7 +57,7 @@ class SeoPagesController extends AdminController
             'description' => 'SeoPage is created successfully!',
         ]);
 
-        return redirect(route('seo_pages.edit', ['id' => $record->id]));
+        return redirect(route('seo_page.edit', ['id' => $record->id]));
     }
 
     /**
@@ -88,12 +69,12 @@ class SeoPagesController extends AdminController
      */
     public function edit($id)
     {
-        $record = SeoPage::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $this->viewData['record'] = $record;
 
         $this->viewData['formMethod'] = 'PUT';
-        $this->viewData['formAction'] = 'seo_pages.update';
+        $this->viewData['formAction'] = 'seo_page.update';
 
         return view($this->defaultFormView, $this->viewData);
     }
@@ -102,7 +83,7 @@ class SeoPagesController extends AdminController
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int     $id
+     * @param int $id
      *
      * @return Response
      */
@@ -110,7 +91,7 @@ class SeoPagesController extends AdminController
     {
         $input = $request->all();
 
-        $record = SeoPage::findOrFail($id);
+        $record = $this->model->findOrFail($id);
 
         $record->update($input);
 
@@ -132,7 +113,7 @@ class SeoPagesController extends AdminController
      */
     public function destroy($id)
     {
-        SeoPage::findOrFail($id)->delete();
+        $this->model->findOrFail($id)->delete();
 
         $this->notify([
             'type' => 'danger',

@@ -63,15 +63,20 @@ class AdminController extends Controller
         });
     }
 
-    public function index(Request $request, Datatables $datatable)
+    /**
+     * @param Request $request
+     * @param Datatables $dataTable
+     * @return \Illuminate\Http\JsonResponse|View
+     */
+    public function index(Request $request, Datatables $dataTable)
     {
         if ($request->ajax()) {
             $records = $this->model->select(array_merge([
                 'id',
             ], $this->model->getAdminTableColumns()));
 
-            return $datatable->eloquent($records)
-                ->addColumn('action', function ($record) {
+            return $dataTable->eloquent($records)
+                             ->addColumn('action', function ($record) {
                     return $this->getActionButtons($record);
                 })->make(true);
         }
