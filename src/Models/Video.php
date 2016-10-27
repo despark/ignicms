@@ -19,7 +19,7 @@ class Video extends Model
      * @var array
      */
     protected $casts = [
-        'config' => 'array',
+        'meta' => 'array',
     ];
 
     /**
