@@ -252,13 +252,13 @@ class ResourceCompiler
     public function render_controller($template)
     {
         $this->controllerReplacements[':app_namespace'] = $this->getAppNamespace();
-        $this->controllerReplacements[':resource'] = str_plural($this->identifier);
+        $this->controllerReplacements[':resource'] = $this->identifier;
         $this->controllerReplacements[':model_name'] = $this->command->model_name($this->identifier);
         $this->controllerReplacements[':request_name'] = $this->command->request_name($this->identifier);
         $this->controllerReplacements[':controller_name'] = $this->command->controller_name($this->identifier);
         $this->controllerReplacements[':identifier'] = $this->identifier;
 
-        $routeName = empty($this->routeNames) ? str_plural($this->identifier) : 'admin.'.str_plural($this->identifier);
+        $routeName = empty($this->routeNames) ? $this->identifier : 'admin.'.$this->identifier;
 
         if ($this->options['create']) {
             $this->controllerReplacements[':create_route'] = '$this->viewData'."['createRoute'] = '".$routeName.".create';";
