@@ -257,22 +257,23 @@ trait AdminImage
                 $imageIds[] = $fileId;
             }
         }
-        $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
-
-        foreach ($existingFiles as $fieldName => $files) {
-            foreach ($files as $fileId => $fileData) {
-                $image = $collection->get($fileId);
-                // Check if not for deletion
-                if (isset($fileData['delete']) && $fileData['delete']) {
-                    $image->delete();
-                } else {
-                    $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
-                    $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
-                    $image->save();
+        if (! empty($imageIds)) {
+            $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
+            
+            foreach ($existingFiles as $fieldName => $files) {
+                foreach ($files as $fileId => $fileData) {
+                    $image = $collection->get($fileId);
+                    // Check if not for deletion
+                    if (isset($fileData['delete']) && $fileData['delete']) {
+                        $image->delete();
+                    } else {
+                        $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
+                        $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
+                        $image->save();
+                    }
                 }
             }
         }
-
         // Now we process single files
         if (isset($this->files['_single']) && $files = $this->files['_single']) {
             $imageFields = $this->getImageFields();
