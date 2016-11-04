@@ -679,7 +679,7 @@ trait AdminImage
                 if (count($this->images)) {
                     $this->imagesOfType[$type] = $this->images->where('image_type', $type);
                 } else {
-                    $this->imagesOfType[$type] = [];
+                    $this->imagesOfType[$type] = collect([]);
                 }
             }
 
