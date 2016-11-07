@@ -71,14 +71,12 @@ class AdminController extends Controller
     public function index(Request $request, Datatables $dataTable)
     {
         if ($request->ajax()) {
-            $records = $this->model->select(array_merge([
-                'id',
-            ], $this->model->getAdminTableColumns()));
+            $records = $this->model->select(['id',] + $this->model->getAdminTableColumns());
 
             return $dataTable->eloquent($records)
                              ->addColumn('action', function ($record) {
-                    return $this->getActionButtons($record);
-                })->make(true);
+                                 return $this->getActionButtons($record);
+                             })->make(true);
         }
 
         $this->viewData['model'] = $this->model;
@@ -136,7 +134,8 @@ class AdminController extends Controller
         $editBtn = '';
         $deleteBtn = '';
         if (isset($this->viewData['editRoute'])) {
-            $editBtn = '<a href="'.route($this->viewData['editRoute'], ['id' => $record->id]).'" class="btn btn-primary">'.trans('admin.edit').'</a>';
+            $editBtn = '<a href="'.route($this->viewData['editRoute'],
+                    ['id' => $record->id]).'" class="btn btn-primary">'.trans('admin.edit').'</a>';
         }
 
         if (isset($this->viewData['deleteRoute'])) {
