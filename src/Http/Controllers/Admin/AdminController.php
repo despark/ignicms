@@ -71,7 +71,8 @@ class AdminController extends Controller
     public function index(Request $request, Datatables $dataTable)
     {
         if ($request->ajax()) {
-            $records = $this->model->select(['id',] + $this->model->getAdminTableColumns());
+            $select = array_unique(array_merge(['id'], $this->model->getAdminTableColumns()));
+            $records = $this->model->select($select);
 
             return $dataTable->eloquent($records)
                              ->addColumn('action', function ($record) {
