@@ -119,8 +119,18 @@ class Image extends Model implements ImageContract
 
         $imageFields = $this->getResourceModel()->getImageFields();
 
-        if (isset($imageFields[$this->image_type]['thumbnails'])) {
-            foreach ($imageFields[$this->image_type]['thumbnails'] as $type => $options) {
+        // Check if image type is not admin_field
+        $imageType = $this->image_type;
+
+        if ($formField = $this->getResourceModel()->getFormField($imageType)) {
+            // we need to check if it's gallery
+            if ($formField['type'] == 'gallery' && isset($formField['image_field'])) {
+                $imageType = $formField['image_field'];
+            }
+        }
+
+        if (isset($imageFields[$imageType]['thumbnails'])) {
+            foreach ($imageFields[$imageType]['thumbnails'] as $type => $options) {
                 $images[$type] = [
                     'retina' => $this->getRetinaImagePath($type),
                     'original' => $this->getOriginalImagePath($type),

@@ -206,6 +206,17 @@ trait AdminModelTrait
     }
 
     /**
+     * @param $formFieldName
+     * @return mixed
+     */
+    public function getFormField($formFieldName)
+    {
+        if (isset($this->getFormFields()[$formFieldName])) {
+            return $this->getFormFields()[$formFieldName];
+        }
+    }
+
+    /**
      * @param array $formFields
      * @return $this
      */

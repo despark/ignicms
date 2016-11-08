@@ -37,7 +37,7 @@ class ImageModelObserver
 
         foreach ($imageTypes as $images) {
             foreach ($images as $path) {
-                \File::delete($path);
+                \File::delete(public_path($path));
             }
         }
     }

@@ -34,6 +34,7 @@ class AdminServiceProvider extends ServiceProvider
         \Despark\Cms\Console\Commands\Admin\InstallCommand::class,
         \Despark\Cms\Console\Commands\Admin\ResourceCommand::class,
         \Despark\Cms\Console\Commands\File\ClearTemp::class,
+        \Despark\Cms\Console\Commands\Image\Rebuild::class,
     ];
 
     /**

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Image;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminImage.
@@ -259,7 +260,7 @@ trait AdminImage
         }
         if (! empty($imageIds)) {
             $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
-            
+
             foreach ($existingFiles as $fieldName => $files) {
                 foreach ($files as $fileId => $fileData) {
                     $image = $collection->get($fileId);
@@ -312,7 +313,7 @@ trait AdminImage
     }
 
     /**
-     * @param Temp|UploadedFile $file
+     * @param Temp|UploadedFile|File $file
      * @param array $options
      * @return array
      * @throws \Exception
@@ -324,17 +325,22 @@ trait AdminImage
             $sanitizedFilename = $this->sanitizeFilename($file->filename);
         } elseif ($file instanceof UploadedFile) {
             $sanitizedFilename = $this->sanitizeFilename($file->getClientOriginalName());
+        } elseif ($file instanceof File) {
+            $sanitizedFilename = $this->sanitizeFilename($file->getFilename());
+            $sanitizedFilename = str_replace('_source.', '.', $sanitizedFilename);
+            $sourceFile = clone $file;
         } else {
             throw new \Exception('Unexpected file of class '.get_class($file));
         }
 
         $images = [];
         $pathParts = pathinfo($sanitizedFilename);
-        // Move uploaded file and rename it as source file.
-        $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
+        // Move uploaded file and rename it as source file if this is needed.
         // We need to generate unique name if the name is already in use.
-
-        $sourceFile = $file->move($this->getThumbnailPath(), $filename);
+        if (! isset($sourceFile)) {
+            $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
+            $sourceFile = $file->move($this->getThumbnailPath(), $filename);
+        }
         $images['original']['source'] = $sourceFile;
 
 
@@ -392,6 +398,7 @@ trait AdminImage
      * @param null $width Desired width for resize
      * @param null $height Desired height for resize
      * @param string $resizeType Resize type
+     * @param null $color
      * @return \Intervention\Image\Image
      */
     public function createThumbnail(
