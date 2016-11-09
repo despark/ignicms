@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Http\Controllers\Admin;
 
+use App\Helpers\Debug;
 use Despark\Cms\Http\Controllers\Controller;
 use Despark\Cms\Models\AdminModel;
 use View;
@@ -33,8 +34,14 @@ class AdminController extends Controller
      */
     public $paginateLimit;
 
+    /**
+     * @var mixed
+     */
     public $defaultFormView;
 
+    /**
+     * @var
+     */
     protected $identifier;
 
     /**
@@ -71,10 +78,7 @@ class AdminController extends Controller
     public function index(Request $request, Datatables $dataTable)
     {
         if ($request->ajax()) {
-            $select = array_unique(array_merge(['id'], $this->model->getAdminTableColumns()));
-            $records = $this->model->select($select);
-
-            return $dataTable->eloquent($records)
+            return $dataTable->eloquent($this->prepareModelQuery())
                              ->addColumn('action', function ($record) {
                                  return $this->getActionButtons($record);
                              })->make(true);
@@ -83,6 +87,63 @@ class AdminController extends Controller
         $this->viewData['model'] = $this->model;
 
         return view('ignicms::admin.layouts.list', $this->viewData);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function prepareModelQuery()
+    {
+        $tableColumns = $this->model->getAdminTableColumns();
+        $query = $this->model->newQuery();
+        $table = $this->model->getTable();
+
+        $keyName = $this->model->getKeyName();
+
+        // What if model key is composite
+        if (is_array($keyName)) {
+            $select = [];
+            foreach ($keyName as $key) {
+                $select[] = $table.'.'.$key;
+            }
+            $query->select($select);
+        } else {
+            $query->select([
+                $table.'.'.$this->model->getKeyName(),
+            ]);
+        }
+        $with = [];
+
+        foreach ($tableColumns as $name => $column) {
+            // We already included the primary key so check the column and do nothing if exists.
+            if (is_array($keyName)) {
+                if (in_array($column, $keyName)) {
+                    continue;
+                }
+            } else {
+                if ($column == $this->model->getKeyName()) {
+                    continue;
+                }
+            }
+
+            // If it's a relation we need to eager load it.
+            if (strstr($column, '.') !== false) {
+                $relation = explode('.', $column);
+                $relationField = array_pop($relation);
+                $with[] = implode('.', $relation);
+            } else {
+                $query->addSelect($table.'.'.$column);
+            }
+        }
+
+        if (! empty($with)) {
+            $query->with($with);
+            // We should refactor this and find actual related field.
+            $query->select($table.'.*');
+        }
+
+
+        return $query;
     }
 
     /**
@@ -130,6 +191,10 @@ class AdminController extends Controller
         session()->flash('notification', $notificationInfo);
     }
 
+    /**
+     * @param $record
+     * @return string
+     */
     protected function getActionButtons($record)
     {
         $editBtn = '';

@@ -160,8 +160,8 @@
             serverSide: true,
             ajax: "{{ route($model->getIdentifier().'.index') }}",
             columns: [
-                @foreach ($model->getAdminTableColumns() as $col)
-                {data: '{{ $col }}', name: '{{ $col }}'},
+                @foreach ($model->getAdminTableColumns() as $name => $col)
+                {data: '{{ $col }}', name: '{{ $col }}' @if(!is_numeric($name)),title: '{{$name}}'@endif},
                 @endforeach
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ],

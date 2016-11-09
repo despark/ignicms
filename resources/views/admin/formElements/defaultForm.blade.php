@@ -47,11 +47,11 @@
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen responsivefilemanager",
-            "insertdatetime media table contextmenu paste imagetools jbimages twittersharelink"
+            "insertdatetime media table contextmenu paste imagetools jbimages"
         ],
         content_css: "/css/styles.css",
         menubar: false,
-        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image jbimages | media twittersharelink",
+        toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist | link image jbimages | media",
         image_advtab: true,
         relative_urls: false,
         remove_script_host: false,
