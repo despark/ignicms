@@ -326,8 +326,8 @@ trait AdminImage
         } elseif ($file instanceof UploadedFile) {
             $sanitizedFilename = $this->sanitizeFilename($file->getClientOriginalName());
         } elseif ($file instanceof File) {
-            $sanitizedFilename = $this->sanitizeFilename($file->getFilename());
-            $sanitizedFilename = str_replace('_source.', '.', $sanitizedFilename);
+            $actualFilename = str_replace('_source.', '.', $file->getFilename());
+            $sanitizedFilename = $this->sanitizeFilename($actualFilename);
             $sourceFile = clone $file;
         } else {
             throw new \Exception('Unexpected file of class '.get_class($file));
