@@ -4,7 +4,6 @@
 namespace Despark\Cms\Console\Commands\Image;
 
 
-use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Models\Image;
 use Illuminate\Console\Command;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -13,11 +12,11 @@ use Symfony\Component\HttpFoundation\File\File;
 class Rebuild extends Command
 {
     /**
-     * The console command name.
+     * The console signature.
      *
      * @var string
      */
-    protected $name = 'igni:image:rebuild';
+    protected $signature = 'igni:image:rebuild {--r|resources=*} {--W|without=*}';
 
     /**
      * The console command description.
@@ -34,12 +33,50 @@ class Rebuild extends Command
 
     public function handle()
     {
-        // Get all config files.
+        $resource = $this->option('resources');
+        $without = $this->option('without');
+
+        // Prepare query
+        $query = Image::query();
+
+        if ($resource) {
+            if (! is_array($resource)) {
+                $resource = [$resource];
+            }
+            $query->whereIn('resource_model', $resource);
+        }
+        if ($without) {
+            if (! is_array($without)) {
+                $without = [$without];
+            }
+            $query->whereNotIn('resource_model', $without);
+        }
+
         // Get all uploaded images grouped by model / type
-        $count = Image::count();
-        $images = Image::all();
+        $count = $query->count();
+        if (! $count) {
+            $this->info('Nothing to process');
+
+            return;
+        }
+
+        $images = $query->get();
 
         $bar = $this->output->createProgressBar($count);
+
+        $checked = [];
+        // Validate all relations first.
+        foreach ($images as $image) {
+            if (! in_array($image->resource_model, $checked)) {
+                $className = $image->getActualClassNameForMorph($image->resource_model);
+                if (! class_exists($className)) {
+                    $this->error('Resource model '.$className.' doesn\'t exist. Review your images table and fix it.');
+
+                    return;
+                }
+                $checked[] = $image->resource_model;
+            }
+        }
 
         foreach ($images as $image) {
             // delete all images
@@ -50,7 +87,7 @@ class Rebuild extends Command
                     \File::delete(public_path($path));
                 }
             }
-            
+
             $model = $image->image;
             if (method_exists($model, 'manipulateImage')) {
                 try {
