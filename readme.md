@@ -77,6 +77,10 @@ For Laravel versions 5.2 use branch v2.0
 
 - You can run `php artisan igni:admin:prod` on your production server, after deploy. It will install all dependencies according to your composer.lock file, run new migrations and optimize the autoload.
 
+### Image styles rebuilding ###
+You can rebuild image styles using `php artisan igni:images:rebuild` . If you want you can specify which resources to rebuil with `--resources=*` switch.
+You can exclude some resources with `--without=*`
+
 ## Copyright and License
 
 Despark CMS was written by Despark for the Laravel framework and is released under the MIT License. See the LICENSE file for details.
