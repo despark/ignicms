@@ -85,7 +85,7 @@
 
             this.addVideoButton.on('click', null, this.config, function (e) {
                 if (uploader.config.singleFile) {
-                    IgniGallery.delete($('li:first', uploader.config.$fileList), false);
+                    IgniGallery.delete($('li', uploader.config.$fileList), false);
                 }
                 var elementType = 'video';
                 var li = $('<li class="col-md-3 col-sm-6 col-xs-12"></li>').appendTo(uploader.config.$fileList);
@@ -186,7 +186,7 @@
         uploader.fileSuccessHandler = function (file, message, chunk) {
 
             if (uploader.config.singleFile) {
-                IgniGallery.delete($('li:first', uploader.config.$fileList), false);
+                IgniGallery.delete($('li', uploader.config.$fileList), false);
             }
             var jsonResponse = $.parseJSON(message);
             var elementType = 'image';

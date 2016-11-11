@@ -59,7 +59,7 @@ abstract class Field implements FieldContract
         if (! isset($this->viewName)) {
             // Default view name
             $identifier = $this->getModel()->getIdentifier();
-            $fieldName = str_slug($this->fieldName);
+            $fieldName = str_slug($this->fieldName).'--field';
             $field = camel_case(strtolower(snake_case(class_basename(get_class($this)))));
 
             // First check if there is a rewrite on specific field type
