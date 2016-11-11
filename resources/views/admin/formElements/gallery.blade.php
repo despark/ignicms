@@ -84,7 +84,9 @@
             this.addVideoButton = $('#file-widget-' + config.fieldName + ' .add-video');
 
             this.addVideoButton.on('click', null, this.config, function (e) {
-                console.log(e.data);
+                if (uploader.config.singleFile) {
+                    IgniGallery.delete($('li:first', uploader.config.$fileList), false);
+                }
                 var elementType = 'video';
                 var li = $('<li class="col-md-3 col-sm-6 col-xs-12"></li>').appendTo(uploader.config.$fileList);
                 var item = $('<div class="gallery-item video-item info-box"></div>').appendTo(li);
@@ -137,6 +139,17 @@
             };
         };
 
+        IgniGallery.delete = function (item, animate) {
+            if (typeof animate == 'undefined') {
+                animate = true;
+            }
+            $('input.delete-status', item).val(1);
+            if (animate){
+                item.fadeOut('slow');
+            }else{
+                item.hide();
+            }
+        };
 
         var uploader = new IgniGallery.create({
                     fieldName: '{{$fieldName}}',
@@ -146,11 +159,14 @@
                     $formContainer: $('#file-widget-{{$fieldName}} .uploaded-images'),
                     $fileList: $('#file-widget-{{$fieldName}} .file-list'),
                     browseButton: $('#file-widget-{{$fieldName}} .pick-images')[0],
-                    dropZone: $('#file-widget-{{$fieldName}} .uploader')[0]
+                    dropZone: $('#file-widget-{{$fieldName}} .uploader')[0],
+                    singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
+
                 },
                 new Flow({
                     target: '{{route('image.upload')}}',
-                    query: {_token: '{{csrf_token()}}'}
+                    query: {_token: '{{csrf_token()}}'},
+                    singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
                 })
         );
 
@@ -168,6 +184,10 @@
         };
 
         uploader.fileSuccessHandler = function (file, message, chunk) {
+
+            if (uploader.config.singleFile) {
+                IgniGallery.delete($('li:first', uploader.config.$fileList), false);
+            }
             var jsonResponse = $.parseJSON(message);
             var elementType = 'image';
             file.serverId = jsonResponse.id;
