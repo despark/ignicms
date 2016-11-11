@@ -9,4 +9,14 @@ use Despark\Cms\Video\Provider;
  */
 class YouTube extends Provider
 {
+
+    public function toHtml($preview = false)
+    {
+        if ($preview) {
+            return "<img src=\"http://img.youtube.com/vi/{$this->model->video_id}\" />";
+        } else {
+            return "<iframe src=\"https://www.youtube.com/embed/{$this->model->video_id}\" />";
+        }
+    }
+
 }

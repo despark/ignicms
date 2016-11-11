@@ -15,6 +15,12 @@ abstract class Provider implements VideoProviderContract
      */
     protected $model;
 
+    /**
+     * @param bool $preview
+     * @return mixed
+     */
+    abstract public function toHtml($preview = true);
+
     public function __construct(Video $model)
     {
         $this->model = $model;
@@ -24,4 +30,5 @@ abstract class Provider implements VideoProviderContract
     {
         return $this->model;
     }
+
 }
