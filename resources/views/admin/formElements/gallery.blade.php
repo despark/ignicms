@@ -37,6 +37,11 @@
             @endforeach
         </ul>
     </div>
+    @if(isset($options['help']))
+        <div class="help-text">{{ $options['help']}}</div>
+    @elseif($dimensions = $record->getMinDimensions($imageFieldName, true))
+        <div class="help-text">{{ trans('admin.images.min_dimensions' , ['dimensions' => $dimensions]) }}</div>
+    @endif
     <div class="file-upload-widget">
         <div class="uploader">
             <span class="pick-images btn btn-default"><i class="fa fa-picture-o"></i>&nbsp;Add images</span>
