@@ -2,7 +2,6 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Video\Provider;
 use Despark\Cms\Video\Providers\YouTube;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,27 +29,18 @@ class Video extends Model
         'youtube' => YouTube::class,
     ];
 
-
     /**
-     * @var Provider
-     */
-    protected $provideInstance;
-
-    /**
-     * @return Provider
+     * @param $value
+     * @return mixed
      * @throws \Exception
      */
-    public function getProviderInstance()
+    public function getProviderAttribute($value)
     {
-        if (! isset($this->provideInstance)) {
-            if (! isset($this->providers[$this->provider])) {
-                throw new \Exception('Video provider '.$this->provider.' not registered');
-            }
-
-            $this->provideInstance = new $this->providers[$this->provider]($this);
+        if (! isset($this->providers[$value])) {
+            throw new \Exception('Video provider '.$value.' not registered');
         }
 
-        return $this->provideInstance;
+        return new $this->providers[$value]($this);
     }
 
     /**
@@ -62,11 +52,11 @@ class Video extends Model
     }
 
     /**
-     * @param $preview
+     * @param bool $preview
      * @return mixed
      */
     public function toHtml($preview = false)
     {
-        return $this->getProviderInstance()->toHtml($preview);
+        return $this->provider->toHtml($preview);
     }
 }
