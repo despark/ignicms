@@ -26,21 +26,4 @@ class AdminFormRequest extends Request
 
         return $this->model->getRules();
     }
-
-    /**
-     * Override all method.
-     */
-    public function all()
-    {
-        $data = parent::all();
-
-        // TODO Move this to controller when we implement single controller.
-        foreach ($data as $key => &$value) {
-            if (is_string($value) && strlen($value) === 0) {
-                $value = null;
-            }
-        }
-
-        return $data;
-    }
 }
