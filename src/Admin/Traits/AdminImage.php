@@ -520,7 +520,7 @@ trait AdminImage
                 'admin' => [
                     'width' => config('ignicms.images.admin_thumb_width'),
                     'height' => config('ignicms.images.admin_thumb_height'),
-                    'type' => 'crop',
+                    'type' => config('ignicms.images.admin_thumb_type', 'fit'),
                 ],
             ];
             $this->imageFields = config('admin.'.$this->identifier.'.image_fields');
@@ -638,7 +638,11 @@ trait AdminImage
 
         $minWidth = 0;
         $minHeight = 0;
-        foreach ($field['thumbnails'] as $thumbnail) {
+        foreach ($field['thumbnails'] as $type => $thumbnail) {
+            // We don't bother for admin
+            if($type == 'admin'){
+                continue;
+            }
             $minWidth = $thumbnail['width'] > $minWidth ? $thumbnail['width'] : $minWidth;
             $minHeight = $thumbnail['height'] > $minHeight ? $thumbnail['height'] : $minHeight;
         }

@@ -11,6 +11,7 @@ return [
         'max_upload_size' => 5000,
         'admin_thumb_width' => 200,
         'admin_thumb_height' => 200,
+        'admin_thumb_type' => 'fit',
         'disable_alt_title_fields' => false,
     ],
     'admin_assets' => [
