@@ -102,8 +102,13 @@ abstract class AdminModel extends Model
             foreach (array_keys($this->getImageFields()) as $imageFieldName) {
                 // Check for direct upload
                 if (array_key_exists($imageFieldName, $attributes)) {
-                    $this->files['_single'][$imageFieldName] = $attributes[$imageFieldName];
-                    unset($attributes[$imageFieldName]);
+                    if (is_object($attributes[$imageFieldName])) {
+                        $this->files['_single'][$imageFieldName] = $attributes[$imageFieldName];
+                        unset($attributes[$imageFieldName]);
+                    } else {
+                        // We probably have image field collision!
+                        // TODO FIX THAT.
+                    }
                 }
 
                 // Check for single delete
