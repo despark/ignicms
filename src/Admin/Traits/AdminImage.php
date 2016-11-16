@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Image;
 use Symfony\Component\HttpFoundation\File\File;
+use Validator;
 
 /**
  * Class AdminImage.
@@ -542,17 +543,25 @@ trait AdminImage
     {
         $imageField = $this->getImageField($imageFieldName);
 
+        $defaultFields = [];
+
         // We will always provide alt and title. Unless disabled in config
-        $defaultFields = [
-            'alt' => [
-                'type' => 'text',
-                'label' => 'Alternate text',
-            ],
-            'title' => [
-                'type' => 'text',
-                'label' => 'Image title',
-            ],
-        ];
+        if (! config('ignicms.images.disable_alt_title_fields', false)) {
+            // Check if they are required
+            $validation = config('ignicms.images.require_alt_title_fields', true) ? 'required' : '';
+            $defaultFields = [
+                'alt' => [
+                    'type' => 'text',
+                    'label' => 'Alternate text',
+                    'validation' => $validation,
+                ],
+                'title' => [
+                    'type' => 'text',
+                    'label' => 'Image title',
+                    'validation' => $validation,
+                ],
+            ];
+        }
         $fields = [];
         if ($imageField && isset($imageField['fields'])) {
             $fields = $imageField['fields'];
@@ -640,7 +649,7 @@ trait AdminImage
         $minHeight = 0;
         foreach ($field['thumbnails'] as $type => $thumbnail) {
             // We don't bother for admin
-            if($type == 'admin'){
+            if ($type == 'admin') {
                 continue;
             }
             $minWidth = $thumbnail['width'] > $minWidth ? $thumbnail['width'] : $minWidth;

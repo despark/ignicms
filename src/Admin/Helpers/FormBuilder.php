@@ -89,6 +89,19 @@ class FormBuilder
             if (isset($options['sourceModel']) && is_a($options['sourceModel'], SourceModel::class, true)) {
                 $this->sourceModel = app($options['sourceModel']);
             }
+            if(!isset($options['class'])){
+                $options['class'] = '';
+            }
+            //Check if we don't have validation rules
+            if(isset($options['validation'])){
+                foreach(explode('|',$options['validation']) as $rule){
+                    // For now we allow only rules without , check validation.js
+                    if(strstr($rule,',') === false){
+                        $options['class'] .= ' validate-'.$rule;
+                    }
+                }
+            }
+
             $this->options = $options;
             $this->elementName = is_null($elementName) ? $field : $elementName;
 

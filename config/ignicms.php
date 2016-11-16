@@ -13,6 +13,7 @@ return [
         'admin_thumb_height' => 200,
         'admin_thumb_type' => 'fit',
         'disable_alt_title_fields' => false,
+        'require_alt_title_fields' => true,
     ],
     'admin_assets' => [
         'js' => [
