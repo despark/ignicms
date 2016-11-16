@@ -37,7 +37,6 @@
                 // fetch element
                 var elements = $('.' + i, that);
                 $.each(elements, function (idx, element) {
-                    console.log(value);
                     if (!value.callback(element, value.message)) {
                         hasErrors = true;
                     }
