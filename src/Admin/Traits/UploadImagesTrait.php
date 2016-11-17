@@ -100,6 +100,10 @@ trait UploadImagesTrait
             $thumbnailType = 'original';
         }
 
-        return $this->getThumbnailPath($thumbnailType).$this->$fieldName;
+        if ($this->{$fieldName}) {
+            return $this->getThumbnailPath($thumbnailType).$this->{$fieldName};
+        }
+
+        return;
     }
 }

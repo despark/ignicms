@@ -3,13 +3,13 @@
 namespace :app_namespaceHttp\Requests\Admin;
 
 use Despark\Cms\Http\Requests\AdminFormRequest;
-use :app_namespaceModels\:model_name;
+use :app_namespaceModels\Admin\:model_name;
 
 class :request_name extends AdminFormRequest
 {
-    public function __construct()
+    public function __construct(:model_name $model)
     {
-        $this->model = new :model_name();
+        $this->model = $model;
     }
 
     /**
