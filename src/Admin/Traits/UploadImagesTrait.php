@@ -27,10 +27,11 @@ trait UploadImagesTrait
                         File::makeDirectory($originalThumbnailPath, 0755, true);
                     }
 
-                    File::copy($file, $originalThumbnailPath.$filename);
+                    $newName = str_slug(str_replace($extension, '', $filename)).$extension;
+                    File::copy($file, $originalThumbnailPath.$newName);
 
                     foreach ($options['thumbnails'] as $thumbnailName => $thumbnailOptions) {
-                        $image = Image::make($originalThumbnailPath.$filename);
+                        $image = Image::make($originalThumbnailPath.$newName);
 
                         $resizeType = array_get($thumbnailOptions, 'type', 'crop');
 
@@ -57,7 +58,7 @@ trait UploadImagesTrait
                             File::makeDirectory($thumbnailPath.$this->id, 0755, true);
                         }
 
-                        $newName = str_slug(str_replace($extension, '', $filename)).$extension;
+
                         $image->save($thumbnailPath.$this->id.DIRECTORY_SEPARATOR.$newName);
                     }
 
