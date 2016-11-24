@@ -3,4 +3,6 @@ var env = require('gulp-env');
 
 env.isProduction = false;
 
-gulp.task('build', ['admin', 'sass', 'js-vendors', 'js-app', 'js-admin', 'flowjs', 'sortable', 'images', 'fonts', 'jsons']);
+gulp.task('build:fe', ['sass', 'js-vendors', 'js-app', 'images', 'fonts', 'jsons']);
+
+gulp.task('build:be', ['admin', 'js-admin', 'flowjs', 'sortable', 'images', 'fonts', 'jsons']);

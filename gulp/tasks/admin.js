@@ -1,20 +1,10 @@
-// var gulp = require('gulp');
-// var size = require('gulp-filesize');
-// var concat = require('gulp-concat');
-//
-// gulp.task('admin', function () {
-//     return gulp.src(config.src)
-//         .pipe(concat('admin.css'))
-//         .pipe(gulp.dest(config.dest))
-//         .pipe(size());
-// });
 
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var merge = require('merge-stream');
 var concat = require('gulp-concat');
 var rename = require('gulp-rename');
-var config = require('../config').admin;
+var config = require('../config').backend;
 
 var size = require('gulp-filesize');
 var gulpif = require('gulp-if');

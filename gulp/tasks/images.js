@@ -2,7 +2,7 @@ var changed = require('gulp-changed');
 var gulp = require('gulp');
 var size = require('gulp-filesize');
 var imagemin = require('gulp-imagemin');
-var config = require('../config').images;
+var config = require('../config').frontend.images;
 var gulpif = require('gulp-if');
 var env = require('gulp-env');
 

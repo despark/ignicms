@@ -5,7 +5,7 @@ var size = require('gulp-filesize');
 var cncat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var gulpif = require('gulp-if');
-var config = require('../config').js;
+var config = require('../config').frontend.js;
 var env = require('gulp-env');
 
 gulp.task('js-app', function () {
