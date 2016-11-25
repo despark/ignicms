@@ -3,7 +3,7 @@ var uglify = require('gulp-uglify');
 var size = require('gulp-filesize');
 var cncat = require('gulp-concat');
 var gulpif = require('gulp-if');
-var config = require('../config').frontend;
+var config = require('../config.frontend');
 var env = require('gulp-env');
 
 gulp.task('js-vendors', function () {
