@@ -377,9 +377,9 @@ class Image extends Model implements ImageContract
     public function toHtml($thumb, $attributes = [])
     {
         $htmlAttributes = '';
- +      foreach ($attributes as $key => $attribute) {
- +            $htmlAttributes .= $key.'="'.$attribute.'" ';
- +      }
+        foreach ($attributes as $key => $attribute) {
+            $htmlAttributes .= $key.'="'.$attribute.'" ';
+        }
         
         if ($this->exists) {
             if (! in_array($thumb, $this->getThumbnails())) {
