@@ -13,7 +13,7 @@ module.exports = {
         vendors + "/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css",
         vendors + "/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
     ],
-    sass: src + "/admin/sass/**/*.{sass,scss}",
+    sass: src + "/sass/**/*.s[a|c]ss",
     dest: dest + "/css",
     devSettings: {
         outputStyle: "expanded",

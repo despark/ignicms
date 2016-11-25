@@ -5,6 +5,7 @@ composer.lock
 /public/css
 /public/js
 /public/fonts
+/public/images
 /resources/assets/temp
 Homestead.yaml
 Homestead.json
