@@ -722,5 +722,3 @@ function _init() {
     };
 }(jQuery));
 
-
-

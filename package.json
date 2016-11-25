@@ -8,12 +8,10 @@
   },
   "scripts": {
     "init": "npm i && bower i",
-    "start": "gulp",
-    "start-server": "gulp start",
-    "build-dev": "gulp js && gulp sass",
-    "build-prod": "gulp production",
-    "js-lint": "gulp jslint",
-    "sass-lint": "gulp stylelint"
+    "start:fe": "gulp watch:fe",
+    "start:be": "gulp watch:be",
+    "dev:fe": "gulp dev:fe",
+    "dev:be": "gulp dev:be"
   },
   "license": "MIT",
   "dependencies": {
