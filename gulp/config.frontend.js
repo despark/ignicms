@@ -33,6 +33,7 @@ module.exports = {
     },
     js: {
         src: src + "/js/**/*.js",
+        fileSrc: src + '/js/app.js',
         dest: dest + "/js"
     },
     images: {

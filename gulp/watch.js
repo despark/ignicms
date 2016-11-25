@@ -8,7 +8,7 @@ gulp.task('watch:fe', ['build:fe'], function () {
         gulp.start('sass:fe', done);
     }));
     gulp.watch(config.frontend.js.src, batch(function (events, done) {
-        gulp.start('js-app', done);
+        gulp.start('js-app', ['eslint'], done);
     }));
     gulp.watch(config.frontend.images.src, batch(function (events, done) {
         gulp.start('images', done);
