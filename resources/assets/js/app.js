@@ -2,28 +2,16 @@
 /* jshint node: true */
 /* global $:false */
 
-'use strict';
+import $ from 'jquery';
+import {
+    getCurrentURI,
+    updateQueryStringParameter,
+    getParameterByName
+} from './utils';
 
-function getCurrentURI() {
-    return window.location.pathname + window.location.search;
-}
+$(document).ready(function(event) {
+    console.info('document is ready...');
+    console.log('getCurrentURI: ', getCurrentURI());
+});
 
-function updateQueryStringParameter(uri, key, value) {
-    var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
-    var separator = uri.indexOf('?') !== -1 ? "&" : "?";
 
-    if (uri.match(re)) {
-        return uri.replace(re, '$1' + key + "=" + value + '$2');
-    } else {
-        return uri + separator + key + "=" + value;
-    }
-}
-
-function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}

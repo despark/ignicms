@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var config = require('../config').sortable;
+var config = require('../config.backend').sortable;
 
 gulp.task('sortable', function () {
 

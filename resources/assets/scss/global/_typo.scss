@@ -43,7 +43,6 @@ h6,
 .title-section-lg {
     font-family: $font-family-basic;
     font-weight: $font-weight-bold;
-    color: $col-black-alpha;
     text-align: left;
 }
 
@@ -66,7 +65,6 @@ h2,
 // .title-page - 48 - 24
 .title-page,
 .title-page a {
-    color: $col-blue-alpha;
     @extend %fnt-def-m;
     @media screen and (min-width: $bp-in-between) {
         @include fontDef(-1, 56, 48);
@@ -91,16 +89,6 @@ h3,
     @extend %fnt-def-l;
     @media screen and (min-width: $bp-medium) {
         @include fontDef(-1, 86, 72);
-    }
-}
-.title-section-x {
-    &.is-red {
-        color: $col-red-alpha;
-    }
-}
-.title-section-x {
-    &.is-green {
-        color: $col-green-alpha;
     }
 }
 // .title-section - 48 - 38
@@ -134,10 +122,8 @@ h4,
     }
 }
 .title-article-md {
-    color: $col-blue-gamma;
     @include fontDef(0, 26, 18);
 }
-.title-article-s { color: $col-blue-gamma; }
 // .title-article - 28 - 28
 .title-article {
     @include fontDef(0, 32, 28);
@@ -200,80 +186,6 @@ h6,
 blockquote {
     @include fontDef(0, 26, 16);
 }
-q,
-blockquote,
-.para-intro {
-    @extend [class^="basic"];
-    color: $col-black-alpha;
-    padding-left: 40px;
-    position: relative;
-    &:before {
-        background-color: $col-black-alpha;
-        content: "";
-        display: block;
-        height: 2px;
-        left: 0;
-        position: absolute;
-        top: 15px;
-        width: 30px;
-    }
-    &.is-green
-    &.is-cs-color {
-        color: $col-green-beta;
-        &:before {
-            background-color: $col-green-beta;
-        }
-    }
-    &.is-cs-color-blue {
-        color: $col-blue-gamma;
-        &:before {
-            background-color: $col-blue-gamma;
-        }
-    }
-    @media screen and (min-width: $bp-medium) {
-        padding-left: 50px;
-        @include fontDef(0, 36, 24);
-        &:before {
-            width: 40px;
-        }
-    }
-}
-//p, .para-basic - 18 - 18
-p,
-.para-basic {
-    @extend [class^="secondary"];
-    @extend %fnt-def-s;
-    color: $col-black-alpha;
-}
-p,
-.para-basic,
-.para-small {
-    color: $col-gray-epsilon;
-}
-//.para-small - 14 - 14
-.para-small {
-    @extend [class^="secondary"];
-    @extend %fnt-def-xs;
-}
 
-// First Letter Paragraph
-.first-letter:first-letter {
-    @extend [class^="secondary"];
-    @extend [class="secondary-bold"];
-    float: left;
-    padding: 0 20px 0 0;
-    @include fontDef(0, 96, 102);
-    color: $col-black-alpha;
-}
-// Rotated text
-.is-rotated {
-    left: 0;
-    padding: 10px 0;
-    position: absolute;
-    text-align: right;
-    top: 0;
-    @include transform(rotate(-90deg) translate3d(-100%, -100%, 0));
-    @include transform-origin(0 0);
-}
 
 /* EOF Fonts section */
