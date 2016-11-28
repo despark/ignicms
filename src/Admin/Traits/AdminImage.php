@@ -677,15 +677,20 @@ trait AdminImage
     }
 
     /**
+     * @param null $type
      * @return bool
      */
     public function hasImages($type = null)
     {
         if ($type) {
-            return $this->images()->where('image_type', '=', $type)->exists();
+            if ($this->relationLoaded('images')) {
+                return $this->images->contains('image_type', $type);
+            } else {
+                return $this->images()->where('image_type', '=', $type)->exists();
+            }
         }
 
-        return (bool) count($this->images);
+        return (bool)count($this->images);
     }
 
     /**
