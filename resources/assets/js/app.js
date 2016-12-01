@@ -1,6 +1,3 @@
-/* jshint browser: true */
-/* jshint node: true */
-/* global $:false */
 
 import $ from 'jquery';
 import {

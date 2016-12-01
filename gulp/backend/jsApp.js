@@ -3,7 +3,6 @@ var uglify = require('gulp-uglify');
 var notify = require('gulp-notify');
 var size = require('gulp-filesize');
 var cncat = require('gulp-concat');
-var jshint = require('gulp-jshint');
 var gulpif = require('gulp-if');
 var config = require('../config.backend').js;
 var env = require('gulp-env');
