@@ -27,12 +27,7 @@
                     <h4>{{ array_get($notification, 'title') }}</h4>
                     {{ array_get($notification, 'description') }}
                 </div>
-        @endif
-
-        <!-- <h1>
-                    @yield('contentHeaderTitle', 'Despark Website Administration')
-                <small>@yield('contentHeaderDescription')</small>
-                </h1> -->
+            @endif
         </section>
         <section class="content">
             @yield('content')

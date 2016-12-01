@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'users' => [
+    'user' => [
         'name' => 'Team',
         'link' => '#',
         'isActive' => false,
@@ -14,14 +14,14 @@ return [
                 'isActive' => false,
                 'permissionsNeeded' => 'manage_users',
             ],
-            'permissions' => [
+            'permission' => [
                 'name' => 'Permissions',
                 'link' => 'permission.index',
                 'isActive' => false,
                 'iconClass' => 'fa-lock',
                 'permissionsNeeded' => 'manage_users',
             ],
-            'roles' => [
+            'role' => [
                 'name' => 'Roles',
                 'link' => 'role.index',
                 'isActive' => false,
@@ -30,7 +30,7 @@ return [
             ],
         ],
     ],
-    'seo_pages' => [
+    'seo_page' => [
         'name' => 'SEO Pages',
         'link' => 'seo_page.index',
         'isActive' => false,

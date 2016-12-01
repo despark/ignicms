@@ -23,7 +23,7 @@ return [
             'type' => 'manytomanySelect',
             'label' => 'Roles',
             'relationMethod' => 'roles',
-            'select_options' => 'rolesOptions',
+            'sourceModel' => \Despark\Cms\Sources\Users\Roles::class,
             'relationTextField' => 'name',
             'validateName' => 'roles',
             'selectedKey' => 'name',

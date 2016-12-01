@@ -13,7 +13,7 @@ return [
             'type' => 'manytomanySelect',
             'label' => 'Permissions',
             'relationMethod' => 'permissions',
-            'select_options' => 'getPermissions',
+            'sourceModel' => \Despark\Cms\Sources\Users\Permissions::class,
             'relationTextField' => 'name',
             'validateName' => 'permissions',
             'selectedKey' => 'name',
