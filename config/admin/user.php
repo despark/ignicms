@@ -3,8 +3,8 @@
 return [
 
     'adminColumns' => [
-        ['name' => 'Name', 'db_field' => 'name'],
-        ['name' => 'Email', 'db_field' => 'email'],
+        'name',
+        'email',
     ],
     'adminFormFields' => [
         'name' => [

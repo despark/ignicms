@@ -1,12 +1,8 @@
 <?php
 
 return [
-
     'adminColumns' => [
-        [
-            'name' => 'Name',
-            'db_field' => 'name',
-        ],
+        'name',
     ],
     'adminFormFields' => [
         'name' => [

@@ -10,20 +10,20 @@ return [
         'subMenu' => [
             'users_manager' => [
                 'name' => 'Users Manager',
-                'link' => 'admin.users.index',
+                'link' => 'user.index',
                 'isActive' => false,
                 'permissionsNeeded' => 'manage_users',
             ],
             'permissions' => [
                 'name' => 'Permissions',
-                'link' => 'permissions.index',
+                'link' => 'permission.index',
                 'isActive' => false,
                 'iconClass' => 'fa-lock',
                 'permissionsNeeded' => 'manage_users',
             ],
             'roles' => [
                 'name' => 'Roles',
-                'link' => 'roles.index',
+                'link' => 'role.index',
                 'isActive' => false,
                 'iconClass' => 'fa-people',
                 'permissionsNeeded' => 'manage_users',
@@ -32,7 +32,7 @@ return [
     ],
     'seo_pages' => [
         'name' => 'SEO Pages',
-        'link' => 'seo_pages.index',
+        'link' => 'seo_page.index',
         'isActive' => false,
         'iconClass' => 'fa-tags',
         'permissionsNeeded' => 'manage_users',
