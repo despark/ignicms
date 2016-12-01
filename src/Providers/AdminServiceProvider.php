@@ -123,6 +123,9 @@ class AdminServiceProvider extends ServiceProvider
             __DIR__.'/../../package.json' => base_path('package.json'),
             __DIR__.'/../../bower.json' => base_path('bower.json'),
             __DIR__.'/../../.bowerrc' => base_path('.bowerrc'),
+            __DIR__.'/../../.babelrc' => base_path('.babelrc'),
+            __DIR__.'/../../.eslintrc' => base_path('.eslintrc'),
+            __DIR__.'/../../.editorconfig' => base_path('.editorconfig'),
             __DIR__.'/../../gulpfile.js' => base_path('gulpfile.js'),
         ]);
 
