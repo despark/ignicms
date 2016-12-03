@@ -22,7 +22,7 @@ trait UploadImagesTrait
                     $filename = $file->getClientOriginalName();
                     $extension = '.'.$file->getClientOriginalExtension();
 
-                    $originalThumbnailPath = $this->getThumbnailPath('original').$this->id.DIRECTORY_SEPARATOR;
+                    $originalThumbnailPath = public_path($this->getThumbnailPath('original').$this->id.DIRECTORY_SEPARATOR);
                     if (!File::isDirectory($originalThumbnailPath)) {
                         File::makeDirectory($originalThumbnailPath, 0755, true);
                     }
@@ -52,7 +52,7 @@ trait UploadImagesTrait
                                 break;
                         }
 
-                        $thumbnailPath = $this->getThumbnailPath($thumbnailName);
+                        $thumbnailPath = public_path($this->getThumbnailPath($thumbnailName));
 
                         if (!File::isDirectory($thumbnailPath.$this->id)) {
                             File::makeDirectory($thumbnailPath.$this->id, 0755, true);
