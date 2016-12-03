@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,10 +11,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['middleware' => ['web']], function ()
-{
-    Route::get('/', ['as' => 'work', 'uses' => 'HomeController@index']);
-
+Route::group(['middleware' => ['web']], function () {
     // Authentication routes...
     Route::get('auth/login', 'Auth\AuthController@getLogin');
     Route::post('auth/login', 'Auth\AuthController@postLogin');
