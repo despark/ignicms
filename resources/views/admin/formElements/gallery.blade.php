@@ -40,7 +40,7 @@
 
     <div class="file-upload-widget">
         <div class="uploader">
-            <span class="pick-images btn btn-default"><i class="fa fa-picture-o"></i>&nbsp;Add images</span>
+            <span class="pick-images btn btn-default"><i class="fa fa-picture-o"></i>@if(isset($options['single_file']) && $options['single_file'])Add image @else Add images @endif</span>
             @if($videosAllowed)
                 <span class="add-video btn btn-default"><i class="fa fa-video-camera"></i>&nbsp;Add video</span>
             @endif
