@@ -55,7 +55,7 @@ module.exports = {
             vendors + '/moment/min/moment.min.js',
             vendors + '/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js',
             vendors + '/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
-            src + '/admin/js/**/*.js'
+            src + '/js/**/*.js'
         ],
         dest: dest + '/js'
     },
