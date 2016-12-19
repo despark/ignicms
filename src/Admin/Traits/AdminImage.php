@@ -90,14 +90,14 @@ trait AdminImage
         $assetManager->addJs('js/sortable/Sortable.min.js');
 
         // We need to listen for booted event and modify the model.
-        static::$dispatcher->listen('igni.model.booted: '.static::class, [static::class, 'bootstrapModel']);
+        static::$dispatcher->listen('igni.model.booted: '.static::class, [new static, 'bootstrapModel']);
     }
 
     /**
      * @param $model
      * @throws ModelSanityException
      */
-    public static function bootstrapModel($model)
+    public function bootstrapModel($model)
     {
         if (! property_exists($model, 'rules')) {
             throw new ModelSanityException('Missing rules property for model '.get_class($model));
@@ -121,8 +121,8 @@ trait AdminImage
             }
         }
 
+        $this->setRetinaFactor(config('ignicms.images.retina_factor'));
 
-        $model->retinaFactor = config('ignicms.images.retina_factor');
         foreach ($imageFields as $fieldName => $field) {
             $model->prepareImageRules($model, 'rules', $fieldName, $field);
         }
@@ -176,9 +176,11 @@ trait AdminImage
             }
 
             if (strstr($modelRules[$fieldName], 'max:') === false) {
-                $rules[] = 'max:'.config('ignicms.images.max_upload_size');
-                $modelRules[$fieldName] = 'dimensions:'.implode(',', $restrictions).
-                    '|max:'.config('ignicms.images.max_upload_size');
+                if ($maxImageSize = config('ignicms.images.max_upload_size')) {
+                    $rules[] = 'max:'.$maxImageSize;
+                    $modelRules[$fieldName] = 'dimensions:'.implode(',', $restrictions).
+                        '|max:'.$maxImageSize;
+                }
             }
             // Check to see for dimensions rule and remove it.
             if (strstr($modelRules[$fieldName], 'dimensions:') !== false) {
@@ -191,8 +193,11 @@ trait AdminImage
             $rules[] = 'dimensions:'.implode(',', $restrictions);
             $modelRules[$fieldName] = implode('|', $rules);
         } else {
-            $modelRules[$fieldName] = 'max:'.config('ignicms.images.max_upload_size').
-                '|dimensions:'.implode(',', $restrictions);
+            $modelRules[$fieldName] = '';
+            if ($maxImageSize = config('ignicms.images.max_upload_size')) {
+                $modelRules[$fieldName] .= 'max:'.$maxImageSize.'|';
+            }
+            $modelRules[$fieldName] .= 'dimensions:'.implode(',', $restrictions);
         }
 
         $model->$setter($modelRules);
@@ -810,5 +815,16 @@ trait AdminImage
     public function getRetinaFactor()
     {
         return $this->retinaFactor;
+    }
+
+    /**
+     * @param $factor
+     * @return $this
+     */
+    public function setRetinaFactor($factor)
+    {
+        $this->retinaFactor = $factor;
+
+        return $this;
     }
 }
