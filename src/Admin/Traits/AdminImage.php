@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Image;
 use Symfony\Component\HttpFoundation\File\File;
-use Validator;
 
 /**
  * Class AdminImage.
@@ -91,14 +90,14 @@ trait AdminImage
         $assetManager->addJs('js/sortable/Sortable.min.js');
 
         // We need to listen for booted event and modify the model.
-        \Event::listen('eloquent.booted: '.static::class, [new self, 'bootstrapModel']);
+        static::$dispatcher->listen('igni.model.booted: '.static::class, [static::class, 'bootstrapModel']);
     }
 
     /**
      * @param $model
      * @throws ModelSanityException
      */
-    public function bootstrapModel($model)
+    public static function bootstrapModel($model)
     {
         if (! property_exists($model, 'rules')) {
             throw new ModelSanityException('Missing rules property for model '.get_class($model));
@@ -117,16 +116,15 @@ trait AdminImage
 
         // Check for fields collisions
         foreach ($imageFields as $imageFieldName => $imageField) {
-            $imageMetaFields = $this->getImageMetaFields($imageFieldName);
+            $imageMetaFields = $model->getImageMetaFields($imageFieldName);
             foreach ($imageMetaFields as $metaFieldName => $options) {
             }
         }
 
-        $this->retinaFactor = config('ignicms.images.retina_factor');
-        if ($this->retinaFactor) {
-            foreach ($imageFields as $fieldName => $field) {
-                $this->prepareImageRules($model, 'rules', $fieldName, $field);
-            }
+
+        $model->retinaFactor = config('ignicms.images.retina_factor');
+        foreach ($imageFields as $fieldName => $field) {
+            $model->prepareImageRules($model, 'rules', $fieldName, $field);
         }
     }
 
@@ -149,7 +147,7 @@ trait AdminImage
         // Calculate minimum allowed image size.
         list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
         // Set dimensions on the model.
-        $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);
+        $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);;
 
         $modelRules = $model->$getter();
 
@@ -160,18 +158,32 @@ trait AdminImage
         if ($minHeight) {
             $restrictions[] = 'min_height='.$minHeight;
         }
+
         // Prepare model rules.
         if (isset($modelRules[$fieldName])) {
+            // We need to get widget config
+
+
             $rules = explode('|', $modelRules[$fieldName]);
-            if (strstr('max:', $modelRules[$fieldName]) === false) {
+
+            $fieldConfig = $model->getFormField($fieldName);
+            if ($fieldConfig['type'] == 'gallery') {
+
+                // we need to remove the required attribute as we validate elsewhere
+                if (($requiredKey = array_search('required', $rules)) !== false) {
+                    unset($rules[$requiredKey]);
+                }
+            }
+
+            if (strstr($modelRules[$fieldName], 'max:') === false) {
                 $rules[] = 'max:'.config('ignicms.images.max_upload_size');
                 $modelRules[$fieldName] = 'dimensions:'.implode(',', $restrictions).
                     '|max:'.config('ignicms.images.max_upload_size');
             }
             // Check to see for dimensions rule and remove it.
-            if (strstr('dimensions:', $modelRules[$fieldName]) !== false) {
+            if (strstr($modelRules[$fieldName], 'dimensions:') !== false) {
                 foreach ($rules as $key => $rule) {
-                    if (strstr('dimensions:', $rule) !== false) {
+                    if (strstr($rule, 'dimensions:') !== false) {
                         unset($rules[$key]);
                     }
                 }
@@ -182,6 +194,7 @@ trait AdminImage
             $modelRules[$fieldName] = 'max:'.config('ignicms.images.max_upload_size').
                 '|dimensions:'.implode(',', $restrictions);
         }
+
         $model->$setter($modelRules);
     }
 
@@ -571,7 +584,7 @@ trait AdminImage
     }
 
     /**
-     * @param $fieldName
+     * @param               $fieldName
      * @param ImageContract $imageModel
      * @param null $actualFieldName
      * @return string
@@ -690,7 +703,7 @@ trait AdminImage
             }
         }
 
-        return (bool)count($this->images);
+        return (bool) count($this->images);
     }
 
     /**

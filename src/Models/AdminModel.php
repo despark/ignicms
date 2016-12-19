@@ -7,7 +7,6 @@ use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Despark\Cms\Observers\AdminModelObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminModel.
@@ -53,7 +52,18 @@ abstract class AdminModel extends Model
     protected $videoSupport;
 
     /**
-     *
+     * AdminModel constructor.
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        return static::$dispatcher->fire('igni.model.booted: '.static::class, $this);
+    }
+
+    /**
+     * Static boot method.
      */
     public static function boot()
     {
