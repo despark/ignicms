@@ -65,6 +65,11 @@ trait AdminImage
     protected $imagesOfType;
 
     /**
+     * @var array
+     */
+    protected $requiredImages = [];
+
+    /**
      * @return MorphMany
      */
     public function images()
@@ -159,19 +164,27 @@ trait AdminImage
             $restrictions[] = 'min_height='.$minHeight;
         }
 
+        // Find actual field name
+        // Try to get the field config for the image.
+        foreach ($model->getFormFields() as $formFieldName => $config) {
+
+            if ($config['type'] == 'gallery' && isset($config['image_field']) && $config['image_field'] == $fieldName) {
+                $fieldName = $formFieldName;
+                break;
+            }
+        }
+
         // Prepare model rules.
         if (isset($modelRules[$fieldName])) {
             // We need to get widget config
-
-
             $rules = explode('|', $modelRules[$fieldName]);
 
             $fieldConfig = $model->getFormField($fieldName);
             if ($fieldConfig['type'] == 'gallery') {
-
                 // we need to remove the required attribute as we validate elsewhere
                 if (($requiredKey = array_search('required', $rules)) !== false) {
-                    unset($rules[$requiredKey]);
+                    $rules[$requiredKey] = 'gallery_required:'.get_class($model);
+                    $this->requiredImages[$fieldName] = $fieldName;
                 }
             }
 
@@ -201,6 +214,42 @@ trait AdminImage
         }
 
         $model->$setter($modelRules);
+    }
+
+    /**
+     * @param $field
+     * @return bool
+     */
+    public function hasFieldValue($field)
+    {
+        $newFiles = array_get($this->files, 'new.image', []);
+
+        foreach ($newFiles as $fieldName => $file) {
+            if ($fieldName == $field) {
+                return true;
+            }
+        }
+
+        $existingFiles = array_get($this->files, 'image', []);
+
+        foreach ($existingFiles as $fieldName => $files) {
+            if ($fieldName == $field) {
+                $deleted = 0;
+                $fileCount = count($files);
+                foreach ($files as $file) {
+                    if ($file['delete']) {
+                        $deleted++;
+                    }
+                }
+                if ($fileCount == $deleted) {
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -252,7 +301,6 @@ trait AdminImage
                     // We will save just the source one as a relation.
                     /** @var \Illuminate\Http\File $sourceFile */
                     $sourceFile = $images['original']['source'];
-
 
                     $imageModel = app(ImageContract::class, [
                         'original_image' => $sourceFile->getFilename(),
@@ -740,10 +788,20 @@ trait AdminImage
     {
         $minDimensions = isset($this->minDimensions[$field]) ? $this->minDimensions[$field] : null;
         if (is_null($minDimensions)) {
-            // we try to build it.
-            //  Get image fields from the model
+
+            // Get image fields from the model and try to find the image field
+            // Todo make this detection a method!
             $imageFields = $this->getImageFields();
             $imageField = array_get($imageFields, (string) $field);
+
+            if (! $imageField) {
+                // We try the admin form field config
+                $formField = $this->getFormField($field);
+                if ($formField && $formField['type'] == 'gallery' && isset($formField['image_field'])) {
+                    $imageField = $formField['image_field'];
+                }
+            }
+
             if ($imageField) {
                 list($minDimensions['width'], $minDimensions['height']) = $this->getMinAllowedImageSize($imageField);
                 // Cache it.
@@ -773,6 +831,28 @@ trait AdminImage
         }
 
         return $minDimensions;
+    }
+
+    /**
+     * @param $field
+     * @return int
+     */
+    public function getMinWidth($field)
+    {
+        $dimensions = $this->getMinDimensions($field);
+
+        return $dimensions['width'];
+    }
+
+    /**
+     * @param $field
+     * @return int
+     */
+    public function getMinHeight($field)
+    {
+        $dimensions = $this->getMinDimensions($field);
+
+        return $dimensions['height'];
     }
 
     /**
@@ -826,5 +906,13 @@ trait AdminImage
         $this->retinaFactor = $factor;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequiredImages()
+    {
+        return $this->requiredImages;
     }
 }

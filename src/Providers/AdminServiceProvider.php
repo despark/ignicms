@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Providers;
 
+use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Assets\AssetManager;
 use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Contracts\ImageContract;
@@ -17,6 +18,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Foundation\AliasLoader;
 use File;
 use Despark\Cms\Admin\Admin;
+use Illuminate\Validation\Validator;
 use Mailchimp;
 use Spatie\Permission\Contracts\Permission;
 use Spatie\Permission\Contracts\Role;
@@ -137,6 +139,8 @@ class AdminServiceProvider extends ServiceProvider
                 }
             }
         }
+
+        $this->addValidators();
     }
 
     /**
@@ -210,6 +214,8 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ViewContract::class, View::class);
 
         $this->registerFactory();
+
+
     }
 
     /**
@@ -238,5 +244,27 @@ class AdminServiceProvider extends ServiceProvider
 
             return $env;
         });
+    }
+
+    /**
+     * Add custom validators
+     * @todo Create validators with classes.
+     */
+    public function addValidators()
+    {
+        \Validator::extendImplicit('gallery_required', function ($attribute, $value, $parameters, $validator) {
+            /** @var Validator $validator */
+
+            if (class_exists($parameters[0])) {
+                $model = new $parameters[0];
+                // we need to build the model
+                $model->fill(request()->all());
+                if (method_exists($model, 'getRequiredImages')) {
+                    return $model->hasFieldValue($attribute);
+                }
+            }
+
+            return false;
+        }, trans('validation.required'));
     }
 }

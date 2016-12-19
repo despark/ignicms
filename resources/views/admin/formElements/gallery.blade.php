@@ -40,7 +40,9 @@
 
     <div class="file-upload-widget">
         <div class="uploader">
-            <span class="pick-images btn btn-default"><i class="fa fa-picture-o"></i>@if(isset($options['single_file']) && $options['single_file'])Add image @else Add images @endif</span>
+            <span class="pick-images btn btn-default"><i
+                        class="fa fa-picture-o"></i>@if(isset($options['single_file']) && $options['single_file'])Add
+                image @else Add images @endif</span>
             @if($videosAllowed)
                 <span class="add-video btn btn-default"><i class="fa fa-video-camera"></i>&nbsp;Add video</span>
             @endif
@@ -88,6 +90,9 @@
             this.defaultWidth = '{{config('ignicms.images.admin_thumb_width',200)}}';
             this.defaultHeight = '{{config('ignicms.images.admin_thumb_height',200)}}';
 
+            this.minWidth = '{{$record->getMinWidth($imageFieldName)}}';
+            this.minHeight = '{{$record->getMinHeight($imageFieldName)}}';
+
             this.addVideoButton = $('#file-widget-' + config.fieldName + ' .add-video');
 
             this.addVideoButton.on('click', null, this.config, function (e) {
@@ -112,7 +117,7 @@
 
                 // Add delete button
                 $('<button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>')
-                        .appendTo(li);
+                    .appendTo(li);
 
             });
 
@@ -138,10 +143,10 @@
                     var group = $('<div class="form-group"/>').appendTo(appendTo);
                     $('<label>' + label + '</label>').appendTo(group);
                     $('<input type="' + type + '" class="' + className + '" name="' + name + '" value="' + value + '"/>')
-                            .appendTo(group);
+                        .appendTo(group);
                 } else {
                     $('<input type="' + type + '" class="' + className + '" name="' + name + '" value="' + value + '"/>')
-                            .appendTo(appendTo);
+                        .appendTo(appendTo);
                 }
             };
         };
@@ -151,30 +156,30 @@
                 animate = true;
             }
             $('input.delete-status', item).val(1);
-            if (animate){
+            if (animate) {
                 item.fadeOut('slow');
-            }else{
+            } else {
                 item.hide();
             }
         };
 
         var uploader = new IgniGallery.create({
-                    fieldName: '{{$fieldName}}',
-                    previewUrl: '{{route('image.preview')}}',
-                    imageFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($imageFieldName, null, $fieldName)) !!},
-                    $context: $('#file-widget-{{$fieldName}}'),
-                    $formContainer: $('#file-widget-{{$fieldName}} .uploaded-images'),
-                    $fileList: $('#file-widget-{{$fieldName}} .file-list'),
-                    browseButton: $('#file-widget-{{$fieldName}} .pick-images')[0],
-                    dropZone: $('#file-widget-{{$fieldName}} .uploader')[0],
-                    singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
+                fieldName: '{{$fieldName}}',
+                previewUrl: '{{route('image.preview')}}',
+                imageFieldsHtml: {!! json_encode($record->getImageMetaFieldsHtml($imageFieldName, null, $fieldName)) !!},
+                $context: $('#file-widget-{{$fieldName}}'),
+                $formContainer: $('#file-widget-{{$fieldName}} .uploaded-images'),
+                $fileList: $('#file-widget-{{$fieldName}} .file-list'),
+                browseButton: $('#file-widget-{{$fieldName}} .pick-images')[0],
+                dropZone: $('#file-widget-{{$fieldName}} .uploader')[0],
+                singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
 
-                },
-                new Flow({
-                    target: '{{route('image.upload')}}',
-                    query: {_token: '{{csrf_token()}}'},
-                    singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
-                })
+            },
+            new Flow({
+                target: '{{route('image.upload')}}',
+                query: {_token: '{{csrf_token()}}'},
+                singleFile: {{isset($options['single_file']) ? var_export($options['single_file'], true) : 'false'}}
+            })
         );
 
         uploader.createSortable();
@@ -220,7 +225,7 @@
 
             // Add delete button
             $('<button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>')
-                    .appendTo(li);
+                .appendTo(li);
 
             // Add file ids
             name = '_files[new][' + elementType + '][' + uploader.config.fieldName + '][' + file.serverId + '][id]';
@@ -244,6 +249,46 @@
             if (file.file.type.indexOf('image/') !== 0) {
                 return false;
             }
+            //dimensions validator
+            if (file.file.dimensions) {
+                file.dimensions = file.file.dimensions;
+                var widthFailed = false,
+                    heightFailed = false;
+
+                if (uploader.minWidth) {
+                    if (file.dimensions.width < uploader.minWidth) {
+                        widthFailed = true;
+                    }
+                }
+
+                if (uploader.minHeight) {
+                    if (file.dimensions.height < uploader.minHeight) {
+                        heightFailed = true;
+                    }
+                }
+
+                if(widthFailed || heightFailed){
+                    alert('Uploaded image has not reached minimum image dimensions.');
+                    return false;
+                }
+
+            // Dimensions are valid.
+                return true;
+            }
+            var fileReader = new FileReader();
+            fileReader.readAsDataURL(file.file);
+            fileReader.onload = function (event) {
+                var img = new Image();
+                img.onload = function () {
+                    file.file.dimensions = {
+                        width: this.width,
+                        height: this.height
+                    };
+                    uploader.flowjs.addFile(file.file);
+                }
+                img.src = event.target.result
+            };
+            return false;
         };
 
         uploader.errorHandler = function (message, file, chunk) {
