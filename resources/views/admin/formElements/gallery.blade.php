@@ -58,6 +58,13 @@
     @elseif($dimensions = $record->getMinDimensions($imageFieldName, true))
         <div class="help-text">{{ trans('admin.images.min_dimensions' , ['dimensions' => $dimensions]) }}</div>
     @endif
+    @if($errors->has($fieldName))
+        <div class="text-red">
+            @foreach ($errors->get($fieldName) as $message)
+                <p>{{$message}}</p>
+            @endforeach
+        </div>
+    @endif
 </div>
 
 @push('additionalScripts')
