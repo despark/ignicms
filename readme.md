@@ -24,7 +24,7 @@ For Laravel versions 5.2 use branch v2.0
   "require": {
      "php": ">=5.5.9",
      "laravel/framework": "5.1.*",
-     "despark/ignicms": "~3.0"
+     "despark/ignicms": "dev-master"
   },
   ```
 
