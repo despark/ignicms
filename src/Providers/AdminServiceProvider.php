@@ -2,26 +2,25 @@
 
 namespace Despark\Cms\Providers;
 
-use Despark\Cms\Admin\Traits\AdminImage;
-use Despark\Cms\Assets\AssetManager;
-use Despark\Cms\Contracts\AssetsContract;
-use Despark\Cms\Contracts\ImageContract;
-use Despark\Cms\Helpers\FileHelper;
-use Despark\Cms\Http\Middleware\RoleMiddleware;
-use Despark\Cms\Illuminate\View\View;
-use Despark\Cms\Models\Image;
-use Illuminate\Console\AppNamespaceDetectorTrait;
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\View\View as ViewContract;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
-use Illuminate\Foundation\AliasLoader;
 use File;
-use Despark\Cms\Admin\Admin;
-use Illuminate\Validation\Validator;
 use Mailchimp;
-use Spatie\Permission\Contracts\Permission;
+use Despark\Cms\Admin\Admin;
+use Despark\Cms\Models\Image;
+use Illuminate\Routing\Router;
+use Despark\Cms\Helpers\FileHelper;
+use Despark\Cms\Assets\AssetManager;
+use Illuminate\Validation\Validator;
+use Despark\Cms\Illuminate\View\View;
 use Spatie\Permission\Contracts\Role;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\ServiceProvider;
+use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Contracts\AssetsContract;
+use Illuminate\Console\Scheduling\Schedule;
+use Spatie\Permission\Contracts\Permission;
+use Despark\Cms\Http\Middleware\RoleMiddleware;
+use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Contracts\View\View as ViewContract;
 
 class AdminServiceProvider extends ServiceProvider
 {
@@ -49,7 +48,6 @@ class AdminServiceProvider extends ServiceProvider
             $schedule = $this->app->make(Schedule::class);
             $schedule->command('igni:file:clear')->weeklyOn(6);
         });
-
 
         // Route Middleware
         $router->middleware('role', RoleMiddleware::class);
@@ -80,7 +78,6 @@ class AdminServiceProvider extends ServiceProvider
 
         // Register the application commands
         $this->commands($this->commands);
-
 
         // Publish the Resources
         // Migrations
@@ -214,8 +211,6 @@ class AdminServiceProvider extends ServiceProvider
         $this->app->bind(ViewContract::class, View::class);
 
         $this->registerFactory();
-
-
     }
 
     /**
@@ -247,13 +242,13 @@ class AdminServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add custom validators
+     * Add custom validators.
      * @todo Create validators with classes.
      */
     public function addValidators()
     {
         \Validator::extendImplicit('gallery_required', function ($attribute, $value, $parameters, $validator) {
-            /** @var Validator $validator */
+            /* @var Validator $validator */
 
             if (class_exists($parameters[0])) {
                 $model = new $parameters[0];

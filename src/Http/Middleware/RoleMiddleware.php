@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RoleMiddleware

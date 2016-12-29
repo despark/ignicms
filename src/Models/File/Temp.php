@@ -4,8 +4,8 @@ namespace Despark\Cms\Models\File;
 
 use Despark\Cms\Helpers\FileHelper;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
  * Class Temp.

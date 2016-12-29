@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Sources\Users;
 
-use Despark\Cms\Contracts\SourceModel;
 use Despark\Cms\Models\Role;
+use Despark\Cms\Contracts\SourceModel;
 
 class Roles implements SourceModel
 {
@@ -12,7 +12,7 @@ class Roles implements SourceModel
       */
      public function toOptionsArray()
      {
-         if (!isset($this->options)) {
+         if (! isset($this->options)) {
              $this->options = Role::orderBy('name')->pluck('name', 'name')->toArray();
          }
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Despark\Cms\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
-use Despark\Cms\Models\Role;
 
 class RolesController extends AdminController
 {

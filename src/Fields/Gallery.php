@@ -2,11 +2,11 @@
 
 namespace Despark\Cms\Fields;
 
-use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Models\Image;
 use Despark\Cms\Models\Video;
-use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Models\AdminModel;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Gallery.

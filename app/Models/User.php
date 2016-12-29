@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
+use Conner\Tagging\Taggable;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
+use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Despark\Cms\Models\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Despark\Cms\Models\Auth\User as Authenticatable;
-use Conner\Tagging\Taggable;
-use Despark\Cms\Admin\Traits\AdminModelTrait;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements
     AuthenticatableContract,

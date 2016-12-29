@@ -3,8 +3,8 @@
 namespace Despark\Cms\Observers;
 
 use Carbon\Carbon;
-use Despark\Cms\Models\AdminModel;
 use Despark\Cms\Models\Video;
+use Despark\Cms\Models\AdminModel;
 use Illuminate\Database\Eloquent\Collection;
 
 /**

@@ -2,13 +2,12 @@
 
 namespace Despark\Cms\Http\Controllers\Admin;
 
-use App\Helpers\Debug;
-use Despark\Cms\Http\Controllers\Controller;
-use Despark\Cms\Models\AdminModel;
 use View;
-use Yajra\Datatables\Datatables;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
+use Despark\Cms\Models\AdminModel;
+use Despark\Cms\Http\Controllers\Controller;
 
 /**
  * Class AdminController.
@@ -141,7 +140,6 @@ class AdminController extends Controller
             // We should refactor this and find actual related field.
             $query->select($table.'.*');
         }
-
 
         return $query;
     }

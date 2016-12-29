@@ -2,13 +2,13 @@
 
 namespace Despark\Cms\Console\Commands\Compilers;
 
-use Despark\Cms\Admin\Interfaces\UploadFileInterface;
-use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Illuminate\Console\Command;
 use Despark\Cms\Admin\Traits\AdminFile;
 use Despark\Cms\Admin\Traits\AdminImage;
-use Despark\Cms\Console\Commands\Admin\ResourceCommand;
-use Illuminate\Console\Command;
 use Illuminate\Console\AppNamespaceDetectorTrait;
+use Despark\Cms\Admin\Interfaces\UploadFileInterface;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Despark\Cms\Console\Commands\Admin\ResourceCommand;
 
 /**
  * Class ResourceCompiler.
@@ -164,7 +164,6 @@ class ResourceCompiler
         }
 
         $this->appendToFile(base_path('routes/resources.php'), $route);
-
 
         $template = strtr($template, $this->modelReplacements);
 

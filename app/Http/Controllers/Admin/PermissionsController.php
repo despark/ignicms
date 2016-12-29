@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\PermissionRequest;
-use Despark\Cms\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Response;
 use Despark\Cms\Models\Permission;
+use App\Http\Requests\PermissionRequest;
+use Despark\Cms\Http\Controllers\Admin\AdminController;
 
 class PermissionsController extends AdminController
 {

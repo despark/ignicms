@@ -2,22 +2,22 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Despark\Cms\Admin\Helpers\FormBuilder;
-use Despark\Cms\Admin\Observers\ImageObserver;
-use Despark\Cms\Contracts\AssetsContract;
-use Despark\Cms\Contracts\ImageContract;
-use Despark\Cms\Exceptions\ModelNotPersistedException;
-use Despark\Cms\Exceptions\ModelSanityException;
-use Despark\Cms\Helpers\FileHelper;
-use Despark\Cms\Models\AdminModel;
-use Despark\Cms\Models\File\Temp;
-use File as FileFacade;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Http\UploadedFile;
 use Image;
+use File as FileFacade;
+use Despark\Cms\Models\File\Temp;
+use Illuminate\Http\UploadedFile;
+use Despark\Cms\Models\AdminModel;
+use Despark\Cms\Helpers\FileHelper;
+use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Contracts\AssetsContract;
+use Despark\Cms\Admin\Helpers\FormBuilder;
+use Illuminate\Database\Eloquent\Collection;
+use Despark\Cms\Admin\Observers\ImageObserver;
 use Symfony\Component\HttpFoundation\File\File;
+use Despark\Cms\Exceptions\ModelSanityException;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Despark\Cms\Exceptions\ModelNotPersistedException;
 
 /**
  * Class AdminImage.
@@ -112,7 +112,6 @@ trait AdminImage
             throw new ModelSanityException('Model '.get_class($model).' must be instanceof '.AdminModel::class);
         }
 
-
         $imageFields = $model->getImageFields();
 
         if (! is_array($imageFields)) {
@@ -152,7 +151,7 @@ trait AdminImage
         // Calculate minimum allowed image size.
         list($minWidth, $minHeight) = $model->getMinAllowedImageSize($field);
         // Set dimensions on the model.
-        $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);;
+        $model->setMinDimensions($fieldName, ['width' => $minWidth, 'height' => $minHeight]);
 
         $modelRules = $model->$getter();
 
@@ -167,7 +166,6 @@ trait AdminImage
         // Find actual field name
         // Try to get the field config for the image.
         foreach ($model->getFormFields() as $formFieldName => $config) {
-
             if ($config['type'] == 'gallery' && isset($config['image_field']) && $config['image_field'] == $fieldName) {
                 $fieldName = $formFieldName;
                 break;
@@ -243,7 +241,7 @@ trait AdminImage
                 }
                 if ($fileCount == $deleted) {
                     return false;
-                }else{
+                } else {
                     return true;
                 }
             }
@@ -365,7 +363,6 @@ trait AdminImage
                         /** @var \Illuminate\Http\File $sourceFile */
                         $sourceFile = $images['original']['source'];
 
-
                         $imageModel = app(ImageContract::class, [
                             'original_image' => $sourceFile->getFilename(),
                             'retina_factor' => $this->getRetinaFactor() === false ? null : $this->getRetinaFactor(),
@@ -409,7 +406,6 @@ trait AdminImage
             $sourceFile = $file->move($this->getThumbnailPath(), $filename);
         }
         $images['original']['source'] = $sourceFile;
-
 
         // If we have retina factor
         if ($this->getRetinaFactor()) {
@@ -779,7 +775,6 @@ trait AdminImage
 
         return $this->images;
     }
-
 
     /**
      * @return mixed

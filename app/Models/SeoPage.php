@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Despark\Cms\Admin\Traits\AdminImage;
-use Despark\Cms\Admin\Traits\AdminModelTrait;
-use Despark\Cms\Admin\Traits\ModelWithSlug;
 use Despark\Cms\Models\AdminModel;
+use Despark\Cms\Admin\Traits\AdminImage;
+use Despark\Cms\Admin\Traits\ModelWithSlug;
+use Despark\Cms\Admin\Traits\AdminModelTrait;
 
 class SeoPage extends AdminModel
 {

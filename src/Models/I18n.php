@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Admin\Traits\AdminModelTrait;
 
 /**
  * Class I18n.

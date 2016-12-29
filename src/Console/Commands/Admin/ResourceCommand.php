@@ -2,10 +2,10 @@
 
 namespace Despark\Cms\Console\Commands\Admin;
 
-use Illuminate\Console\Command;
-use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
-use Symfony\Component\Console\Input\InputArgument;
 use File;
+use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
 
 /**
  * Class AdminResourceCommand.

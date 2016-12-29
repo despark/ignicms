@@ -2,10 +2,10 @@
 
 namespace Despark\Tests\Cms\Commands\Admin;
 
+use Mockery\Mock;
+use Despark\Tests\Cms\AbstractTestCase;
 use Despark\Cms\Console\Commands\Admin\ResourceCommand;
 use Despark\Cms\Console\Commands\Compilers\ResourceCompiler;
-use Despark\Tests\Cms\AbstractTestCase;
-use Mockery\Mock;
 
 class ResourceTest extends AbstractTestCase
 {
@@ -52,7 +52,6 @@ class ResourceTest extends AbstractTestCase
 
         // Check routes
         $output = exec('php -l '.storage_path('dummy_file.test'));
-
 
         $this->assertNotFalse(strstr($output, 'No syntax errors detected'));
 

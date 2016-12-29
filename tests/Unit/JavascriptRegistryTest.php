@@ -1,15 +1,13 @@
 <?php
 
-
 namespace Despark\Tests\Cms\Unit;
 
-
-use Despark\Cms\Javascript\Contracts\RegistryContract;
-use Despark\Cms\Providers\JavascriptServiceProvider;
 use Despark\Tests\Cms\AbstractTestCase;
+use Despark\Cms\Providers\JavascriptServiceProvider;
+use Despark\Cms\Javascript\Contracts\RegistryContract;
 
 /**
- * Class JavascriptRegistryTest
+ * Class JavascriptRegistryTest.
  */
 class JavascriptRegistryTest extends AbstractTestCase
 {
@@ -30,8 +28,6 @@ class JavascriptRegistryTest extends AbstractTestCase
 
         $this->assertEquals('value2', $registry->get('test', 'key2'));
         $this->assertEquals('dimension_value', $registry->get('test', 'dimension.key'));
-
-
     }
 
     /**

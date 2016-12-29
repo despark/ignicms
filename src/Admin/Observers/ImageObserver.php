@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Admin\Observers;
 
-use Despark\Cms\Contracts\ImageContract;
 use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Contracts\ImageContract;
 
 /**
  * Class ImageObserver.

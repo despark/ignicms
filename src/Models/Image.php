@@ -2,11 +2,11 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Admin\Interfaces\UploadImageInterface;
-use Despark\Cms\Contracts\ImageContract;
-use Despark\Cms\Exceptions\ImageFieldCollisionException;
-use Despark\Cms\Observers\ImageModelObserver;
 use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Observers\ImageModelObserver;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Despark\Cms\Exceptions\ImageFieldCollisionException;
 
 /**
  * Class Image.
@@ -241,7 +241,6 @@ class Image extends Model implements ImageContract
      */
     public function getCurrentUploadDir()
     {
-
         if (! $this->resource_model) {
             throw new \Exception('Missing resource model for model '.$this->getKey());
         }
@@ -281,7 +280,6 @@ class Image extends Model implements ImageContract
     {
         $this->attachMetaAttributes($attributes);
         parent::setRawAttributes($attributes, $sync);
-
 
         return $this;
     }
@@ -380,7 +378,7 @@ class Image extends Model implements ImageContract
         foreach ($attributes as $key => $attribute) {
             $htmlAttributes .= $key.'="'.$attribute.'" ';
         }
-        
+
         if ($this->exists) {
             if (! in_array($thumb, $this->getThumbnails())) {
                 throw new \Exception('Thumbnail '.$thumb.' not defined');
