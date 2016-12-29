@@ -1,13 +1,11 @@
 <?php
 
-
 namespace Despark\Cms\Console\Commands\Image;
-
 
 use Despark\Cms\Models\Image;
 use Illuminate\Console\Command;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Rebuild extends Command
 {
@@ -24,7 +22,6 @@ class Rebuild extends Command
      * @var string
      */
     protected $description = 'Rebuilds all image styles (Experimental)';
-
 
     public function __construct()
     {

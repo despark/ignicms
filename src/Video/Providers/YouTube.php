@@ -9,7 +9,6 @@ use Despark\Cms\Video\Provider;
  */
 class YouTube extends Provider
 {
-
     public function toHtml($preview = false)
     {
         if ($preview) {
@@ -18,5 +17,4 @@ class YouTube extends Provider
             return "<iframe src=\"https://www.youtube.com/embed/{$this->model->video_id}\" />";
         }
     }
-
 }

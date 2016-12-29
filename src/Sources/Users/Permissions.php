@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Sources\Users;
 
-use Despark\Cms\Contracts\SourceModel;
 use Despark\Cms\Models\Permission;
+use Despark\Cms\Contracts\SourceModel;
 
 class Permissions implements SourceModel
 {
@@ -12,7 +12,7 @@ class Permissions implements SourceModel
       */
      public function toOptionsArray()
      {
-         if (!isset($this->options)) {
+         if (! isset($this->options)) {
              $this->options = Permission::orderBy('name')->pluck('name', 'name')->toArray();
          }
 

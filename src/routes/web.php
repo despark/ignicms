@@ -26,7 +26,6 @@ Auth::routes();
 //    Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 //    Route::post('password/reset', 'Auth\PasswordController@postReset');
 
-
 // Admin
 Route::group(['prefix' => 'admin'], function () {
     // Authentication Routes...

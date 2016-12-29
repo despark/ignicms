@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Observers;
 
-use Despark\Cms\Contracts\ImageContract;
 use Despark\Cms\Models\Image;
+use Despark\Cms\Contracts\ImageContract;
 
 /**
  * Class ImageModelObserver.

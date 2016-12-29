@@ -2,10 +2,10 @@
 
 namespace Despark\Cms\Console\Commands\File;
 
-use Carbon\Carbon;
-use Despark\Cms\Models\File\Temp;
-use Illuminate\Console\Command;
 use DB;
+use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Despark\Cms\Models\File\Temp;
 
 /**
  * Class ClearTemp.

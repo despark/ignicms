@@ -21,7 +21,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Despark\Cms\Models\Image::class, function (Faker\Generator $faker) {
-    /**
+    /*
      * `resource_id` int(11) NOT NULL,
      * `resource_model` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
      * `image_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL,

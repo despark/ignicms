@@ -2,9 +2,9 @@
 
 namespace Despark\Cms\Http\Requests\File;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class FileUploadRequest.

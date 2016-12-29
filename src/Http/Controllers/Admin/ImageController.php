@@ -2,12 +2,12 @@
 
 namespace Despark\Cms\Http\Controllers\Admin;
 
+use Despark\Cms\Models\File\Temp;
+use Illuminate\Http\JsonResponse;
 use Despark\Cms\Helpers\FileHelper;
 use Despark\Cms\Http\Controllers\Controller;
 use Despark\Cms\Http\Requests\Image\ImageUploadRequest;
-use Despark\Cms\Models\File\Temp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class ImageUploadController.

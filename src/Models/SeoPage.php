@@ -2,9 +2,9 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 use Despark\Cms\Admin\Traits\AdminImage;
 use Despark\Cms\Admin\Traits\ModelWithSlug;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 
 class SeoPage extends AdminModel implements UploadImageInterface
 {

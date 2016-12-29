@@ -2,9 +2,9 @@
 
 namespace Despark\Cms\Http\Controllers\Admin\Auth;
 
+use Illuminate\Http\Request;
 use Despark\Cms\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class AdminLoginController extends Controller
 {

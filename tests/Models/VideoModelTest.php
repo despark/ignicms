@@ -3,8 +3,8 @@
 namespace Models;
 
 use Despark\Cms\Models\Video;
-use Despark\Cms\Video\Providers\YouTube;
 use Despark\Tests\Cms\AbstractTestCase;
+use Despark\Cms\Video\Providers\YouTube;
 
 /**
  * Class VideoModelTest.

@@ -2,8 +2,8 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Video\Providers\YouTube;
 use Illuminate\Database\Eloquent\Model;
+use Despark\Cms\Video\Providers\YouTube;
 
 /**
  * Class Video.

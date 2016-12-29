@@ -2,10 +2,10 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Intervention\Image\Facades\Image;
 use File;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UploadImagesTrait.

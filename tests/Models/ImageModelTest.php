@@ -2,10 +2,10 @@
 
 namespace Despark\Tests\Cms\Models;
 
-use Despark\Cms\Exceptions\ImageFieldCollisionException;
 use Despark\Cms\Models\Image;
 use Despark\Tests\Cms\AbstractTestCase;
 use Despark\Tests\Cms\Resources\TestResourceModel;
+use Despark\Cms\Exceptions\ImageFieldCollisionException;
 
 /**
  * Class ImageModelTest.

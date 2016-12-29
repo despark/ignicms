@@ -2,9 +2,9 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Despark\Cms\Admin\Helpers\FormBuilder;
 use Despark\Cms\Models\I18n;
 use Illuminate\Support\Facades\Request;
+use Despark\Cms\Admin\Helpers\FormBuilder;
 
 /**
  * Class AdminModelTrait.

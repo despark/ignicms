@@ -1,17 +1,14 @@
 <?php
 
-
 namespace Despark\Cms\Javascript;
-
 
 use Despark\Cms\Javascript\Contracts\RegistryContract;
 
 /**
- * Class Registry
+ * Class Registry.
  */
 class Registry implements RegistryContract
 {
-
     /**
      * @var
      */

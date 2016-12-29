@@ -30,5 +30,4 @@ abstract class Provider implements VideoProviderContract
     {
         return $this->model;
     }
-
 }

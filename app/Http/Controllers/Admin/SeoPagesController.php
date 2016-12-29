@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Despark\Cms\Models\SeoPage;
 use Illuminate\Http\Request;
+use Despark\Cms\Models\SeoPage;
 use App\Http\Requests\Admin\SeoPagesRequest;
 use Despark\Cms\Http\Controllers\Admin\AdminController;
 

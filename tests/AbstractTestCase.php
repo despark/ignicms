@@ -2,8 +2,8 @@
 
 namespace Despark\Tests\Cms;
 
-use GrahamCampbell\TestBench\AbstractPackageTestCase;
 use ReflectionClass;
+use GrahamCampbell\TestBench\AbstractPackageTestCase;
 
 /**
  * Class AbstractTestCase.

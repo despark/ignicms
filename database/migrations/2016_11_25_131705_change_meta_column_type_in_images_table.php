@@ -15,6 +15,7 @@ class ChangeMetaColumnTypeInImagesTable extends Migration
     {
         DB::statement('ALTER TABLE `images` CHANGE `meta` `meta` TEXT  CHARACTER SET utf8  COLLATE utf8_general_ci  NULL;');
     }
+
     /**
      * Reverse the migrations.
      *
@@ -23,7 +24,6 @@ class ChangeMetaColumnTypeInImagesTable extends Migration
     public function down()
     {
         Schema::table('images', function (Blueprint $table) {
-            
         });
     }
 }

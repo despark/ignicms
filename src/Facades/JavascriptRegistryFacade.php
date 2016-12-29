@@ -1,14 +1,12 @@
 <?php
 
-
 namespace Despark\Cms\Facades;
 
-
-use Despark\Cms\Javascript\Contracts\RegistryContract;
 use Illuminate\Support\Facades\Facade;
+use Despark\Cms\Javascript\Contracts\RegistryContract;
 
 /**
- * Class JavascriptRegistryFacade
+ * Class JavascriptRegistryFacade.
  */
 class JavascriptRegistryFacade extends Facade
 {

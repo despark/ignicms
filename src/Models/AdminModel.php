@@ -2,11 +2,11 @@
 
 namespace Despark\Cms\Models;
 
-use Despark\Cms\Admin\Interfaces\UploadImageInterface;
+use Illuminate\Database\Eloquent\Model;
 use Despark\Cms\Admin\Traits\AdminModelTrait;
 use Despark\Cms\Observers\AdminModelObserver;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Despark\Cms\Admin\Interfaces\UploadImageInterface;
 
 /**
  * Class AdminModel.

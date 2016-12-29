@@ -2,9 +2,9 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use File;
 use Illuminate\Support\Facades\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class UploadFilesTrait.
