@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Http\Controllers\Admin;
 
+use Despark\Cms\Events\Admin\AfterSidebarSet;
 use View;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -144,13 +145,51 @@ class AdminController extends Controller
         return $query;
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     * @return View
+     */
+    public function create()
+    {
+        $this->viewData['record'] = $this->model;
+
+        $this->viewData['actionVerb'] = 'Create';
+        $this->viewData['formMethod'] = 'POST';
+        $this->viewData['formAction'] = $this->identifier.'.store';
+
+        return view($this->defaultFormView, $this->viewData);
+    }
+
+    /**
+     * @return View
+     */
+    public function edit($id)
+    {
+        $this->viewData['record'] = $this->model->findOrFail($id);
+
+        $this->viewData['formMethod'] = 'PUT';
+        $this->viewData['formAction'] = $this->identifier.'.update';
+
+        return view($this->defaultFormView, $this->viewData);
+    }
+
     /**
      * set sidebarMenu.
      */
     public function setSidebar()
     {
         $this->sidebarItems = config('admin.sidebar');
+        $responses = \Event::fire(new AfterSidebarSet($this->sidebarItems));
+        if (is_array($responses)) {
+            foreach ($responses as $response) {
+                if (is_array($response)) {
+                    $this->sidebarItems = array_merge($this->sidebarItems, $response);
+                }
+            }
+        }
     }
+
 
     /**
      * Admin dashboard.
