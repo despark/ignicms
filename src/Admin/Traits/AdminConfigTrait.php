@@ -37,6 +37,8 @@ trait AdminConfigTrait
      */
     public $adminPreviewUrlParams = [];
 
+    protected $i18nId;
+
     /**
      * @return mixed
      */
@@ -93,17 +95,20 @@ trait AdminConfigTrait
                 return $record->{$col['relation']}->{$col['db_field']};
                 break;
             case 'translation':
-                $locale = config('app.locale', 'en');
-                $i18n = I18n::select('id')->where('locale', $locale)->first();
-                if ($i18n) {
-                    $i18nId = $i18n->id;
+                if ($this->i18nId === null) {
+                    $locale = config('app.locale', 'en');
+                    $i18n = I18n::select('id')->where('locale', $locale)->first();
 
-                    return $record->translate($i18nId)->{$col['db_field']};
+                    $this->i18nId = $i18n->id;
+                }
+
+                if ($translation = $record->translate($this->i18nId)) {
+                    return $translation->{$col['db_field']};
                 }
 
                 return 'No translation';
                 break;
-            default :
+            default:
                 return $record->{$col['db_field']};
                 break;
         }
