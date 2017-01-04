@@ -161,7 +161,21 @@
             ajax: "{{ route($model->getIdentifier().'.index') }}",
             columns: [
                 @foreach ($model->getAdminTableColumns() as $name => $col)
-                {data: '{{ $col }}', name: '{{ $col }}' @if(!is_numeric($name)),title: '{{$name}}'@endif, defaultContent: ""},
+                {
+                    data: '{{ $col }}', 
+                    name: '{{ $col }}' 
+                    @if(!is_numeric($name)),title: '{{$name}}'@endif, 
+                    defaultContent: "",
+                    render: function(data, type, full, meta) {
+                        if (data === 1) {
+                            return 'Yes';
+                        } else if (data === 0) {
+                            return 'No';
+                        }
+
+                        return data;
+                    }
+                },
                 @endforeach
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ],
