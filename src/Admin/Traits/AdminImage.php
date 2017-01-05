@@ -463,6 +463,7 @@ trait AdminImage
      * @param string $resizeType Resize type
      * @param null $color
      * @return \Intervention\Image\Image
+     * @todo allow upsize and aspect ratio to be configurable
      */
     public function createThumbnail(
         $sourceImagePath,
@@ -480,7 +481,9 @@ trait AdminImage
 
         switch ($resizeType) {
             case 'crop':
-                $image->fit($width, $height);
+                $image->fit($width, $height, function ($constraint) {
+                    $constraint->upsize();
+                });
                 break;
 
             case 'resize':
@@ -493,6 +496,7 @@ trait AdminImage
             case 'fit':
                 $image->resize($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
+                    $constraint->upsize();
                 })->resizeCanvas($width, $height, 'center', false, $color);
         }
 
