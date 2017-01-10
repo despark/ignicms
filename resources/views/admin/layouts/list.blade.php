@@ -23,7 +23,7 @@
                                     <thead>
                                         <tr>
                                             @foreach($model->getAdminTableColumns() as $col)
-                                                <th class="{{ $col }}">{{ $col }}</th>
+                                                <th class="col-{{ $col }}">{{ $col }}</th>
                                             @endforeach
                                             <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
                                         </tr>
