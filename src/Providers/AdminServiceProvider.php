@@ -148,7 +148,6 @@ class AdminServiceProvider extends ServiceProvider
         /*
          * Register the service provider for the dependency.
          */
-        $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
         $this->app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
