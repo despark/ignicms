@@ -171,6 +171,23 @@
                             return 'Yes';
                         } else if (data === 0) {
                             return 'No';
+                        } else if (data === undefined) {
+                            var col = '{{ $col }}';
+                            if (col.indexOf('.') !== -1) {
+                                var exploded = col.split('.');
+                                var relation = exploded[0];
+                                if (relation in full) {
+                                    var relationProp = exploded[1];
+
+                                    if (full[relation]) {
+                                        return full[relation].map(function (elem) {
+                                            if (relationProp in elem) {
+                                                return elem[relationProp];
+                                            }
+                                        }).join(', ');
+                                    }
+                                }
+                            }
                         }
 
                         return data;
