@@ -126,6 +126,7 @@ class AdminServiceProvider extends ServiceProvider
             __DIR__.'/../../.eslintrc' => base_path('.eslintrc'),
             __DIR__.'/../../.editorconfig' => base_path('.editorconfig'),
             __DIR__.'/../../gulpfile.js' => base_path('gulpfile.js'),
+            __DIR__.'/../../ignicms' => base_path('ignicms'),
         ]);
 
         $configPaths = config('admin.bootstrap.paths');
