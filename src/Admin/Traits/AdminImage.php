@@ -374,6 +374,10 @@ trait AdminImage
                 }
             }
         }
+        // Remove files from main model
+        if (isset($this->files)) {
+            unset($this->files);
+        }
     }
 
     /**
