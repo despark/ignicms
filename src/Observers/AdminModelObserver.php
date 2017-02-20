@@ -28,16 +28,14 @@ class AdminModelObserver
             $insert = [];
             $resourceModel = $model->getMorphClass();
 
-            $videoInfo = $this->processVideoIdValue($item['video_id']);
-
             foreach ($data as $fieldName => $items) {
                 foreach ($items as $item) {
                     $insert[] = [
                         'resource_id' => $model->getKey(),
                         'resource_model' => $resourceModel,
                         'field' => $fieldName,
-                        'provider' => array_get($videoInfo, 'provider'),
-                        'video_id' => array_get($videoInfo, 'id'),
+                        'provider' => array_get($item, 'provider'),
+                        'video_id' => array_get($item, 'video_id'),
                         'meta' => null,
                         'order' => $item['order'],
                         'created_at' => Carbon::now(),
