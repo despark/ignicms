@@ -28,14 +28,16 @@ class AdminModelObserver
             $insert = [];
             $resourceModel = $model->getMorphClass();
 
+            $videoInfo = $this->processVideoIdValue($item['video_id']);
+
             foreach ($data as $fieldName => $items) {
                 foreach ($items as $item) {
                     $insert[] = [
                         'resource_id' => $model->getKey(),
                         'resource_model' => $resourceModel,
                         'field' => $fieldName,
-                        'provider' => 'youtube',
-                        'video_id' => $item['video_id'],
+                        'provider' => array_get($videoInfo, 'provider'),
+                        'video_id' => array_get($videoInfo, 'id'),
                         'meta' => null,
                         'order' => $item['order'],
                         'created_at' => Carbon::now(),
@@ -44,7 +46,7 @@ class AdminModelObserver
                 }
             }
 
-            if (! empty($insert)) {
+            if (!empty($insert)) {
                 // Save relations
                 $table = explode('.', $model->videos()->getMorphType())[0];
                 \DB::table($table)->insert($insert);
@@ -55,6 +57,7 @@ class AdminModelObserver
             foreach ($existingVideos as $fieldName => $items) {
                 $videoIds = array_merge($videoIds, array_keys($items));
             }
+
             if ($videoIds) {
                 /** @var Collection $collection */
                 $collection = $model->videos()->whereIn('id', $videoIds)->get()->keyBy('id');
@@ -65,7 +68,10 @@ class AdminModelObserver
                             $video->delete();
                             continue;
                         }
-                        $video->video_id = $this->processVideoIdValue($item['video_id']);
+
+                        $videoInfo = $this->processVideoIdValue($item['video_id']);
+                        $video->video_id = array_get($videoInfo, 'id');
+                        $video->provider = array_get($videoInfo, 'provider');
                         $video->order = $item['order'];
                         $video->save();
                     }
@@ -87,7 +93,9 @@ class AdminModelObserver
     /**
      * @param array $array
      * @param array $deleted
+     *
      * @return array
+     *
      * @throws \Exception
      */
     protected function normalizeVideosArray(array $array, array &$deleted = [])
@@ -100,6 +108,7 @@ class AdminModelObserver
                     if (in_array($i, $deleted)) {
                         continue;
                     }
+
                     if ($attribute == 'delete' && $value == 1) {
                         if (isset($data[$fieldName][$i])) {
                             unset($data[$fieldName][$i]);
@@ -109,7 +118,11 @@ class AdminModelObserver
                     }
 
                     if ($attribute == 'video_id') {
-                        $value = $this->processVideoIdValue($value);
+                        $videoInfo = $this->processVideoIdValue($value);
+                        if ($videoInfo) {
+                            $value = array_get($videoInfo, 'id');
+                            $data[$fieldName][$i]['provider'] = array_get($videoInfo, 'provider');
+                        }
                     }
 
                     $data[$fieldName][$i][$attribute] = $value;
@@ -122,21 +135,76 @@ class AdminModelObserver
 
     /**
      * Processes Video id and gets it from provider url.
-     * @param $videoId
+     *
+     * @param $videoString
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
-    protected function processVideoIdValue($videoId)
+    protected function processVideoIdValue($videoString)
     {
-        if (filter_var($videoId, FILTER_VALIDATE_URL) !== false) {
-            $urlParsed = parse_url($videoId);
-            parse_str($urlParsed['query'], $urlParts);
-            if (! isset($urlParts['v'])) {
-                throw new \Exception('We support only YouTube for now urls.');
+        $video = stripslashes(trim($videoString));
+        // check for iframe to get the video url
+        if (strpos($video, 'iframe') !== false) {
+            // retrieve the video url
+            $anchorRegex = '/src="(.*)?"/isU';
+            $results = array();
+            if (preg_match($anchorRegex, $video, $results)) {
+                $link = trim($results[1]);
             }
-            $videoId = $urlParts['v'];
+        } else {
+            // we already have a url
+            $link = $video;
         }
 
-        return $videoId;
+        // if we have a URL, parse it down
+        if (!empty($link)) {
+            // initial values
+            $id = null;
+            $videoIdRegex = null;
+            $results = [];
+            if (strpos($link, 'youtu') !== false) {
+                if (strpos($link, 'youtube.com') !== false) {
+                    // works on:
+                    // http://www.youtube.com/embed/VIDEOID
+                    // http://www.youtube.com/embed/VIDEOID?modestbranding=1&amp;rel=0
+                    // http://www.youtube.com/v/VIDEO-ID?fs=1&amp;hl=en_US
+                    $videoIdRegex = "/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/";
+                } elseif (strpos($link, 'youtu.be') !== false) {
+                    // works on:
+                    // http://youtu.be/daro6K6mym8
+                    $videoIdRegex = '/youtu.be\/([a-zA-Z0-9_-]+)\??/i';
+                }
+
+                if ($videoIdRegex !== null) {
+                    if (preg_match($videoIdRegex, $link, $results)) {
+                        $id = $results[1];
+                        $provider = 'youtube';
+                    }
+                }
+            } elseif (strpos($video, 'vimeo') !== false) {
+                if (strpos($video, 'player.vimeo.com') !== false) {
+                    // works on:
+                    // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
+                    $videoIdRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
+                } else {
+                    // works on:
+                    // http://vimeo.com/37985580
+                    $videoIdRegex = '/vimeo.com\/([0-9]+)\??/i';
+                }
+
+                if ($videoIdRegex !== null) {
+                    if (preg_match($videoIdRegex, $link, $results)) {
+                        $id = $results[1];
+                        $provider = 'vimeo';
+                    }
+                }
+            }
+
+            if (!empty($id)) {
+                return compact('id', 'provider');
+            }
+        }
     }
 }
