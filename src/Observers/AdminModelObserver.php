@@ -118,9 +118,11 @@ class AdminModelObserver
                     }
 
                     if ($attribute == 'video_id') {
-                        $value = array_get($this->processVideoIdValue($value), 'id');
-                    } elseif ($attribute == 'provider') {
-                        $value = array_get($this->processVideoIdValue($value), 'provider');
+                        $videoInfo = $this->processVideoIdValue($value);
+                        if ($videoInfo) {
+                            $value = array_get($videoInfo, 'id');
+                            $data[$fieldName][$i]['provider'] = array_get($videoInfo, 'provider');
+                        }
                     }
 
                     $data[$fieldName][$i][$attribute] = $value;

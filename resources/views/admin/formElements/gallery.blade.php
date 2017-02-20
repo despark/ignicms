@@ -15,9 +15,9 @@
                         @endif
                         @if($itemType == 'video')
                             <div class="gallery-video">
-                                <img src="http://img.youtube.com/vi/{{$item->video_id}}/0.jpg" width="200"/>
+                                {!! $item->toHtml(true) !!}
                             </div>
-                            {!! Form::label($fieldName.$item->getKey(), 'Video ID') !!}
+                            {!! Form::label($fieldName.$item->getKey(), 'Video URL') !!}
                             {!! Form::text("_files[{$itemType}][{$fieldName}][{$item->getKey()}][video_id]", $item->video_id, [
                                 'id' =>  $fieldName.$item->getKey(),
                                 'class' => "form-control",

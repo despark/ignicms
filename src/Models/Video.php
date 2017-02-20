@@ -34,7 +34,7 @@ class Video extends Model
     /**
      * @param $value
      *
-     * @return mixed
+     * @return \Despark\Cms\Video\Provider
      *
      * @throws \Exception
      */
@@ -58,10 +58,30 @@ class Video extends Model
     /**
      * @param bool $preview
      *
-     * @return mixed
+     * @return string
      */
     public function toHtml($preview = false)
     {
         return $this->provider->toHtml($preview);
+    }
+
+    /**
+     * Gets the value of imageUrl.
+     *
+     * @return string
+     */
+    public function getImageUrl()
+    {
+        return $this->provider->getImageUrl();
+    }
+
+    /**
+     * Gets the value of videoUrl.
+     *
+     * @return string
+     */
+    public function getVideoUrl()
+    {
+        return $this->provider->getVideoUrl();
     }
 }

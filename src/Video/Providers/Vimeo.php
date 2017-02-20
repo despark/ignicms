@@ -2,6 +2,7 @@
 
 namespace Despark\Cms\Video\Providers;
 
+use Despark\Cms\Models\Video;
 use Despark\Cms\Video\Provider;
 
 /**
@@ -9,17 +10,12 @@ use Despark\Cms\Video\Provider;
  */
 class Vimeo extends Provider
 {
-    protected $videoUrl = 'https://player.vimeo.com/video';
-
-    public function toHtml($preview = false)
+    public function __construct(Video $model)
     {
-        if ($preview) {
-            $videoInfo = unserialize(file_get_contents('http://vimeo.com/api/v2/video/203689226.php'));
-            $imageUrl = $videoInfo[0]['thumbnail_large'];
+        parent::__construct($model);
 
-            return "<img src='{$imageUrl}' />";
-        }
-
-        return "<iframe src='{$this->videoUrl}/{$this->model->video_id}' frameborder='0' allowfullscreen></iframe>";
+        $videoInfo = unserialize(file_get_contents('http://vimeo.com/api/v2/video/203689226.php'));
+        $this->imageUrl = $videoInfo[0]['thumbnail_large'];
+        $this->videoUrl = 'https://player.vimeo.com/video/'.$this->model->video_id;
     }
 }

@@ -15,7 +15,14 @@ abstract class Provider implements VideoProviderContract
      */
     protected $model;
 
+    /**
+     * @var string
+     */
     protected $imageUrl;
+
+    /**
+     * @var string
+     */
     protected $videoUrl;
 
     public function __construct(Video $model)
@@ -28,17 +35,37 @@ abstract class Provider implements VideoProviderContract
      *
      * @return mixed
      */
-    public function toHtml($preview = false)
+    public function toHtml(bool $preview = false)
     {
         if ($preview) {
-            return "<img src='{this->imageUrl}/{$this->model->video_id}' />";
+            return "<img src='{$this->imageUrl}' style='max-width: 100%;' />";
         }
 
-        return "<iframe src='{$this->videoUrl}/{$this->model->video_id}' frameborder='0' allowfullscreen></iframe>";
+        return "<iframe src='{$this->videoUrl}' frameborder='0' allowfullscreen></iframe>";
     }
 
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Gets the value of imageUrl.
+     *
+     * @return mixed
+     */
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+
+    /**
+     * Gets the value of videoUrl.
+     *
+     * @return mixed
+     */
+    public function getVideoUrl()
+    {
+        return $this->videoUrl;
     }
 }
