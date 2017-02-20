@@ -10,9 +10,6 @@ use Despark\Cms\Video\Provider;
  */
 class YouTube extends Provider
 {
-    protected $imageUrl = 'http://img.youtube.com/vi';
-    protected $videoUrl = 'https://www.youtube.com/embed';
-
     public function __construct(Video $model)
     {
         parent::__construct($model);
