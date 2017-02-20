@@ -7,6 +7,12 @@
         "despark",
         "cms"
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lsimeonov/laravel-datatables"
+        }
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -24,7 +30,7 @@
         "spatie/laravel-permission": "^1.4",
         "doctrine/dbal": "^2.5",
         "flowjs/flow-php-server": "^1.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "6.0.x-dev"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.2",
