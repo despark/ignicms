@@ -40,6 +40,8 @@ class ImageController extends Controller
             $tempFile = Temp::createFromFile($destination, $flowRequest->getFileName());
 
             return new JsonResponse(['id' => $tempFile->getKey()]);
+        } else {
+            return \Response::make('', 200);
         }
     }
 
