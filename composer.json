@@ -30,7 +30,7 @@
         "spatie/laravel-permission": "^1.4",
         "doctrine/dbal": "^2.5",
         "flowjs/flow-php-server": "^1.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "yajra/laravel-datatables-oracle": "dev-6.0#7dbbcfc9f806375df7d636225a40a5d143101553"
     },
     "require-dev": {
         "graham-campbell/testbench": "^3.2",
