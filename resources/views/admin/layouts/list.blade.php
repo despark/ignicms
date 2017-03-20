@@ -17,16 +17,16 @@
                                class="btn btn-success pull-left">+ {{ trans('admin.add') }} {{ $pageTitle }}</a>
                         @endif
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" style="overflow: auto;">
                                 <table id="data-table" class="table table-bordered table-striped dataTable"
-                                        role="grid" aria-describedby="data-table_info">
+                                       role="grid" aria-describedby="data-table_info">
                                     <thead>
-                                        <tr>
-                                            @foreach($model->getAdminTableColumns() as $col)
-                                                <th class="col-{{ $col }}">{{ $col }}</th>
-                                            @endforeach
-                                            <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
-                                        </tr>
+                                    <tr>
+                                        @foreach($model->getAdminTableColumns() as $col)
+                                            <th class="col-{{ $col }}">{{ $col }}</th>
+                                        @endforeach
+                                        <th class="no-sort actions-col">{{ trans('admin.actions') }}</th>
+                                    </tr>
                                     </thead>
 
                                 </table>
@@ -72,141 +72,143 @@
 @stop
 
 @push('additionalScripts')
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+        }
+    });
+
+    // Sortable
+    var changePosition = function (requestData) {
+        $.ajax({
+            url: '/sort',
+            type: 'POST',
+            data: requestData,
+            success: function (data) {
+                if (data.success) {
+                    console.log('Sort: success!');
+                } else {
+                    console.log(data.errors);
+                }
+            },
+            error: function (e) {
+                console.log('Something went wrong! Error(' + e.status + '): ' + e.statusText);
             }
         });
+    };
 
-        // Sortable
-        var changePosition = function (requestData) {
-            $.ajax({
-                url: '/sort',
-                type: 'POST',
-                data: requestData,
-                success: function (data) {
-                    if (data.success) {
-                        console.log('Sort: success!');
-                    } else {
-                        console.log(data.errors);
-                    }
-                },
-                error: function (e) {
-                    console.log('Something went wrong! Error(' + e.status + '): ' + e.statusText);
+    var $sortableTable = $('.sortable');
+    if ($sortableTable.length > 0) {
+        $sortableTable.sortable({
+            handle: '.sortable-handle',
+            axis: 'y',
+            update: function (a, b) {
+                var entityName = $(this).data('entityname');
+                var $sorted = b.item;
+
+                var $previous = $sorted.prev();
+                var $next = $sorted.next();
+
+                if ($previous.length > 0) {
+                    changePosition({
+                        parentId: $sorted.data('parentid'),
+                        type: 'moveAfter',
+                        entityName: entityName,
+                        id: $sorted.data('itemid'),
+                        positionEntityId: $previous.data('itemid')
+                    });
+                } else if ($next.length > 0) {
+                    changePosition({
+                        parentId: $sorted.data('parentid'),
+                        type: 'moveBefore',
+                        entityName: entityName,
+                        id: $sorted.data('itemid'),
+                        positionEntityId: $next.data('itemid')
+                    });
+                } else {
+                    console.log(a);
                 }
-            });
-        };
-
-        var $sortableTable = $('.sortable');
-        if ($sortableTable.length > 0) {
-            $sortableTable.sortable({
-                handle: '.sortable-handle',
-                axis: 'y',
-                update: function (a, b) {
-                    var entityName = $(this).data('entityname');
-                    var $sorted = b.item;
-
-                    var $previous = $sorted.prev();
-                    var $next = $sorted.next();
-
-                    if ($previous.length > 0) {
-                        changePosition({
-                            parentId: $sorted.data('parentid'),
-                            type: 'moveAfter',
-                            entityName: entityName,
-                            id: $sorted.data('itemid'),
-                            positionEntityId: $previous.data('itemid')
-                        });
-                    } else if ($next.length > 0) {
-                        changePosition({
-                            parentId: $sorted.data('parentid'),
-                            type: 'moveBefore',
-                            entityName: entityName,
-                            id: $sorted.data('itemid'),
-                            positionEntityId: $next.data('itemid')
-                        });
-                    } else {
-                        console.log(a);
-                    }
-                },
-                cursor: "move"
-            });
-        }
-
-        // Delete entity
-        $('body').on('click', '.js-open-delete-modal', function (e) {
-            e.preventDefault();
-            var that = $(this),
-                $deleteModal = $('#delete-modal'),
-                deleteURL = that.data('delete-url');
-
-            $deleteModal.find('.delete-form').attr('action', deleteURL);
-
-            $deleteModal.modal();
+            },
+            cursor: "move"
         });
+    }
 
-        var isSortable = $('th.sort').length === 0;
+    // Delete entity
+    $('body').on('click', '.js-open-delete-modal', function (e) {
+        e.preventDefault();
+        var that = $(this),
+            $deleteModal = $('#delete-modal'),
+            deleteURL = that.data('delete-url');
 
-        var table = $('#data-table').DataTable({
-            paging: isSortable !== false,
-            pageLength: {{ config('admin.bootstrap.paginateLimit') }},
-            lengthChange: false,
-            searching: true,
-            ordering: isSortable !== false,
-            info: false,
-            autoWidth: true,
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route($model->getIdentifier().'.index') }}",
-            columns: [
+        $deleteModal.find('.delete-form').attr('action', deleteURL);
+
+        $deleteModal.modal();
+    });
+
+    var isSortable = $('th.sort').length === 0;
+
+    var table = $('#data-table').DataTable({
+        paging: isSortable !== false,
+        pageLength: {{ config('admin.bootstrap.paginateLimit') }},
+        lengthChange: false,
+        searching: true,
+        ordering: isSortable !== false,
+        info: false,
+        autoWidth: true,
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route($model->getIdentifier().'.index') }}",
+        columns: [
                 @foreach ($model->getAdminTableColumns() as $name => $col)
-                {
-                    data: '{{ $col }}', 
-                    name: '{{ $col }}' 
-                    @if(!is_numeric($name)),title: '{{$name}}'@endif, 
-                    defaultContent: "",
-                    render: function(data, type, full, meta) {
-                        if (data === 1) {
-                            return 'Yes';
-                        } else if (data === 0) {
-                            return 'No';
-                        } else if (data === undefined) {
-                            var col = '{{ $col }}';
-                            if (col.indexOf('.') !== -1) {
-                                var exploded = col.split('.');
-                                var relation = exploded[0];
-                                if (relation in full) {
-                                    var relationProp = exploded[1];
+            {
+                data: '{{ $col }}',
+                name: '{{ $col }}'
+                @if(!is_numeric($name)), title: '{{$name}}'@endif,
+                defaultContent: "",
+                render: function (data, type, full, meta) {
+                    if (data === 1) {
+                        return 'Yes';
+                    } else if (data === 0) {
+                        return 'No';
+                    } else if (data === undefined) {
+                        var col = '{{ $col }}';
+                        if (col.indexOf('.') !== -1) {
+                            var exploded = col.split('.');
+                            var relation = exploded[0];
+                            if (relation in full) {
+                                var relationProp = exploded[1];
 
-                                    if (full[relation]) {
-                                        return full[relation].map(function (elem) {
-                                            if (relationProp in elem) {
-                                                return elem[relationProp];
-                                            }
-                                        }).join(', ');
-                                    }
+                                if (full[relation]) {
+                                    return full[relation].map(function (elem) {
+                                        if (relationProp in elem) {
+                                            return elem[relationProp];
+                                        }
+                                    }).join(', ');
                                 }
                             }
                         }
-
-                        return data;
                     }
-                },
-                @endforeach
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ],
-            columnDefs: [
-                {
-                    targets: "no-sort",
-                    orderable: false,
-                    searchable: false
+
+                    return data;
                 }
-            ],
-            aaSorting: [],
-            oLanguage: {
-                sSearch: "<span class='search-label uppercase'>Search</span>"
+            },
+                @endforeach
+            {
+                data: 'action', name: 'action', orderable: false, searchable: false
+            },
+        ],
+        columnDefs: [
+            {
+                targets: "no-sort",
+                orderable: false,
+                searchable: false
             }
-        });
-    </script>
+        ],
+        aaSorting: [],
+        oLanguage: {
+            sSearch: "<span class='search-label uppercase'>Search</span>"
+        }
+    });
+</script>
 @endpush
