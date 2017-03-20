@@ -19,7 +19,7 @@ class Role extends RoleModel
         'name' => 'required|max:255',
     ];
 
-    public function getPermissions()
+    protected static function getPermissions()
     {
         return Permission::all()->pluck('name', 'name')->toArray();
     }
