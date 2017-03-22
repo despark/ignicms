@@ -127,6 +127,7 @@ trait AdminImage
         }
 
         $this->setRetinaFactor(config('ignicms.images.retina_factor'));
+        $model->setRetinaFactor(config('ignicms.images.retina_factor'));
 
         foreach ($imageFields as $fieldName => $field) {
             $model->prepareImageRules($model, 'rules', $fieldName, $field);
@@ -561,7 +562,7 @@ trait AdminImage
     {
         $pathParts = pathinfo($filename);
 
-        return $pathParts['filename'].'@2x.'.$pathParts['extension'];
+        return "{$pathParts['filename']}@{$this->getRetinaFactor()}x.{$pathParts['extension']}";
     }
 
     /**
