@@ -641,7 +641,7 @@ trait AdminImage
             $validation = config('ignicms.images.require_alt_title_fields', true) ? 'required' : '';
             $defaultFields = [
                 'alt' => [
-                    'type' => 'text',
+                    'type' => 'textarea',
                     'label' => 'Alternate text',
                     'validation' => $validation,
                 ],
