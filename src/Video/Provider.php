@@ -37,11 +37,17 @@ abstract class Provider implements VideoProviderContract
      */
     public function toHtml(bool $preview = false)
     {
+        $html = '';
         if ($preview) {
-            return "<img src='{$this->imageUrl}' style='max-width: 100%;' />";
+            if ($this->getImageUrl()) {
+                $html = "<img src='{$this->getImageUrl()}' style='max-width: 100%;' />";
+            }
+        }
+        if ($this->getVideoUrl()) {
+            $html = "<iframe src='{$this->getVideoUrl()}' frameborder='0' allowfullscreen></iframe>";
         }
 
-        return "<iframe src='{$this->videoUrl}' frameborder='0' allowfullscreen></iframe>";
+        return $html;
     }
 
     public function getModel()

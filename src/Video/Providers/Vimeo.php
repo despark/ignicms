@@ -18,7 +18,7 @@ class Vimeo extends Provider
             $videoInfo = unserialize(file_get_contents("http://vimeo.com/api/v2/video/{$this->model->video_id}.php"));
             $this->imageUrl = $videoInfo[0]['thumbnail_large'];
             $this->videoUrl = 'https://player.vimeo.com/video/'.$this->model->video_id;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             \Log::debug($e);
         }
     }
