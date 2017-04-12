@@ -24,8 +24,11 @@ class ImageObserver
     public function deleted(Model $model)
     {
         $imageInstance = app(ImageContract::class);
-        \DB::table($imageInstance->getTable())->where('resource_id', '=', $model->getKey())
-           ->delete();
+
+        \DB::table($imageInstance->getTable())
+            ->where('resource_id', '=', $model->getKey())
+            ->where('resource_model', '=', $model->getMorphClass())
+            ->delete();
 
         \File::deleteDirectory($model->getCurrentUploadDir());
     }
