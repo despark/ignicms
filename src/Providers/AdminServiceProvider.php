@@ -3,7 +3,6 @@
 namespace Despark\Cms\Providers;
 
 use File;
-use Mailchimp;
 use Despark\Cms\Admin\Admin;
 use Despark\Cms\Models\Image;
 use Illuminate\Routing\Router;
@@ -171,15 +170,6 @@ class AdminServiceProvider extends ServiceProvider
          * Assets manager
          */
         $this->app->singleton(AssetsContract::class, AssetManager::class);
-
-        /*
-         * Manually register Mailchimp
-         */
-        $this->app->singleton('Mailchimp', function ($app) {
-            $config = $app['config']['mailchimp'];
-
-            return new Mailchimp($config['apikey']);
-        });
 
         /*
          * Swap Permission model implementation
