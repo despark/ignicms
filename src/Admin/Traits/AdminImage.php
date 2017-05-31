@@ -467,8 +467,6 @@ trait AdminImage
             }
         }
 
-        event(new ImageManipulated($images));
-
         return $images;
     }
 
