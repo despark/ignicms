@@ -2,22 +2,23 @@
 
 namespace Despark\Cms\Admin\Traits;
 
-use Image;
-use File as FileFacade;
-use Despark\Cms\Models\File\Temp;
-use Illuminate\Http\UploadedFile;
-use Despark\Cms\Models\AdminModel;
-use Despark\Cms\Helpers\FileHelper;
-use Illuminate\Database\Eloquent\Model;
-use Despark\Cms\Contracts\ImageContract;
-use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Admin\Helpers\FormBuilder;
-use Illuminate\Database\Eloquent\Collection;
 use Despark\Cms\Admin\Observers\ImageObserver;
-use Symfony\Component\HttpFoundation\File\File;
-use Despark\Cms\Exceptions\ModelSanityException;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Despark\Cms\Contracts\AssetsContract;
+use Despark\Cms\Contracts\ImageContract;
+use Despark\Cms\Events\ImageManipulated;
 use Despark\Cms\Exceptions\ModelNotPersistedException;
+use Despark\Cms\Exceptions\ModelSanityException;
+use Despark\Cms\Helpers\FileHelper;
+use Despark\Cms\Models\AdminModel;
+use Despark\Cms\Models\File\Temp;
+use File as FileFacade;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Http\UploadedFile;
+use Image;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class AdminImage.
@@ -391,7 +392,7 @@ trait AdminImage
 
     /**
      * @param Temp|UploadedFile|File $file
-     * @param array                  $options
+     * @param array $options
      *
      * @return array
      *
@@ -471,12 +472,12 @@ trait AdminImage
 
     /**
      * @param string $sourceImagePath Source image path
-     * @param string $thumbName       Thumbnail name
+     * @param string $thumbName Thumbnail name
      * @param        $newFileName
-     * @param null   $width           Desired width for resize
-     * @param null   $height          Desired height for resize
-     * @param string $resizeType      Resize type
-     * @param null   $color
+     * @param null $width Desired width for resize
+     * @param null $height Desired height for resize
+     * @param string $resizeType Resize type
+     * @param null $color
      *
      * @return \Intervention\Image\Image
      *
@@ -663,7 +664,7 @@ trait AdminImage
     /**
      * @param               $fieldName
      * @param ImageContract $imageModel
-     * @param null          $actualFieldName
+     * @param null $actualFieldName
      *
      * @return string
      *
