@@ -127,7 +127,6 @@ trait AdminImage
             }
         }
 
-        $this->setRetinaFactor(config('ignicms.images.retina_factor'));
         $model->setRetinaFactor(config('ignicms.images.retina_factor'));
 
         foreach ($imageFields as $fieldName => $field) {
@@ -275,6 +274,31 @@ trait AdminImage
 
         $imageFields = $this->getImageFields();
 
+        // Process existing
+        // Get existing ids
+        $imageIds = [];
+        foreach ($existingFiles as $files) {
+            foreach ($files as $fileId => $file) {
+                $imageIds[] = $fileId;
+            }
+        }
+        if (! empty($imageIds)) {
+            $existingCollection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
+            foreach ($existingFiles as $fieldName => $files) {
+                foreach ($files as $fileId => $fileData) {
+                    $image = $existingCollection->get($fileId);
+                    // Check if not for deletion
+                    if (isset($fileData['delete']) && $fileData['delete']) {
+                        $image->delete();
+                    } else {
+                        $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
+                        $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
+                        $image->save();
+                    }
+                }
+            }
+        }
+
         foreach ($newFiles as $fieldName => $files) {
             // view widget config to see if it is a gallery
             if (! $widgetConfig = $this->getAdminFormField($fieldName)) {
@@ -320,31 +344,6 @@ trait AdminImage
             }
         }
 
-        // Process existing
-        // Get existing ids
-        $imageIds = [];
-        foreach ($existingFiles as $files) {
-            foreach ($files as $fileId => $file) {
-                $imageIds[] = $fileId;
-            }
-        }
-        if (! empty($imageIds)) {
-            $collection = $this->images()->whereIn('id', $imageIds)->get()->keyBy('id');
-
-            foreach ($existingFiles as $fieldName => $files) {
-                foreach ($files as $fileId => $fileData) {
-                    $image = $collection->get($fileId);
-                    // Check if not for deletion
-                    if (isset($fileData['delete']) && $fileData['delete']) {
-                        $image->delete();
-                    } else {
-                        $image->meta = isset($fileData['meta']) ? $fileData['meta'] : null;
-                        $image->order = isset($fileData['order']) ? $fileData['order'] : 0;
-                        $image->save();
-                    }
-                }
-            }
-        }
         // Now we process single files
         if (isset($this->files['_single']) && $files = $this->files['_single']) {
             $imageFields = $this->getImageFields();
@@ -392,7 +391,7 @@ trait AdminImage
 
     /**
      * @param Temp|UploadedFile|File $file
-     * @param array $options
+     * @param array                  $options
      *
      * @return array
      *
@@ -413,6 +412,7 @@ trait AdminImage
             throw new \Exception('Unexpected file of class '.get_class($file));
         }
 
+
         $images = [];
         $pathParts = pathinfo($sanitizedFilename);
         // Move uploaded file and rename it as source file if this is needed.
@@ -421,6 +421,8 @@ trait AdminImage
             $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
             $sourceFile = $file->move($this->getThumbnailPath(), $filename);
         }
+
+
         $images['original']['source'] = $sourceFile;
 
         // If we have retina factor
@@ -434,7 +436,7 @@ trait AdminImage
             $originalImage = Image::make($sourceFile->getRealPath());
             $width = round($originalImage->getWidth() / $this->getRetinaFactor());
             $height = round($originalImage->getHeight() / $this->getRetinaFactor());
-            $originalImage->resize($width, $height);
+            //$originalImage->resize($width, $height);
             $images['original']['original_file'] = $originalImage->save($this->getThumbnailPath().$sanitizedFilename);
 
             // Generate thumbs
@@ -474,10 +476,10 @@ trait AdminImage
      * @param string $sourceImagePath Source image path
      * @param string $thumbName Thumbnail name
      * @param        $newFileName
-     * @param null $width Desired width for resize
-     * @param null $height Desired height for resize
+     * @param null   $width Desired width for resize
+     * @param null   $height Desired height for resize
      * @param string $resizeType Resize type
-     * @param null $color
+     * @param null   $color
      *
      * @return \Intervention\Image\Image
      *
@@ -664,7 +666,7 @@ trait AdminImage
     /**
      * @param               $fieldName
      * @param ImageContract $imageModel
-     * @param null $actualFieldName
+     * @param null          $actualFieldName
      *
      * @return string
      *
@@ -788,7 +790,7 @@ trait AdminImage
             }
         }
 
-        return (bool) count($this->images);
+        return (bool)count($this->images);
     }
 
     /**
@@ -823,7 +825,7 @@ trait AdminImage
             // Get image fields from the model and try to find the image field
             // Todo make this detection a method!
             $imageFields = $this->getImageFields();
-            $imageField = array_get($imageFields, (string) $field);
+            $imageField = array_get($imageFields, (string)$field);
 
             if (! $imageField) {
                 // We try the admin form field config

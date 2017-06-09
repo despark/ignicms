@@ -38,7 +38,7 @@ class FileHelper
      */
     public static function getTempDirectory()
     {
-        $dir = storage_path(config('ignicms.files.temporary_directory', 'upload_temp'));
+        $dir = storage_path(config('ignicms.files.temporary_directory', 'temp_uploads'));
         if (! is_dir($dir)) {
             \File::makeDirectory($dir);
         }
