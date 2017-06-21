@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'auth' => [
+        'default_routes' => true,
+    ],
     'files' => [
         // No leading slash
         'temporary_directory' => 'temp_uploads',
