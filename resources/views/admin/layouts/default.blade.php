@@ -15,27 +15,32 @@
     @stack('additionalStyles')
 </head>
 <body class="skin-blue sidebar-mini">
-<div class="wrapper">
-    @include('ignicms::admin.layouts.defaultMainHeader')
-    @include('ignicms::admin.layouts.sidebar')
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            @if ($notification = session()->get('notification'))
-                <div class="alert alert-{{ array_get($notification, 'type') }} alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4>{{ array_get($notification, 'title') }}</h4>
-                    {{ array_get($notification, 'description') }}
-                </div>
-            @endif
-        </section>
-        <section class="content">
-            @yield('content')
-        </section>
-    </div>
-    @include('ignicms::admin.layouts.defaultFooter')
-</div>
-@include('ignicms::admin.assets.javascript')
-@stack('additionalScripts')
+    @if (Auth::check())
+        <div class="wrapper">
+            @include('ignicms::admin.layouts.defaultMainHeader')
+
+            @include('ignicms::admin.layouts.sidebar')
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    @if ($notification = session()->get('notification'))
+                        <div class="alert alert-{{ array_get($notification, 'type') }} alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4>{{ array_get($notification, 'title') }}</h4>
+                            {{ array_get($notification, 'description') }}
+                        </div>
+                    @endif
+                </section>
+                <section class="content">
+                    @yield('content')
+                </section>
+            </div>
+            @include('ignicms::admin.layouts.defaultFooter')
+        </div>
+    @endif
+
+    @include('ignicms::admin.assets.javascript')
+
+    @stack('additionalScripts')
 </body>
 </html>
