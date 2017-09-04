@@ -37,5 +37,5 @@ interface UploadImageInterface
      * @param array $options
      * @return mixed
      */
-    public function manipulateImage($file, array $options);
+    public function manipulateImage($file, array $options, $imageType);
 }

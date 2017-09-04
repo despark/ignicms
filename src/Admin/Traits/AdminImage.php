@@ -324,7 +324,7 @@ trait AdminImage
                 if (isset($fileData['delete']) && $fileData['delete']) {
                     $file->delete();
                 } else {
-                    $images = $this->manipulateImage($file, $imageFields[$fileField]);
+                    $images = $this->manipulateImage($file, $imageFields[$fileField], $fileField);
                     // We will save just the source one as a relation.
                     /** @var \Illuminate\Http\File $sourceFile */
                     $sourceFile = $images['original']['source'];
@@ -361,7 +361,7 @@ trait AdminImage
                             $image->delete();
                         }
 
-                        $images = $this->manipulateImage($file, $options);
+                        $images = $this->manipulateImage($file, $options, $imageType);
 
                         // We will save just the source one as a relation.
                         /** @var \Illuminate\Http\File $sourceFile */
@@ -397,7 +397,7 @@ trait AdminImage
      *
      * @throws \Exception
      */
-    public function manipulateImage($file, array $options)
+    public function manipulateImage($file, array $options, $imageType)
     {
         // Detect file type
         if ($file instanceof Temp) {
@@ -418,12 +418,12 @@ trait AdminImage
         // Move uploaded file and rename it as source file if this is needed.
         // We need to generate unique name if the name is already in use.
         if (! isset($sourceFile)) {
-            $filename = $pathParts['filename'].'_source.'.$pathParts['extension'];
+            $filename = $pathParts['filename']."_source{$imageType}.".$pathParts['extension'];
             $sourceFile = $file->move($this->getThumbnailPath(), $filename);
         }
 
-
         $images['original']['source'] = $sourceFile;
+        $sanitizedFilename = $pathParts['filename'].$imageType.'.'.$pathParts['extension'];
 
         // If we have retina factor
         if ($this->getRetinaFactor()) {
