@@ -1,9 +1,8 @@
-<p align="center">
-<a href="https://styleci.io/repos/58520217"><img src="https://styleci.io/repos/58520217/shield" alt="StyleCI"></a>
-<a href="https://travis-ci.org/despark/ignicms"><img src="https://travis-ci.org/despark/ignicms.svg" alt="Build Status"></img></a>
-</p>
 # Despark's igniCMS
+## IMPORTANT: This repo has been moved to https://github.com/despark/igni-core. 
+For laravel 5.4+ please use the new repo. Thanks!
 
+## Introduction
 **igniCMS** is an administrative interface builder for Laravel 5.3
 
 For Laravel versions 5.2 use branch v2.0
