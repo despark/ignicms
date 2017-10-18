@@ -18,7 +18,7 @@
     "jquery": "~2.1.4",
     "fastclick": "~1.0.6",
     "vminpoly": "*",
-    "AdminLTE": "admin-lte#^2.3.3",
+    "AdminLTE": "admin-lte#~2.3.3",
     "font-awesome": "fontawesome#^4.6.2",
     "datatables": "^1.9.4",
     "jquery-ui": "^1.11.4",
