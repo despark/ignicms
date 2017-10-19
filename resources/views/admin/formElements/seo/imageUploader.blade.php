@@ -2,10 +2,7 @@
     <h3 class="box-title">{{ $label }}</h3>
     <div class="files-list-wrapper">
         <ul class="file-list row">
-            @foreach($fieldWidget->getGalleryItems($type) as $item)
-                @php 
-                    $itemType = $fieldWidget->getItemType($item);
-                @endphp
+            @foreach($record->getImages($type) as $item)
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <div class="gallery-item info-box">
                         <div class="gallery-image">
@@ -13,12 +10,12 @@
                                  srcset="{{ asset($item->getOriginalImagePath('admin')) }} 1x, {{ asset($item->getRetinaImagePath('admin')) }} {{ $item->retina_factor }}x"/>
                         </div>
                         <input type="hidden" class="file-order"
-                               name="_files[{{ $itemType }}][{{ $fieldName }}][{{ $item->getKey() }}][order]"
+                               name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][order]"
                                value="{{ $item->order }}">
-                        <input type="hidden" name="_files[{{ $itemType }}][{{ $fieldName }}][{{ $item->getKey() }}][id]"
+                        <input type="hidden" name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][id]"
                                value="{{ $item->getKey() }}">
                         <input type="hidden" class="delete-status"
-                               name="_files[{{ $itemType }}][{{ $fieldName }}][{{ $item->getKey() }}][delete]" value="1">
+                               name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][delete]" value="1">
                     </div>
                     <button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>
                 </li>
