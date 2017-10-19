@@ -4,7 +4,7 @@
 	<hr>
 	<h4>Readability</h4>
 	<div id="seo_readability_content">
-		@include('ignicms::admin.formElements.seoReadability')
+		@include('ignicms::admin.formElements.seo.readability')
 	</div>
 @endif
 
@@ -17,21 +17,18 @@
 </div>
 
 <div id="seo_google_div">
-	@include('ignicms::admin.formElements.seoGoogle')
+	@include('ignicms::admin.formElements.seo.google')
 </div>
 
 <div id="seo_facebook_div">
-	@include('ignicms::admin.formElements.seoFacebook')
+	@include('ignicms::admin.formElements.seo.facebook')
 </div>
 
 <div id="seo_twitter_div">
-	@include('ignicms::admin.formElements.seoTwitter')
+	@include('ignicms::admin.formElements.seo.twitter')
 </div>
 
 @push('additionalScripts')
-	@if ($options['readability'])
-		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
-	@endif
     <script type="text/javascript">
     	var url = '{{ route(strtolower(class_basename($record)).'.'.(isset($options['actionVerb']) ?  $options['actionVerb'] : 'show'), '') }}',
     		slug = $('#slug').val(),
@@ -98,47 +95,5 @@
 				$(activeDevice).addClass('active');
 			}
 		});
-
-		@if ($options['readability'])
-			$('#seo_readability_list').hide();
-
-			setTimeout(function () {
-				makeAjaxCall(tinymce.activeEditor);
-			}, 2000);
-
-			function wysiwygTextChanged(editor) {
-			  	editor.on('keyup', _.debounce(function (e) {
-			  		makeAjaxCall(editor);
-			  	}, 2000));
-			}
-
-			function makeAjaxCall(editor) {
-				var readabilityColumn = '{{ $options['readabilityColumn'] ?? 'content' }}',
-					token = '{{ csrf_token() }}';
-				
-		  		if (editor.id === readabilityColumn) {
-		  			$.ajax({
-		                url: '/admin/check/readability',
-		                type: 'POST',
-		                data: {html: editor.getContent(), _token: token}
-		            }).done(function (data) {
-		            	$('#flesch_reading_ease_test').html(data.fleschKincaidReadingEaseResult.text).css('color', data.fleschKincaidReadingEaseResult.color);
-		            	$('#words_per_subheading').html(data.html.subheadings.text).css('color', data.html.subheadings.color);
-		            	$('#passive_voice').html(data.sentences.passiveVoice.text).css('color', data.sentences.passiveVoice.color);
-		            	$('#more_than_20_words').html(data.sentences.moreThan20Words.text).css('color', data.sentences.moreThan20Words.color);
-		            	$('#transition_words').html(data.sentences.transitionWords.text).css('color', data.sentences.transitionWords.color);
-		            	$('#words_in_paragraph').html(data.html.paragraphs.text).css('color', data.html.paragraphs.color);
-		            	if (data.showTextLengthError) {
-		            		$('#text_length').show();
-		            	} else {
-		            		$('#text_length').hide();
-		            	}
-		            	$('#seo_readability_list').show();
-		            }).fail(function (data) {
-		            	$('#seo_readability_list').hide();
-		            });
-		  		}
-			}
-		@endif
     </script>
 @endpush

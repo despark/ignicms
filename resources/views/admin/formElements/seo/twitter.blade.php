@@ -14,32 +14,9 @@
         {{ join($errors->get('twitter_description'), '<br />') }}
     </div>
 </div>
-<div class="form-group {{ $errors->has('twitter_image') ? 'has-error' : '' }}">
-    <label for="facebook_image">Twitter Image</label>
-    @if($record->hasImages('twitter_image'))
-        <div class="form-group">
-            @foreach($record->getImages('twitter_image') as $image)
-                <div class="image-row">
-                    {!! Html::image($image->getOriginalImagePath('admin'), $image->alt, ['title' => $image->title]) !!}
-                </div>
-            @endforeach
-        </div>
-        <div class="form-group">
-            <label for="'twitter_image_delete'">
-                {!! Form::checkbox('twitter_image_delete',1,null,['id' => 'twitter_image_delete']) !!}
-                Delete
-            </label>
-        </div>
-    @endif
-
-    {!! Form::file('twitter_image',  [
-        'id' => 'twitter_image',
-        'class' => "form-control",
-        'placeholder' => 'Twitter Image',
-    ] ) !!}
-
-    <div class="help-text">If you want to override the image used on Twitter, upload an image here. The image size should be at least 1024x512 and with the same aspect ratio.</div>
-    <div class="text-red">
-        {{ join($errors->get('twitter_image'), '<br />') }}
-    </div>
-</div>
+@include('ignicms::admin.formElements.seo.imageUploader', [
+        'fieldName' => 'twitter_image',
+        'label' => 'Twitter Image',
+        'type' => 'twitter_image', 
+        'help' => 'If you want to override the image used on Twitter, upload an image here. The image size should be at least 1024x512 and with the same aspect ratio.',
+])
