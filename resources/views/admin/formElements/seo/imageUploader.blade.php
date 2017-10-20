@@ -2,24 +2,27 @@
     <h3 class="box-title">{{ $label }}</h3>
     <div class="files-list-wrapper">
         <ul class="file-list row">
-            @foreach($record->getImages($type) as $item)
+            @php
+                $image = $record->getImages($fieldName)->first();
+            @endphp
+            @if ($image)
                 <li class="col-md-3 col-sm-6 col-xs-12">
                     <div class="gallery-item info-box">
                         <div class="gallery-image">
-                            <img src="{{ asset($item->getOriginalImagePath('admin')) }}"
-                                 srcset="{{ asset($item->getOriginalImagePath('admin')) }} 1x, {{ asset($item->getRetinaImagePath('admin')) }} {{ $item->retina_factor }}x"/>
+                            <img src="{{ asset($image->getOriginalImagePath('admin')) }}"
+                                 srcset="{{ asset($image->getOriginalImagePath('admin')) }} 1x, {{ asset($image->getRetinaImagePath('admin')) }} {{ $image->retina_factor }}x"/>
                         </div>
                         <input type="hidden" class="file-order"
-                               name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][order]"
-                               value="{{ $item->order }}">
-                        <input type="hidden" name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][id]"
-                               value="{{ $item->getKey() }}">
+                               name="_files[image][{{ $fieldName }}][{{ $image->getKey() }}][order]"
+                               value="{{ $image->order }}">
+                        <input type="hidden" name="_files[image][{{ $fieldName }}][{{ $image->getKey() }}][id]"
+                               value="{{ $image->getKey() }}">
                         <input type="hidden" class="delete-status"
-                               name="_files[image][{{ $fieldName }}][{{ $item->getKey() }}][delete]" value="1">
+                               name="_files[image][{{ $fieldName }}][{{ $image->getKey() }}][delete]" value="0">
                     </div>
                     <button type="button" class="btn btn-default btn-block btn-danger delete-item">Delete</button>
                 </li>
-            @endforeach
+            @endif
         </ul>
     </div>
     <div class="file-upload-widget">

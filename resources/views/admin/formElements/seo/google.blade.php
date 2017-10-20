@@ -25,7 +25,6 @@
 </div>
 @include('ignicms::admin.formElements.seo.imageUploader', [
         'fieldName' => 'seo_social_image',
-        'label' => 'Social Image', 
-        'type' => 'seo_social_image',
+        'label' => 'Social Image',
         'help' => 'Default social image. The image size should be at least 1200x630px and with the same aspect ratio.',
 ])

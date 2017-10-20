@@ -17,6 +17,5 @@
 @include('ignicms::admin.formElements.seo.imageUploader', [
         'fieldName' => 'twitter_image',
         'label' => 'Twitter Image',
-        'type' => 'twitter_image', 
         'help' => 'If you want to override the image used on Twitter, upload an image here. The image size should be at least 1024x512 and with the same aspect ratio.',
 ])
