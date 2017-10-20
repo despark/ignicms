@@ -1,15 +1,5 @@
 <hr>
-<h3>SEO</h3>
-@if ($options['readability'])
-	<hr>
-	<h4>Readability</h4>
-	<div id="seo_readability_content">
-		@include('ignicms::admin.formElements.seo.readability')
-	</div>
-@endif
-
-<hr>
-<h4>Social</h4>
+<h3>Social</h3>
 <div class="form-group">
 	<a id="seo_google" name="seo_google" href="#" class="btn btn-primary btn-seo-social" role="button"><i id="seo_google" class="fa fa-google"></i></a>
     <a id="seo_facebook" name="seo_facebook" href="#" class="btn btn-primary btn-seo-social" role="button"><i id="seo_facebook" class="fa fa-facebook"></i></a>

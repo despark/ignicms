@@ -26,7 +26,7 @@
 		}
 
 		function makeAjaxCall(editor) {
-			var readabilityColumn = '{{ $options['readabilityColumn'] ?? 'content' }}',
+			var readabilityColumn = '{{ $options['for'] ?? 'content' }}',
 				token = '{{ csrf_token() }}';
 			
 	  		if (editor.id === readabilityColumn) {
