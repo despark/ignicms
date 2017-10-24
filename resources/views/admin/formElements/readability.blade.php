@@ -1,13 +1,13 @@
 <div id="seo_readability_content" class="form-group">
-	<ol id="seo_readability_list">
-		<li id="text_length"><span style="color: red;">You have far too little content, please add some content to enable a good analysis.</span></li>
-		<li><span id="flesch_reading_ease_test"></span></li>
-		<li><span id="words_per_subheading"></span></li>
-		<li><span id="more_than_20_words"></span></li>
-		<li><span id="passive_voice"></span></li>
-		<li><span id="transition_words"></span></li>
-		<li><span id="words_in_paragraph"></span></li>
-	</ol>
+	<ul id="seo_readability_list" class="readability-instructions">
+		<li id="text_length" class="is-red">You have far too little content, please add some content to enable a good analysis.</li>
+		<li id="flesch_reading_ease_test"></li>
+		<li id="words_per_subheading"></li>
+		<li id="more_than_20_words"></li>
+		<li id="passive_voice"></li>
+		<li id="transition_words"></li>
+		<li id="words_in_paragraph"></li>
+	</ul>
 </div>
 
 @push('additionalScripts')
@@ -26,21 +26,21 @@
 		}
 
 		function makeAjaxCall(editor) {
-			var readabilityColumn = '{{ $options['for'] ?? 'content' }}',
+			var readabilityColumn = '{{ $field->getOptions('for') ?? 'content' }}',
 				token = '{{ csrf_token() }}';
-			
+
 	  		if (editor.id === readabilityColumn) {
 	  			$.ajax({
 	                url: '/admin/check/readability',
 	                type: 'POST',
 	                data: {html: editor.getContent(), _token: token}
 	            }).done(function (data) {
-	            	$('#flesch_reading_ease_test').html(data.fleschKincaidReadingEaseResult.text).css('color', data.fleschKincaidReadingEaseResult.color);
-	            	$('#words_per_subheading').html(data.html.subheadings.text).css('color', data.html.subheadings.color);
-	            	$('#passive_voice').html(data.sentences.passiveVoice.text).css('color', data.sentences.passiveVoice.color);
-	            	$('#more_than_20_words').html(data.sentences.moreThan20Words.text).css('color', data.sentences.moreThan20Words.color);
-	            	$('#transition_words').html(data.sentences.transitionWords.text).css('color', data.sentences.transitionWords.color);
-	            	$('#words_in_paragraph').html(data.html.paragraphs.text).css('color', data.html.paragraphs.color);
+	            	$('#flesch_reading_ease_test').html(data.fleschKincaidReadingEaseResult.text).addClass('is-' + data.fleschKincaidReadingEaseResult.color);
+	            	$('#words_per_subheading').html(data.html.subheadings.text).addClass('is-' + data.html.subheadings.color);
+	            	$('#passive_voice').html(data.sentences.passiveVoice.text).addClass('is-' + data.sentences.passiveVoice.color);
+	            	$('#more_than_20_words').html(data.sentences.moreThan20Words.text).addClass('is-' + data.sentences.moreThan20Words.color);
+	            	$('#transition_words').html(data.sentences.transitionWords.text).addClass('is-' + data.sentences.transitionWords.color);
+	            	$('#words_in_paragraph').html(data.html.paragraphs.text).addClass('is-' + data.html.paragraphs.color);
 	            	if (data.showTextLengthError) {
 	            		$('#text_length').show();
 	            	} else {

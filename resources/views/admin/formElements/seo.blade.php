@@ -20,7 +20,7 @@
 
 @push('additionalScripts')
     <script type="text/javascript">
-    	var url = '{{ route(strtolower(class_basename($record)).'.'.(isset($options['actionVerb']) ?  $options['actionVerb'] : 'show'), '') }}',
+    	var url = '{{ $field->getRoute() }}',
     		slug = $('#slug').val(),
     		active = '#seo_google',
     		activeDevice = '#seo_google_desktop';
@@ -36,7 +36,7 @@
         @endif
 
     	if ($('#slug').val() == undefined) {
-    		slug = '{{ $record->slug }}'
+    		slug = '{{ $field->getSlug() }}'
     	}
 
     	$('#seo_meta_title').html($('#title').val());
@@ -57,7 +57,7 @@
 		$('#meta_description').change(function() {
 			$('#seo_meta_description').html($('#meta_description').val());
 		});
-	
+
 		$('.btn-seo-social').click(function(event) {
 			event.preventDefault();
 			var targetId = event.target.id;
@@ -71,18 +71,22 @@
 			}
 		});
 
-		$(activeDevice).addClass('active');
+        $(activeDevice).addClass('active');
 
-		$('.btn-seo-google-switch').click(function(event) {
-			event.preventDefault();
-			var targetId = event.target.id;
+        $('.btn-seo-google-switch').click(function(event) {
+            event.preventDefault();
+            var targetId = event.target.id;
 
-			if ('#'+targetId != activeDevice) {
-				// $(activeDevice+'_div').hide();
-				$(activeDevice).removeClass('active');
-				activeDevice = '#'+targetId;
-				// $(activeDevice+'_div').show();
-				$(activeDevice).addClass('active');
+            if ('#'+targetId != activeDevice) {
+                $(activeDevice).removeClass('active');
+                activeDevice = '#'+targetId;
+                $(activeDevice).addClass('active');
+
+                if (activeDevice === '#seo_google_mobile') {
+                    $('.device-tabs').addClass('mobile');
+                }   else {
+                    $('.device-tabs').removeClass('mobile');
+                }
 			}
 		});
     </script>
