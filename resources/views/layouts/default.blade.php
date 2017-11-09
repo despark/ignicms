@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>@yield('title', 'Home') | Despark</title>
+        <title>@yield('title', 'Home') | {{ config('ignicms.projectName') }}</title>
 
         <!-- Meta -->
         <meta charset="utf-8">

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Despark Website Administration - @yield('pageTitle', 'Home') </title>
+    <title>{{ config('ignicms.projectName') }} Website Administration - @yield('pageTitle', 'Home') </title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <link rel="stylesheet" href="{{ asset('/css/admin.css') }}" media="screen" charset="utf-8">

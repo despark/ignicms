@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'projectName' => 'Despark',
     'auth' => [
         'default_routes' => true,
     ],
