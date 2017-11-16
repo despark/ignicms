@@ -20,7 +20,7 @@
 
 @push('additionalScripts')
     <script type="text/javascript">
-    	var url = '{{ $field->getRoute() }}',
+    	var url = '{{ route($options['routeName'], '') }}',
     		slug = $('#slug').val(),
     		active = '#seo_google',
     		activeDevice = '#seo_google_desktop';
@@ -36,7 +36,7 @@
         @endif
 
     	if ($('#slug').val() == undefined) {
-    		slug = '{{ $field->getSlug() }}'
+    		slug = '{{ $record->slug }}'
     	}
 
     	$('#seo_meta_title').html($('#title').val());
