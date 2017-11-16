@@ -17,6 +17,7 @@
 <div id="seo_twitter_div">
 	@include('ignicms::admin.formElements.seo.twitter')
 </div>
+<hr>
 
 @push('additionalScripts')
     <script type="text/javascript">
