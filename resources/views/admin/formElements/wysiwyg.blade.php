@@ -68,8 +68,11 @@
         end_container_on_empty_block: true
     };
 
-    var additionalOptions = {!! json_encode($options['additional_options']) !!};
-
-    tinymce.init(merge_options(defaultOptions, additionalOptions));
+    @if (isset($options['additional_options']))
+        var additionalOptions = {!! json_encode($options['additional_options']) !!};
+        tinymce.init(merge_options(defaultOptions, additionalOptions));
+    @else
+        tinymce.init(defaultOptions);
+    @endif
 </script>
 @endpush
