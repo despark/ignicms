@@ -1,0 +1,115 @@
+$col-error: #dc3232;
+$col-warning: #ee7c1b;
+$col-notification: #7ad03a;
+
+.readability-instructions {
+    padding-left: 0;
+    li {
+        font-size: 15px;
+        list-style: none;
+        margin-bottom: 6px;
+        padding-left: 22px;
+        position: relative;
+        &:before {
+            border-radius: 50%;
+            content: '';
+            height: 12px;
+            left: 0;
+            position: absolute;
+            top: 4px;
+            width: 12px;
+        }
+        &.is-red:before {
+            background: $col-error;
+        }
+        &.is-orange:before {
+            background: $col-warning;
+        }
+        &.is-green:before {
+            background: $col-notification;
+        }
+        a {
+            text-decoration: underline;
+        }
+    }
+}
+
+.device-tabs {
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 50px;
+    .meta-title {
+        color: #1e0fbe;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 0;
+    }
+    .meta-url {
+        color: #006621;
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+    .meta-description {
+        color: #545454;
+        font-size: 16px;
+        line-height: 1.4;
+        margin-bottom: 0;
+    }
+    &.mobile {
+        .meta-info {
+            box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            padding: 11px 0;
+        }
+        .meta-title,
+        .meta-description {
+            padding: 0 16px;
+        }
+        .meta-url {
+            margin-bottom: 9px;
+            padding: 0 16px 9px;
+            border-bottom: 1px solid #ebebeb;
+        }
+    }
+    .device-tab {
+        display: none;
+    }
+    .tab-switcher {
+        bottom: 0;
+        border-top: 1px solid #dbdbdb;
+        border-bottom: 1px solid #dbdbdb;
+        background-color: #f7f7f7;
+        cursor: pointer;
+        height: 30px;
+        left: 0;
+        position: absolute;
+        text-align: center;
+        transition: all 0.2s ease-in;
+        width: 30px;
+        &.active {
+            border-bottom: 4px solid #555;
+        }
+        .fa {
+            vertical-align: middle;
+            font-size: 16px;
+        }
+        .fa-mobile {
+            font-size: 22px;
+            vertical-align: bottom;
+        }
+        &:hover {
+            background: #fff;
+            border-bottom: 4px solid #5db0dc !important;
+            color: #5db0dc;
+        }
+        &:first-of-type() {
+            border-left: 1px solid #dbdbdb;
+            border-radius: 4px 0 0 4px;
+        }
+        &:last-of-type() {
+            border-right: 1px solid #dbdbdb;
+            border-radius: 0 4px 4px 0;
+            left: 30px;
+        }
+    }
+}

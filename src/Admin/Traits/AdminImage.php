@@ -6,7 +6,6 @@ use Despark\Cms\Admin\Helpers\FormBuilder;
 use Despark\Cms\Admin\Observers\ImageObserver;
 use Despark\Cms\Contracts\AssetsContract;
 use Despark\Cms\Contracts\ImageContract;
-use Despark\Cms\Events\ImageManipulated;
 use Despark\Cms\Exceptions\ModelNotPersistedException;
 use Despark\Cms\Exceptions\ModelSanityException;
 use Despark\Cms\Helpers\FileHelper;
@@ -19,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Image;
 use Symfony\Component\HttpFoundation\File\File;
+use Despark\Cms\Seo\Contracts\Seoable;
 
 /**
  * Class AdminImage.
@@ -412,7 +412,6 @@ trait AdminImage
             throw new \Exception('Unexpected file of class '.get_class($file));
         }
 
-
         $images = [];
         $pathParts = pathinfo($sanitizedFilename);
         // Move uploaded file and rename it as source file if this is needed.
@@ -474,11 +473,11 @@ trait AdminImage
 
     /**
      * @param string $sourceImagePath Source image path
-     * @param string $thumbName Thumbnail name
+     * @param string $thumbName       Thumbnail name
      * @param        $newFileName
-     * @param null   $width Desired width for resize
-     * @param null   $height Desired height for resize
-     * @param string $resizeType Resize type
+     * @param null   $width           Desired width for resize
+     * @param null   $height          Desired height for resize
+     * @param string $resizeType      Resize type
      * @param null   $color
      *
      * @return \Intervention\Image\Image
@@ -622,6 +621,10 @@ trait AdminImage
                     $imageField['thumbnails'] = array_merge($imageField['thumbnails'], $adminThumb);
                 }
             }
+        }
+
+        if ($this instanceof Seoable) {
+            return array_merge($this->imageFields, config('igniseo.image_fields'));
         }
 
         return $this->imageFields;
@@ -790,7 +793,7 @@ trait AdminImage
             }
         }
 
-        return (bool)count($this->images);
+        return (bool) count($this->images);
     }
 
     /**
@@ -825,7 +828,7 @@ trait AdminImage
             // Get image fields from the model and try to find the image field
             // Todo make this detection a method!
             $imageFields = $this->getImageFields();
-            $imageField = array_get($imageFields, (string)$field);
+            $imageField = array_get($imageFields, (string) $field);
 
             if (! $imageField) {
                 // We try the admin form field config
