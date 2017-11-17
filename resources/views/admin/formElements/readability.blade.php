@@ -15,8 +15,13 @@
     <script type="text/javascript">
 		$('#seo_readability_list').hide();
 
+		var editorPosition = {{ $options['editorPosition'] ?? -1 }};
 		setTimeout(function () {
-			makeAjaxCall(tinymce.activeEditor);
+			if (editorPosition !== -1) {
+				makeAjaxCall(tinymce.get()[editorPosition]);
+			} else {
+				makeAjaxCall(tinymce.activeEditor);
+			}
 		}, 2000);
 
 		function wysiwygTextChanged(editor) {
