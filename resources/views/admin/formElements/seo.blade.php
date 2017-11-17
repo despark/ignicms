@@ -38,7 +38,7 @@
         @endif
 
         if ($('#slug').val() == undefined) {
-            slug = '{{ $record->slug }}'
+            slug = '{{ $record->slug ?? $record->tag }}'
         }
 
         $('#seo_meta_title').html($(metaTitle).val());
