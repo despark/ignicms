@@ -33,7 +33,7 @@
         @if ($errors->has('facebook_title') || $errors->has('facebook_description') | $errors->has('facebook_image'))
             $('#seo_facebook').addClass('btn-danger').removeClass('btn-primary');
         @endif
-        @if ($errors->has('meta_description'))
+        @if ($errors->has('meta_title') || $errors->has('meta_description'))
             $('#seo_google').addClass('btn-danger').removeClass('btn-primary');
         @endif
 
