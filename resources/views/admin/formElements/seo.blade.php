@@ -41,7 +41,11 @@
             slug = '{{ $record->slug ?? $record->tag }}'
         }
 
-        $('#seo_meta_title').html($(metaTitle).val());
+        if ($('#meta_title').val().length) {
+            $('#seo_meta_title').html($('#meta_title').val());
+        } else {
+            $('#seo_meta_title').html($(metaTitle).val());
+        }
         $('#seo_meta_url').html(url+'/'+slug);
         $('#seo_meta_description').html($('#meta_description').val());
         $(active).addClass('active');
@@ -49,7 +53,17 @@
         $('#seo_twitter_div').hide();
 
         $(metaTitle).change(function() {
-            $('#seo_meta_title').html($(metaTitle).val());
+            if ($('#meta_title').val().length == 0) {
+                $('#seo_meta_title').html($(metaTitle).val());
+            }
+        });
+
+        $('#meta_title').change(function() {
+            if ($('#meta_title').val().length) {
+                $('#seo_meta_title').html($('#meta_title').val());
+            } else {
+                $('#seo_meta_title').html($(metaTitle).val());
+            }
         });
 
         $('#slug').change(function() {
