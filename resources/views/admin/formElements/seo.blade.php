@@ -21,7 +21,7 @@
 
 @push('additionalScripts')
     <script type="text/javascript">
-        var url = '{{ route($options['routeName'], '') }}',
+        var url = '{{ route($options['routeName'], ['locale' => 'uk', 'slug' => '']) }}',
             slug = $('#slug').val(),
             metaTitle = '#'+'{{ $options['meta_title_field'] ?? 'title' }}',
             active = '#seo_google',
