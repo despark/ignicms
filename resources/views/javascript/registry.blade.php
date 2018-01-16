@@ -7,7 +7,7 @@
     Despark.js.registry = {
         'values': {!! json_encode($registry->getRegistry()) !!},
         'get': function (namespace, key) {
-            if (typeof this.values[namespace] != 'undefined') {
+            if (this.values && typeof this.values[namespace] != 'undefined') {
                 if (typeof key != 'undefined') {
                     if (typeof this.values[namespace][key] != 'undefined') {
                         return this.values[namespace][key]
