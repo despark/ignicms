@@ -17,7 +17,7 @@
 </div>
 <div class="form-group {{ $errors->has('meta_description') ? 'has-error' : '' }}">
     <label for="meta_description">Meta Description</label>
-    <textarea id="meta_description" name="meta_description" placeholder="Meta Description" class="form-control" maxlength="156">{{ old('meta_description') ?? $record->seo->meta_description ?? null }}</textarea>
+    <textarea id="meta_description" name="meta_description" placeholder="Meta Description" class="form-control" maxlength="300">{{ old('meta_description') ?? $record->seo->meta_description ?? null }}</textarea>
     <div class="text-red">
         {{ join($errors->get('meta_description'), '<br />') }}
     </div>
