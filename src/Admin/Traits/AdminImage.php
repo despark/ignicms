@@ -287,6 +287,11 @@ trait AdminImage
             foreach ($existingFiles as $fieldName => $files) {
                 foreach ($files as $fileId => $fileData) {
                     $image = $existingCollection->get($fileId);
+                    
+                    if(is_null($image)) {
+                        continue;   
+                    }
+                    
                     // Check if not for deletion
                     if (isset($fileData['delete']) && $fileData['delete']) {
                         $image->delete();
