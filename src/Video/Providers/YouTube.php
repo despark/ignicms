@@ -14,7 +14,7 @@ class YouTube extends Provider
     {
         parent::__construct($model);
 
-        $this->imageUrl = "http://img.youtube.com/vi/{$this->model->video_id}/0.jpg";
+        $this->imageUrl = "https://img.youtube.com/vi/{$this->model->video_id}/0.jpg";
         $this->videoUrl = 'https://www.youtube.com/embed/'.$this->model->video_id;
     }
 }
