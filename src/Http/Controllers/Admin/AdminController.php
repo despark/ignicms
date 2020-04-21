@@ -180,7 +180,7 @@ class AdminController extends Controller
     public function setSidebar()
     {
         $this->sidebarItems = config('admin.sidebar');
-        $responses = \Event::fire(new AfterSidebarSet($this->sidebarItems));
+        $responses = \Event::dispatch(new AfterSidebarSet($this->sidebarItems));
         if (is_array($responses)) {
             foreach ($responses as $response) {
                 if (is_array($response)) {
