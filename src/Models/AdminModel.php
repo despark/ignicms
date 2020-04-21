@@ -59,7 +59,7 @@ abstract class AdminModel extends Model
     {
         parent::__construct($attributes);
 
-        static::$dispatcher->fire('igni.model.booted: '.static::class, $this);
+        static::$dispatcher->dispatch('igni.model.booted: '.static::class, $this);
     }
 
     /**
